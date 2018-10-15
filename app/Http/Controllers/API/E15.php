@@ -57,7 +57,7 @@ class E15 extends Controller
             if ($ipin !== $bank->IPIN) {
                 $response = array();
                 $response = ["error" => true];
-                $response = ["message" => "Wrong IPIN Code"];
+                $response = ["message" => "Wrong IPIN Code", "error" => true];
                 return response()->json($response, 200);
             }
 
@@ -113,7 +113,7 @@ class E15 extends Controller
             if ($response->responseCode != 0) {
                 $response_json = array();
                 $response_json += ["error" => true];
-                $response_json += ["message" => "Server error"];
+                $response_json += ["message" => "Server error", "ebs"=> $response];
                 return response()->json($response_json, 200);
 
             }
