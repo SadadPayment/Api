@@ -102,7 +102,7 @@ class CardTransfer extends Controller
             }
 
             if ($response->responseCode != 0){
-                //dd($response);
+                dd($response);
                 $res = array();
                 $res += ["error" => true];
                 $res += ["message" => "Some Error Found"];
