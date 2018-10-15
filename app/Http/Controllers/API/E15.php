@@ -124,10 +124,10 @@ class E15 extends Controller
             self::saveE15Response($paymentResponse, $e15, $response);
 
 
-//            UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
             $json = array();
             $bill_info = $response->billInfo;
             $invoice_status = $bill_info->UnitName;
+
             $status = "";
             if ($invoice_status == 0) {
                 $status = "CANCELED";
@@ -165,17 +165,15 @@ class E15 extends Controller
 
     public static function saveE15Response($paymentResponse, $e15, $response)
     {
-
         $e15_response = new E15Response();
         $e15_response->PaymentResponse()->associate($paymentResponse);
         $e15_response->E15()->associate($e15);
         $bill_info = $response->billInfo;
-        dd(["billinfo" => $bill_info, "pament Rep" => $paymentResponse, "e15: " => $e15, "Response" => $response]);
-//        $e15_response->UnitName = $bill_info->UnitName;
-//        $e15_response->ServiceName = $bill_info->ServiceName;
-//        $e15_response->TotalAmount = $bill_info->TotalAmount;
-//        $e15_response->ReferenceId = $bill_info->ReferenceId;
-//        $e15_response->PayerName = $bill_info->PayerName;
+        $e15_response->UnitName = $bill_info->UnitName;
+        $e15_response->ServiceName = $bill_info->ServiceName;
+        $e15_response->TotalAmount = $bill_info->TotalAmount;
+        $e15_response->ReferenceId = $bill_info->ReferenceId;
+        $e15_response->PayerName = $bill_info->PayerName;
         //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
 //        $e15_response->invoice_no = $bill_info->invoiceNo;
 //        $e15_response->expiry = $bill_info->invoiceExpiryDate;
