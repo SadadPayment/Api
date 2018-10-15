@@ -30,7 +30,7 @@ class PublicKey
      *      Encripted ipin using the public key from EBS
      */
     public static function sendRequest(){
-        //dd($ipin);
+//        dd($ipin);
         $request = self::requestBuild();
         $response = SendRequest::sendRequest($request , self::PublicKey);
         if ($response != false)

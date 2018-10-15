@@ -124,9 +124,10 @@ class E15 extends Controller
             self::saveE15Response($paymentResponse, $e15, $response);
 
 
+//            UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
             $json = array();
             $bill_info = $response->billInfo;
-            $invoice_status = $bill_info->invoiceStatus;
+            $invoice_status = $bill_info->UnitName;
             $status = "";
             if ($invoice_status == 0) {
                 $status = "CANCELED";
@@ -164,6 +165,7 @@ class E15 extends Controller
 
     public static function saveE15Response($paymentResponse, $e15, $response)
     {
+
         $e15_response = new E15Response();
         $e15_response->PaymentResponse()->associate($paymentResponse);
         $e15_response->E15()->associate($e15);
