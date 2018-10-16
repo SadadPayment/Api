@@ -19,7 +19,7 @@ use App\Model\Payment\E15 as E15Model;
 
 class E15 extends Controller
 {
-    //
+    //public e15
     public function e15(Request $request, $type)
     {
         if ($request->isJson()) {
@@ -55,8 +55,6 @@ class E15 extends Controller
 
             $bank = Functions::getBankAccountByUser($user);
             if ($ipin !== $bank->IPIN) {
-                $response = array();
-                $response = ["error" => true];
                 $response = ["message" => "Wrong IPIN Code", "error" => true];
                 return response()->json($response, 200);
             }
@@ -68,10 +66,8 @@ class E15 extends Controller
 
             $convert = Functions::getDateTime();
 
-
             $uuid = Uuid::generate()->string;
             //$uuid=Uuid::randomBytes(16);
-
             $transaction->uuid = $uuid;
             $transaction->transDateTime = $convert;
             $transaction->status = "created";
@@ -94,9 +90,7 @@ class E15 extends Controller
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
             if ($publickKey == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
+                $res = ["message" => "Server Error", 'error' => true];
                 return response()->json($res, 200);
             }
             $ipin = Functions::encript($publickKey, $uuid, $ipin);
@@ -105,15 +99,11 @@ class E15 extends Controller
             //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
             $response = E15Model::sendRequest($transaction->id, $ipin, $type);
             if ($response == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
             }
             if ($response->responseCode != 0) {
-                $response_json = array();
-                $response_json += ["error" => true];
-                $response_json += ["message" => "Server error", "ebs"=> $response];
+                $response_json = ["message" => "Server error", "ebs" => $response, 'error' => true];
                 return response()->json($response_json, 200);
 
             }
@@ -128,7 +118,6 @@ class E15 extends Controller
             $bill_info = $response->billInfo;
             $invoice_status = $bill_info->UnitName;
 
-            $status = "";
             if ($invoice_status == 0) {
                 $status = "CANCELED";
             } else if ($invoice_status == 1) {
@@ -146,13 +135,12 @@ class E15 extends Controller
 
 
         } else {
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Request Must Be Json"];
+            $response = ["message" => "Request Must Be Json", 'error' => true];
             return response()->json($response, 200);
         }
     }
 
+    //e15 payment
     public function e15_payment(Request $request)
     {
         return $this->e15($request, 6);

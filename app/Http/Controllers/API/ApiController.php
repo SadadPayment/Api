@@ -79,18 +79,14 @@ class ApiController extends Controller
             $passOk= false;
             $user = User::where("phone", $phone)->first();
             if ($user == null){
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message"=>"wrong phone number"];
+                $response = ["message"=>"wrong phone number", 'error'=>true];
                 return response()->json($response,200);
             }
             $account = BankAccount::where("user_id",$user->id)->where("ipin" , $ipin)->first();
 
 
             if (!$account){
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "User Credential Invalid"];
+                $response = ["message" => "User Credential Invalid", 'error'=> true];
                 return response()->json($response, 200);
             }
             //return response()->json(["account"=>$account],200);
@@ -98,24 +94,16 @@ class ApiController extends Controller
                 //$user = Auth::user();
                 if ($user->status == "1") {
                     $token = JWTAuth::fromUser($user);
-
-                    $response = array();
-                    $response += ["error" => false];
-                    $response += ["message" => "OK"];
-                    $response += ["token" => $token];
+                    $response = ["token" => $token, "message" => "OK", "error" => false];
                     return response()->json($response,200);
                 }
                 else {
-                    $response = array();
-                    $response += ["error" => true];
-                    $response += ["message" => "You Have To Activate Your Account First"];
+                    $response = ["message" => "You Have To Activate Your Account First", "error" => true];
                     return response()->json($response,200);
                 }
             }
         } catch (JWTException $ex) {
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Something went wrong"];
+            $response += ["message" => "Something went wrong", "error" => true];
             return response()->json($response, 200);
         }
     }
@@ -135,16 +123,12 @@ class ApiController extends Controller
             $mbr = "0";
 
             if (!isset($userName)) {
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "Insert userName "];
+                $response = ["message" => "Insert userName", "error" => true];
                 return response()->json($response, 200);
             }
 
             if (!isset($fullName)) {
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "Insert fullName "];
+                $response = ["message" => "Insert fullName", "error" => true];
                 return response()->json($response, 200);
 
             }
