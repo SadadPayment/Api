@@ -18,17 +18,15 @@ class AuthController extends Controller
 {
 
 
-
-
     public function authenticate(Request $request)
     {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
                 'phone' => 'required',
                 'IPIN' => 'required',
             ]
         );
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'errors' => $validator->errors()->toArray()
@@ -36,46 +34,42 @@ class AuthController extends Controller
         }
 
 
-
         $phone = $request->json()->get("phone");
         $ipin = $request->json()->get("IPIN");
 
 
-
         try {
 
-            $passOk= false;
+            $passOk = false;
             $user = User::where("phone", $phone)->first();
-            if ($user == null){
+            if ($user == null) {
                 $response = array();
                 $response += ["error" => true];
-                $response += ["message"=>"wrong phone number"];
-                return response()->json($response,200);
+                $response += ["message" => "wrong phone number"];
+                return response()->json($response, 200);
             }
-            $account = BankAccount::where("user_id",$user->id)->where("ipin" , $ipin)->first();
+            $account = BankAccount::where("user_id", $user->id)->where("ipin", $ipin)->first();
 
 
-            if (!$account){
+            if (!$account) {
                 $response = array();
                 $response += ["error" => true];
                 $response += ["message" => "User Credential Invalid"];
                 return response()->json($response, 200);
-            }
-            else{
+            } else {
                 if ($user->status == "1") {
                     $token = JWTAuth::fromUser($user);
 
                     $response = array();
                     $response += ["error" => false];
                     $response += ["message" => "OK"];
-                    $response += ["token" => $token];
-                    return response()->json($response,200);
-                }
-                else {
+                    $response += ["token" => $token, 'userInfo' => $user];
+                    return response()->json($response, 200);
+                } else {
                     $response = array();
                     $response += ["error" => true];
                     $response += ["message" => "You Have To Activate Your Account First"];
-                    return response()->json($response,200);
+                    return response()->json($response, 200);
                 }
             }
         } catch (JWTException $ex) {
@@ -91,13 +85,12 @@ class AuthController extends Controller
     {
 
 
-
         if ($request->isJson()) {
 
 
             //return response()->json($request,200);
 
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
                 'phone' => 'required|unique:users|numeric',
                 'fullName' => 'required|string',
 
@@ -108,7 +101,7 @@ class AuthController extends Controller
                 'expDate' => 'required|date',
             ]);
 
-            if ($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
                     'errors' => $validator->errors()->toArray()
@@ -127,7 +120,6 @@ class AuthController extends Controller
             $mbr = "0";
 
 
-
             $user = new User();
             $user->username = $userName;
             $user->password = Hash::make($password);
@@ -139,16 +131,15 @@ class AuthController extends Controller
             $validate->phone = $phone;
             $validate->code = $code;
             $validate->save();
-            $expDate=Functions::convertExpDate($expDate);
-            BankAccount::saveBankAccountByUser($PAN,$IPIN,$expDate,$mbr,$user);
+            $expDate = Functions::convertExpDate($expDate);
+            BankAccount::saveBankAccountByUser($PAN, $IPIN, $expDate, $mbr, $user);
             self::sendSMS($phone, $code);
             $response = array();
             $response += ["error" => false];
             $response += ["message" => "activate Your Account With the code that send to You in SMS"];
 
             return response()->json($response, 200);
-        }
-        else{
+        } else {
             $response = array();
             $response += ["error" => true];
             $response += ["message" => "Request Must be json"];
@@ -158,18 +149,17 @@ class AuthController extends Controller
 
     public function activate(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
                 'phone' => 'required|numeric',
                 'code' => 'required|numeric',
             ]
         );
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'errors' => $validator->errors()->toArray()
             ]);
         }
-
 
 
         $phone = $request->json()->get("phone");
@@ -197,40 +187,40 @@ class AuthController extends Controller
 
     public function resetPassword(Request $request)
     {
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
                 'phone' => 'requierd|numeric',
             ]
         );
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'error' => true,
                 'errors' => $validator->errors()->toArray()
             ]);
         }
         $phone = $request->json()->get("phone");
-            $code = rand(100000, 999999);
-            $validate = new ResetPassword();
-            $validate->phone = $phone;
-            $validate->code = $code;
-            $validate->save();
-            self::sendSMS($phone, $code);
-            $response = array();
-            $response += ["error" => false];
-            $response += ["message" => "Code Have Been Sended to Your Phone"];
-            //$response +=["code" => $code];
-            return response()->json($response, 200);
+        $code = rand(100000, 999999);
+        $validate = new ResetPassword();
+        $validate->phone = $phone;
+        $validate->code = $code;
+        $validate->save();
+        self::sendSMS($phone, $code);
+        $response = array();
+        $response += ["error" => false];
+        $response += ["message" => "Code Have Been Sended to Your Phone"];
+        //$response +=["code" => $code];
+        return response()->json($response, 200);
     }
 
     public function resetPasswordWithCode(Request $request)
     {
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
                 'phone' => 'requierd|numeric',
                 'code' => 'requierd|numeric',
                 'password' => 'requierd|string',
             ]
         );
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'error' => false,
                 'errors' => $validator->errors()->toArray()
@@ -257,6 +247,7 @@ class AuthController extends Controller
         $response += ["message" => "Error"];
         return response()->json($response, 200);
     }
+
     public static function sendSMS($phone, $code)
     {
         $service_url = 'http://sms.iprosolution-sd.com/app/gateway/gateway.php'; //'http://api.unifonic.com/rest/Messages/Send';

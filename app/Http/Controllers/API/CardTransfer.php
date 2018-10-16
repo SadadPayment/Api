@@ -46,7 +46,7 @@ class CardTransfer extends Controller
             if ($ipin !== $bank->IPIN){
                 $response = array();
                 $response = ["error" => true];
-                $response = ["message" => "Wrong IPIN Code"];
+                $response = ["message" => "Wrong IPIN Code", "error"=> true];
                 return response()->json($response,200);
             }
             $account += ["PAN" => $bank->PAN];
@@ -102,7 +102,7 @@ class CardTransfer extends Controller
             }
 
             if ($response->responseCode != 0){
-                dd($response);
+               /// dd($response);
                 $res = array();
                 $res += ["error" => true];
                 $res += ["message" => "Some Error Found"];
