@@ -26,11 +26,15 @@ class TransactionTypesSeeder extends Seeder
 
         $e15=new App\Model\TransactionType();
         $e15->name = "E15";
-        $e15->save(); //Balance Inquiry
+        $e15->save(); //E15 Inquiry
+
+        $Bashair=new App\Model\TransactionType();
+        $Bashair->name = "Bashair";
+        $Bashair->save(); //Bashair
 
         $balance_inquery=new App\Model\TransactionType();
         $balance_inquery->name = "Balance Inquiry";
-        $balance_inquery->save(); //
+        $balance_inquery->save(); //Balance Inquiry
 
     }
 }

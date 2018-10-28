@@ -20,16 +20,13 @@ class CreateE15ResponsesTable extends Migration
             $table->integer('payment_response_id')->unsigned();
             $table->foreign('payment_response_id')->references('id')->on('payments');
             //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
-            $table->string('UnitName');
+            $table->string('UnitName')->nullable;
             $table->string('ServiceName')->nullable;
-            $table->string('TotalAmount');
-            $table->string('ReferenceId');
-            $table->string('PayerName');
-
-
-//            $table->string('invoice_no');
-//            $table->string('expiry');
-//            $table->string('status');
+            $table->string('TotalAmount')->nullable;
+            $table->string('ReferenceId')->nullable;
+            $table->string('PayerName')->nullable;
+            $table->string('expiry')->nullable;
+            $table->string('status')->nullable;
             $table->timestamps();
         });
     }
