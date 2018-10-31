@@ -40,42 +40,30 @@ class AuthController extends Controller
 
         try {
 
-            $passOk = false;
+            //$passOk = false;
             $user = User::where("phone", $phone)->first();
             if ($user == null) {
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "wrong phone number"];
+                $response = ["error" => true, "message" => "wrong phone number"];
                 return response()->json($response, 200);
             }
             $account = BankAccount::where("user_id", $user->id)->where("ipin", $ipin)->first();
 
 
             if (!$account) {
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "User Credential Invalid"];
+                $response = ["error" => true, "message" => "User Credential Invalid"];
                 return response()->json($response, 200);
             } else {
                 if ($user->status == "1") {
                     $token = JWTAuth::fromUser($user);
-
-                    $response = array();
-                    $response += ["error" => false];
-                    $response += ["message" => "OK"];
-                    $response += ["token" => $token, 'userInfo' => $user];
+                    $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
                     return response()->json($response, 200);
                 } else {
-                    $response = array();
-                    $response += ["error" => true];
-                    $response += ["message" => "You Have To Activate Your Account First"];
+                    $response = ["error" => true, "message" => "You Have To Activate Your Account First"];
                     return response()->json($response, 200);
                 }
             }
         } catch (JWTException $ex) {
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Something went wrong"];
+            $response = ["error" => true, "message" => "Something went wrong"];
             return response()->json($response, 200);
         }
     }
@@ -83,17 +71,11 @@ class AuthController extends Controller
 
     public function registration(Request $request)
     {
-
-
         if ($request->isJson()) {
-
-
-            //return response()->json($request,200);
 
             $validator = Validator::make($request->all(), [
                 'phone' => 'required|unique:users|numeric',
                 'fullName' => 'required|string',
-
                 'userName' => 'required|unique:users|string',
                 'password' => 'required|string',
                 'PAN' => 'required|numeric|digits_between:16,19|unique:bank_accounts',
@@ -134,15 +116,13 @@ class AuthController extends Controller
             $expDate = Functions::convertExpDate($expDate);
             BankAccount::saveBankAccountByUser($PAN, $IPIN, $expDate, $mbr, $user);
             self::sendSMS($phone, $code);
-            $response = array();
-            $response += ["error" => false];
-            $response += ["message" => "activate Your Account With the code that send to You in SMS"];
+            $response = ["error" => false,
+                "message" => "activate Your Account With the code that send to You in SMS",
+                "messageAr" => "تم ارسال رمز التفعيل اليك"];
 
             return response()->json($response, 200);
         } else {
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Request Must be json"];
+            $response = ["error" => true, "message" => "Request Must be json"];
             return response()->json($response, 200);
         }
     }
@@ -172,16 +152,10 @@ class AuthController extends Controller
             $user->status = "1";
             $user->save();
             $token = JWTAuth::fromUser($user);
-            $response = array();
-            $response += ["error" => false];
-            $response += ["message" => "Done"];
-            $response += ["token" => $token];
+            $response = ["error" => false,"message" => "Done", "token" => $token];
             return response()->json($response, 200);
         }
-        $response = array();
-        $response += ["error" => true];
-        $response += ["message" => "Error"];
-        //$response += ["token" => $token];
+        $response = ["error" => true, "message" => "Error"];
         return response()->json($response, 200);
     }
 
@@ -204,10 +178,7 @@ class AuthController extends Controller
         $validate->code = $code;
         $validate->save();
         self::sendSMS($phone, $code);
-        $response = array();
-        $response += ["error" => false];
-        $response += ["message" => "Code Have Been Sended to Your Phone"];
-        //$response +=["code" => $code];
+        $response = ["error" => false, "message" => "Code Have Been Sended to Your Phone"];
         return response()->json($response, 200);
     }
 
@@ -227,7 +198,6 @@ class AuthController extends Controller
             ]);
         }
 
-
         $phone = $request->json()->get("phone");
         $code = $request->json()->get("code");
         $password = $request->json()->get("password");
@@ -237,20 +207,16 @@ class AuthController extends Controller
             $user = User::where("phone", $phone)->first();
             $user->password = Hash::make($password);
             $user->save();
-            $response = array();
-            $response += ["error" => false];
-            $response += ["message" => "Password Have been Reset"];
+            $response = ["error" => false, "message" => "Password Have been Reset"];
             return response()->json($response, 200);
         }
-        $response = array();
-        $response += ["error" => true];
-        $response += ["message" => "Error"];
+        $response = ["error" => true, "message" => "Error"];
         return response()->json($response, 200);
     }
 
     public static function sendSMS($phone, $code)
     {
-        $service_url = 'http://sms.iprosolution-sd.com/app/gateway/gateway.php'; //'http://api.unifonic.com/rest/Messages/Send';
+        $service_url = 'http://sms.iprosolution-sd.com/app/gateway/gateway.php';
         $curl = curl_init($service_url);
         $curl_post_data = array(
             "sendmessage" => 1,
