@@ -4,12 +4,14 @@
 <head>
 
     <title>E-Pay Dashboard</title>
-
+    <link href="{{asset('css/app.css')}}">
+    {{--mix.js('resources/js/app.js', 'public/js')--}}
     <link href="{{ asset ('css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset ('css/sb-admin.css')}}" rel="stylesheet">
+{{--    <link href="{{ asset ('css/sb-admin.css')}}" rel="stylesheet">--}}
+    https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/3.3.7+1/css/sb-admin-2.min.css
 
     <!-- Morris Charts CSS -->
     <link href="{{ asset ('css/plugins/morris.css')}}" rel="stylesheet">
@@ -104,6 +106,7 @@
         </div>
 
         <!-- JS Include -->
+<script src="{{asset ('js/app.js')}}"></script>
 <script src="{{asset ('js/jquery.js')}}"></script>
 <script src="{{asset ('js/bootstrap.js')}}"></script>
 <script src ="{{asset ('js/jquery.dataTables.min.js')}}"></script>
