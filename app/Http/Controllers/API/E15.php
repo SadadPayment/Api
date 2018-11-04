@@ -171,6 +171,7 @@ class E15 extends Controller
         $e15_response->PaymentResponse()->associate($paymentResponse);
         $e15_response->E15()->associate($e15);
         $bill_info = $response->billInfo;
+        dd($bill_info);
         $e15_response->fill($bill_info);
         $e15_response->save();
 //        $e15_response->UnitName = $bill_info->UnitName;
