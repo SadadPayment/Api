@@ -42,7 +42,7 @@ class E15 extends Model
 
         $tranCurrency = "SDG";
         $paymentInfo = "SERVICEID=" . $type . "/INVOICENUMBER=" . $e15->invoice_no . "/PHONENUMBER=" . $e15->phone;
-
+dd($payment);
         $request = [
             "applicationId" => "Sadad",
             "tranDateTime" => $transaction->transDateTime,
