@@ -29,10 +29,10 @@ Route::post('topUp', 'API\TopUp@topUp')->middleware('jwt.auth');
 Route::post('balance_inquiry', 'API\BalanceInquiry@balance_inquiry')->middleware('jwt.auth');
 Route::post('cardTransfer', 'API\CardTransfer@card_transfer')->middleware('jwt.auth');
 Route::post('electricity', 'API\Electricity@electricity')->middleware('jwt.auth');
-//Route::post('e15_payment','API\E15@e15_payment');
-//Route::post('e15_inquery','API\E15@e15_inquery');
-Route::post('e15_payment', 'API\E15\E15ApiController@e15_payment');
-Route::post('e15_inquery', 'API\E15\E15ApiController@e15_inquery');
+Route::post('e15_payment','API\E15@e15_payment');
+Route::post('e15_inquery','API\E15@e15_inquery');
+//Route::post('e15_payment', 'API\E15\E15ApiController@e15_payment');
+//Route::post('e15_inquery', 'API\E15\E15ApiController@e15_inquery');
 
 
 Route::get('getByUsers', 'API\ElectHistoryApiController@getByUsers');
