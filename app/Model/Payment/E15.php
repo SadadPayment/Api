@@ -32,9 +32,9 @@ class E15 extends Model
         $user = User::where("id", $transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-        return response()->json(['tran' => $transaction,
+        $eror = ['tran' => $transaction,
             'pay' => $payment,
-            'e15' => $e15]);
+            'e15' => $e15];
         $uuid = $transaction->uuid;
         $userName = "";
         $userPassword = "";
@@ -66,7 +66,7 @@ class E15 extends Model
             "payeeId" => "0010050001",
             "paymentInfo" => $paymentInfo
         ];
-        //dd($request);
+        dd($eror);
         return $request;
     }
 
