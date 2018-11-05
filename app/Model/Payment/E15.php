@@ -32,7 +32,7 @@ class E15 extends Model
         $user = User::where("id", $transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-        dd($payment);
+//        dd($payment);
         $uuid = $transaction->uuid;
         //dd($uuid);
         $userName = "";
