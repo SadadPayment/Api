@@ -131,18 +131,18 @@ class E15 extends Controller
             self::saveE15Response($paymentResponse, $e15, $response, $type);
 
             $bill_info = $response->billInfo;
-//            if ($type == 2) {
-//                $invoice_status = $bill_info->InvoiceStatus;
-//                $invoice_expiry = $bill_info->InvoiceExpiry;
-//                if ($invoice_status == 0) {
-//                    $status = "CANCELED";
-//                } else if ($invoice_status == 1) {
-//                    $status = "PENDING";
-//                } else {
-//                    $status = "PAID";
-//                }
-//                $json=["status" => $status, "expiry" => $invoice_expiry];
-//            }
+            if ($type == 2) {
+                $invoice_status = $bill_info->InvoiceStatus;
+                $invoice_expiry = $bill_info->InvoiceExpiry;
+                if ($invoice_status == 0) {
+                    $status = "CANCELED";
+                } else if ($invoice_status == 1) {
+                    $status = "PENDING";
+                } else {
+                    $status = "PAID";
+                }
+                $json=["status" => $status, "expiry" => $invoice_expiry];
+            }
 
             $json = ["error" => false, "message" => "Done Successfully", "response" => $bill_info];
             return response()->json($json, 200);
@@ -183,8 +183,8 @@ class E15 extends Controller
         //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
 //        $e15_response->invoice_no = $bill_info->invoiceNo;
         if ($type == 2) {
-//            $e15_response->expiry = $bill_info->InvoiceExpiry;
-//            $e15_response->status = $bill_info->InvoiceStatus;
+            $e15_response->expiry = $bill_info->InvoiceExpiry;
+            $e15_response->status = $bill_info->InvoiceStatus;
         }
         $e15_response->save();
 
