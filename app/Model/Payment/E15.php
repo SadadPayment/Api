@@ -34,7 +34,7 @@ class E15 extends Model
         $e15 = E15::where("payment_id", $payment->id)->first();
         $eror = ['tran' => $transaction->id,
             'pay' => $payment->id,
-            'e15' => $e15;
+            'e15' => $e15];
         dd($eror);
 
         $uuid = $transaction->uuid;
