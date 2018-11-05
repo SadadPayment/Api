@@ -115,6 +115,7 @@ class E15 extends Controller
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
             }
+            dd($response);
             //اذا الرد = 0 معناه العملية تمت بنجاح
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
