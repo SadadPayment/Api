@@ -17,6 +17,7 @@ class E15 extends Model
             'payment_id',
         ];
     const Payment = "payment";
+    const inquiry = "getBill";
     protected $table = "e15s";
 
     //
@@ -74,9 +75,14 @@ class E15 extends Model
     public static function sendRequest($transaction_id, $ipin, $type)
     {
         $request = self::requestBuild($transaction_id, $ipin, $type);
-        $response = SendRequest::sendRequest($request, self::Payment);
-        return $response;
-//        dd($response);
+        if($type== 6) {
+            $response = SendRequest::sendRequest($request, self::Payment);
+        }
+        else{
+            $response = SendRequest::sendRequest($request, self::inquiry);
+        }
+//        return $response;
+        dd($response);
     }
 
 }
