@@ -10,6 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class E15 extends Model
 {
+    protected $fillable =
+        [
+            'phone',
+            'invoice_no',
+            'payment_id',
+        ];
     const Payment = "payment";
     protected $table = "e15s";
 
