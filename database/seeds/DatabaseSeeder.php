@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TopUpBillerSeeder::class);//TopUpBillerSeeder
         $this->call(TopUpSeeder::class);//TopUpBillerSeeder
         $this->call(TransfersTypeSeeder::class);//TopUpBillerSeeder
+        $this->call(UsersTableSeed::class);
     }
 }

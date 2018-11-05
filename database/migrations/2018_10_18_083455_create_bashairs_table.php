@@ -18,7 +18,6 @@ class CreateBashairsTable extends Migration
             $table->increments('id');
             $table->string('ReferenceType');
             $table->string('ReferenceValue');
-
             $table->integer('payment_id')->nullable()->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->timestamps();

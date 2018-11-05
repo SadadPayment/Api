@@ -15,13 +15,13 @@ class CreateSaddidResponsesTable extends Migration
     {
         Schema::create('saddid_responses', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('ServiceName');
-            $table->string('ServiceDetails');
-
-            $table->integer('saddid_id')->nullable()->unsigned();
-            $table->foreign('saddid_id')->references('id')->on('Saddids');
-            $table->integer('payment_response_id')->unsigned();
-            $table->foreign('payment_response_id')->references('id')->on('payment_responses');
+//            $table->string('ServiceName');
+//            $table->string('ServiceDetails');
+//
+//            $table->integer('saddid_id')->nullable()->unsigned();
+//            $table->foreign('saddid_id')->references('id')->on('Saddids');
+//            $table->integer('payment_response_id')->unsigned();
+//            $table->foreign('payment_response_id')->references('id')->on('payment_responses');
             $table->timestamps();
         });
     }
