@@ -48,7 +48,7 @@ class E15 extends Model
         $expDate = $bank->expDate;
 
         $tranCurrency = "SDG";
-        dd($e15);
+        dd($e15->id);
         $paymentInfo = "SERVICEID=" . $type . "/INVOICENUMBER=" . $e15->invoice_no . "/PHONENUMBER=" . $e15->phone;
 //dd($payment);
         $request = [
