@@ -75,7 +75,8 @@ class E15 extends Model
     {
         $request = self::requestBuild($transaction_id, $ipin, $type);
         $response = SendRequest::sendRequest($request, self::Payment);
-        return $response;
+//        return $response;
+        dd($response);
     }
 
 }
