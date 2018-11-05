@@ -178,13 +178,13 @@ class E15 extends Controller
         $e15_response->TotalAmount = $bill_info->TotalAmount;
         $e15_response->ReferenceId = $bill_info->ReferenceId;
         $e15_response->PayerName = $bill_info->PayerName;
-        $e15_response->expiry = $bill_info->invoiceExpiryDate;
+//        $e15_response->expiry = $bill_info->invoiceExpiryDate;
         $e15_response->status = $bill_info->invoiceStatus;
 
         //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
 //        $e15_response->invoice_no = $bill_info->invoiceNo;
         if ($type == 6) {
-            $e15_response->expiry = $bill_info->invoiceExpiryDate;
+//            $e15_response->expiry = $bill_info->invoiceExpiryDate;
             $e15_response->status = $bill_info->invoiceStatus;
         }
         $e15_response->save();
