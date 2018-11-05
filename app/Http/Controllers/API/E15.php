@@ -172,18 +172,19 @@ class E15 extends Controller
         $e15_response->E15()->associate($e15);
         $bill_info = $response->billInfo;
 //        dd($bill_info);
-        $e15_response->fill($bill_info);
+//        $e15_response->fill($bill_info);
+        $e15_response->UnitName = $bill_info->UnitName;
+        $e15_response->ServiceName = $bill_info->ServiceName;
+        $e15_response->TotalAmount = $bill_info->TotalAmount;
+        $e15_response->ReferenceId = $bill_info->ReferenceId;
+        $e15_response->PayerName = $bill_info->PayerName;
+        //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
+//        $e15_response->invoice_no = $bill_info->invoiceNo;
+        if ($type == 6) {
+            $e15_response->expiry = $bill_info->invoiceExpiryDate;
+            $e15_response->status = $bill_info->invoiceStatus;
+        }
         $e15_response->save();
-//        $e15_response->UnitName = $bill_info->UnitName;
-//        $e15_response->ServiceName = $bill_info->ServiceName;
-//        $e15_response->TotalAmount = $bill_info->TotalAmount;
-//        $e15_response->ReferenceId = $bill_info->ReferenceId;
-//        $e15_response->PayerName = $bill_info->PayerName;
-//        //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
-////        $e15_response->invoice_no = $bill_info->invoiceNo;
-//        if ($type == 6) {
-//            $e15_response->expiry = $bill_info->invoiceExpiryDate;
-//            $e15_response->status = $bill_info->invoiceStatus;
-//        }
+
     }
 }
