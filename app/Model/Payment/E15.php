@@ -81,8 +81,8 @@ class E15 extends Model
         else{
             $response = SendRequest::sendRequest($request, self::inquiry);
         }
-//        return $response;
-        dd($response);
+        return $response;
+//        dd($response);
     }
 
 }

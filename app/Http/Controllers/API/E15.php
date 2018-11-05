@@ -40,12 +40,12 @@ class E15 extends Controller
                 ]);
             }
 
-                //$user = JWTAuth::toUser($token);
-                /******   Create Transaction Object  *********/
-                $transaction = new Transaction();
-                $transaction->user()->associate($user);
-                //$user = JWTAuth::toUser($token);
-                /******   Create Transaction Object  *********/
+            //$user = JWTAuth::toUser($token);
+            /******   Create Transaction Object  *********/
+            $transaction = new Transaction();
+            $transaction->user()->associate($user);
+            //$user = JWTAuth::toUser($token);
+            /******   Create Transaction Object  *********/
             $phone = $request->json()->get("phone");
             $amount = $request->json()->get("amount");
             $amount = number_format((float)$amount, 2, '.', '');
@@ -125,8 +125,9 @@ class E15 extends Controller
             }
 
             $basicResonse = Response::saveBasicResponse($transaction, $response);
-
-            $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
+            if ($type == 6){
+                $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
+        }
             //We swnd Type to verfiy whetther we have i_status and i_expiery
             self::saveE15Response($paymentResponse, $e15, $response, $type);
 
