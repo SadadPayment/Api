@@ -28,13 +28,13 @@ class E15 extends Model
     public static function requestBuild($transaction_id, $ipin, $type)
     {
 //        dd(['trans'=> $transaction_id, 'ipin'=>$ipin, 'type'=>$type ]);
-        $transaction = Transaction::where("id", $transaction_id)->first();
-        $user = User::where("id", $transaction->user_id)->first();
+        $transaction = Transaction::find($transaction_id);
+        $user = User::find($transaction->user_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-        $eror = ['tran' => $transaction,
-            'pay' => $payment,
-            'e15' => $e15];
+        $eror = ['tran' => $transaction->id,
+            'pay' => $payment->id,
+            'e15' => $e15->id];
         dd($eror);
 
         $uuid = $transaction->uuid;
