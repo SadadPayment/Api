@@ -32,25 +32,21 @@ class E15 extends Model
         $user = User::where("id", $transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-//        dd($payment);
+        return response()->json(['tran' => $transaction,
+            'pay' => $payment,
+            'e15' => $e15]);
         $uuid = $transaction->uuid;
-        //dd($uuid);
         $userName = "";
         $userPassword = "";
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-
         $bank = BankAccount::where("user_id", $user->id)->first();
         $PAN = $bank->PAN;
-
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
-
         $tranCurrency = "SDG";
-        dd($e15->id);
         $paymentInfo = "SERVICEID=" . $type . "/INVOICENUMBER=" . $e15->invoice_no . "/PHONENUMBER=" . $e15->phone;
-//dd($payment);
         $request = [
             "applicationId" => "Sadad",
             "tranDateTime" => $transaction->transDateTime,
