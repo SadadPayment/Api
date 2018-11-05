@@ -32,10 +32,10 @@ class E15 extends Model
         $user = User::find($transaction->user_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-        $eror = ['tran' => $transaction->id,
-            'pay' => $payment->id,
-            'e15' => $e15];
-        dd($eror);
+//        $eror = ['tran' => $transaction->id,
+//            'pay' => $payment->id,
+//            'e15' => $e15];
+//        dd($eror);
 
         $uuid = $transaction->uuid;
         $userName = "";
