@@ -130,23 +130,21 @@ class E15 extends Controller
             //We swnd Type to verfiy whetther we have i_status and i_expiery
             self::saveE15Response($paymentResponse, $e15, $response, $type);
 
-
-            $json = array();
             $bill_info = $response->billInfo;
-            if ($type == 2) {
-                $invoice_status = $bill_info->InvoiceStatus;
-                $invoice_expiry = $bill_info->InvoiceExpiry;
-                if ($invoice_status == 0) {
-                    $status = "CANCELED";
-                } else if ($invoice_status == 1) {
-                    $status = "PENDING";
-                } else {
-                    $status = "PAID";
-                }
-                $json += ["status" => $status, "expiry" => $invoice_expiry];
-            }
+//            if ($type == 2) {
+//                $invoice_status = $bill_info->InvoiceStatus;
+//                $invoice_expiry = $bill_info->InvoiceExpiry;
+//                if ($invoice_status == 0) {
+//                    $status = "CANCELED";
+//                } else if ($invoice_status == 1) {
+//                    $status = "PENDING";
+//                } else {
+//                    $status = "PAID";
+//                }
+//                $json=["status" => $status, "expiry" => $invoice_expiry];
+//            }
 
-            $json += ["error" => false, "message" => "Done Successfully", "response" => $bill_info];
+            $json = ["error" => false, "message" => "Done Successfully", "response" => $bill_info];
             return response()->json($json, 200);
 
         } else {
