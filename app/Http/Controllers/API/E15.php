@@ -115,7 +115,7 @@ class E15 extends Controller
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
             }
-            dd($response);
+//            dd($response);
             //اذا الرد = 0 معناه العملية تمت بنجاح
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
@@ -133,7 +133,7 @@ class E15 extends Controller
 
             $json = array();
             $bill_info = $response->billInfo;
-            if ($type == 6) {
+            if ($type == 2) {
                 $invoice_status = $bill_info->InvoiceStatus;
                 $invoice_expiry = $bill_info->InvoiceExpiry;
                 if ($invoice_status == 0) {
@@ -180,12 +180,12 @@ class E15 extends Controller
         $e15_response->ReferenceId = $bill_info->ReferenceId;
         $e15_response->PayerName = $bill_info->PayerName;
 //        $e15_response->expiry = $bill_info->invoiceExpiryDate;
-        $e15_response->status = $bill_info->invoiceStatus;
+//        $e15_response->status = $bill_info->invoiceStatus;
 
         //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
 //        $e15_response->invoice_no = $bill_info->invoiceNo;
-        if ($type == 6) {
-//            $e15_response->expiry = $bill_info->invoiceExpiryDate;
+        if ($type == 2) {
+            $e15_response->expiry = $bill_info->invoiceExpiryDate;
             $e15_response->status = $bill_info->invoiceStatus;
         }
         $e15_response->save();
