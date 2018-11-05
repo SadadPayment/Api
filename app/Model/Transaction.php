@@ -28,7 +28,7 @@ class Transaction extends Model
 
     public function payment()
     {
-        return $this->hasOne('App\Model\Payment');
+        return $this->hasOne('App\Model\Payment\Payment');
     }
 
     public function topUp()
