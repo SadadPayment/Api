@@ -125,12 +125,11 @@ class E15 extends Controller
             }
 
             $basicResonse = Response::saveBasicResponse($transaction, $response);
-            if ($type == 6){
+            if ($type == 6) {
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-        }
-            //We swnd Type to verfiy whetther we have i_status and i_expiery
-            self::saveE15Response($paymentResponse, $e15, $response, $type);
-
+                //We swnd Type to verfiy whetther we have i_status and i_expiery
+                self::saveE15Response($paymentResponse, $e15, $response, $type);
+            }
             $bill_info = $response->billInfo;
             if ($type == 2) {
                 $invoice_status = $bill_info->InvoiceStatus;
