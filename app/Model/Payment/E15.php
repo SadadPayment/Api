@@ -35,6 +35,8 @@ class E15 extends Model
         $eror = ['tran' => $transaction,
             'pay' => $payment,
             'e15' => $e15];
+        dd($eror);
+
         $uuid = $transaction->uuid;
         $userName = "";
         $userPassword = "";
@@ -66,7 +68,6 @@ class E15 extends Model
             "payeeId" => "0010050001",
             "paymentInfo" => $paymentInfo
         ];
-        dd($eror);
         return $request;
     }
 
