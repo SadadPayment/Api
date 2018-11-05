@@ -14,4 +14,8 @@ class Payment extends Model
         return $this->belongsTo('App\Model\Transaction', 'transaction_id');
     }
 
+    public function e15()
+    {
+        return $this->hasMany('App\Model\Payment\E15');
+    }
 }
