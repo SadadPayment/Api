@@ -20,7 +20,7 @@ class MerchantController extends Controller
     {
         //
         $merchants = Merchant::with('types')->get();
-        return view('merchants/index', compact('merchants'));
+        return view('merchants.index', compact('merchants'));
     }
 
     /**
@@ -32,7 +32,7 @@ class MerchantController extends Controller
     {
         //
         $type=type::all();
-        return view('merchants/create')->with('types',$type);
+        return view('merchants.create')->with('types',$type);
     }
 
     /**
