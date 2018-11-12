@@ -1,21 +1,12 @@
 <?php
 
 use Illuminate\Http\Request;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes 
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-//
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
 
-Route::get('/profile', 'API\Users\ProfileApiController@get_user_profile_info');
+Route::get('/profile', 'API\Users\ProfileApiController@get_user_profile_info')->middleware('jwt.auth');
+Route::post('/add_account', 'API\Users\ProfileApiController@add_bank_account')->middleware('jwt.auth');
+Route::get('/list_account', 'API\Users\ProfileApiController@get_bank_account')->middleware('jwt.auth');
+//Route::post('/edit_account', 'API\Users\ProfileApiController@');
 //Route::get('/profile', 'API\TopUp@topUp')->middleware('jwt.auth');
