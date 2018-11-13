@@ -17,7 +17,7 @@ class HistoryApi extends Controller
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
         $tran = Transaction::where('user_id', $user->id)
-            ->orderBy('id', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->take(25)
             ->get();
 
