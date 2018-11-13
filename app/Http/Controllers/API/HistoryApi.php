@@ -20,13 +20,11 @@ class HistoryApi extends Controller
             ->orderBy('updated_at', 'desc')
             ->take(25)
             ->get();
-
         foreach ($tran as $transaction ){
             $transction_type = TransactionType::where('id', $transaction["transaction_type"])->pluck('name')->first();
             $res = Response::where("transaction_id" , $transaction["id"])->first();
             $response_one =["Response" => $res, "type" => $transction_type];
             $response[]=$response_one;
-
         }
         return response()->json(['data'=>$response]);
     }
