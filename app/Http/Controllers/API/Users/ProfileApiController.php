@@ -40,6 +40,7 @@ class ProfileApiController extends Controller
             return response()->json($exception);
         }
     }
+
     public function get_bank_account(){
         try {
             $token = JWTAuth::parseToken();
@@ -49,8 +50,6 @@ class ProfileApiController extends Controller
                 return response()->json($account);
             }
             return response()->json('error');
-
-
         }
         catch (\Exception $exception){
             return response()->json($exception);
