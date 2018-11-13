@@ -24,26 +24,21 @@ class ProfileApiController extends Controller
 
     public function add_bank_account(Request $request)
     {
-        return $request;
-//        try {
-//            $token = JWTAuth::parseToken();
-//            $user = $token->authenticate();
-//            $save_account = new BankAccount();
-//            $save_account->name = $request->name;
-//            $save_account->PAN = $request->PAN;
-//            $save_account->IPIN = $request->IPIN;
-//            $save_account->expDate = $request->expDate;
-//            $save_account->mbr = 0;
-//            $save_account->user_id = $user->id;
-//            $save_account->save();
-//            if ($save_account) {
-//                return response()->json(true);
-//            }
-//            return response()->json(false);
-//        }
-//        catch (\Exception $exception){
-//            return response()->json($exception);
-//        }
+        try {
+            $token = JWTAuth::parseToken();
+            $user = $token->authenticate();
+            $save_account = new BankAccount($request->all());
+            $save_account->mbr = 0;
+            $save_account->user_id = $user->id;
+            $save_account->save();
+            if ($save_account) {
+                return response()->json(true);
+            }
+            return response()->json(false);
+        }
+        catch (\Exception $exception){
+            return response()->json($exception);
+        }
     }
 
     public function get_bank_account(){
