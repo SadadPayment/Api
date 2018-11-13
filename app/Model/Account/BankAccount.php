@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BankAccount extends Model
 {
-    //
+    protected $fillable=['PAN', 'IPIN', 'expDate', 'mbr', 'name'];
+    protected $hidden=['IPIN'];
     public function user(){
         return $this->belongsTo('App\Model\User',"user_id");
     }

@@ -28,6 +28,7 @@ class ProfileApiController extends Controller
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $save_account = new BankAccount($request->all());
+            $save_account->mbr = 0;
             $save_account->user_id = $user->id;
             $save_account->save();
             if ($save_account) {
