@@ -37,9 +37,7 @@ class Functions
 
 
     public static function convertExpDate($expDate){
-//        dd($expDate);
         $car =Carbon::parse($expDate);
-        //dd($car);
         $month=$car->month;
         if ($month < 10){
             $month = "0".$month;
@@ -48,7 +46,6 @@ class Functions
         $year -=2000;
         $resualt = "";
         $resualt = $resualt.$year.''.$month;
-        //dd($resualt);
         return $resualt;
     }
 

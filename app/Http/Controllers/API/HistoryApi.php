@@ -16,17 +16,15 @@ class HistoryApi extends Controller
         $response = array();
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
-
-
-        $tran = Transaction::where('user_id', '=', $user->id)->get();
-
+        $tran = Transaction::where('user_id', $user->id)
+            ->orderBy('id', 'desc')
+            ->take(25)
+            ->get();
 
         foreach ($tran as $transaction ){
-            $response_one = array();
             $transction_type = TransactionType::where('id', $transaction["transaction_type"])->pluck('name')->first();
             $res = Response::where("transaction_id" , $transaction["id"])->first();
-            $response_one += ["Response" => $res];
-            $response_one += ["type" => $transction_type];
+            $response_one =["Response" => $res, "type" => $transction_type];
             $response[]=$response_one;
 
         }

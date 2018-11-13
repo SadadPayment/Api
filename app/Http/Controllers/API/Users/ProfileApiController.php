@@ -25,9 +25,11 @@ class ProfileApiController extends Controller
     public function add_bank_account(Request $request)
     {
         try {
+                    $expDate = Functions::convertExpDate($request->expDate);
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $save_account = new BankAccount($request->all());
+            $save_account->expDate = $expDate;
             $save_account->mbr = 0;
             $save_account->user_id = $user->id;
             $save_account->save();
