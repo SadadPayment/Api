@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Users;
 
+use App\Functions;
 use App\Model\Account\BankAccount;
 use App\Model\User;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class ProfileApiController extends Controller
     public function add_bank_account(Request $request)
     {
         try {
-                    $expDate = Functions::convertExpDate($request->expDate);
+            $expDate = Functions::convertExpDate($request->expDate);
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $save_account = new BankAccount($request->all());
@@ -52,6 +53,22 @@ class ProfileApiController extends Controller
                 return response()->json($account);
             }
             return response()->json('error');
+        }
+        catch (\Exception $exception){
+            return response()->json($exception);
+        }
+    }
+
+    public function delete_bank_account($id)
+    {
+        try{
+            $delet= BankAccount::destroy($id);
+            if ($delet){
+                $data= BankAccount::all();
+                return response()->json($data);
+            }
+            return response()->json('error');
+
         }
         catch (\Exception $exception){
             return response()->json($exception);
