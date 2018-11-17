@@ -55,7 +55,7 @@ class E15 extends Controller
             $invoice = $request->json()->get("invoiceNo");
 
             $bank = Functions::getBankAccountByUser($account_no);
-            dd($bank);
+//            dd($bank);
             if ($ipin !== $bank->IPIN) {
                 $response = ["message" => "Wrong IPIN Code", "error" => true];
                 return response()->json($response, 200);
