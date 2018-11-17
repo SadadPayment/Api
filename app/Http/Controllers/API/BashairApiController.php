@@ -45,7 +45,9 @@ class BashairApiController extends Controller
         $transaction->transDateTime = Functions::getDateTime();
         $uuid = Uuid::generate()->string;
         $transaction->uuid = $uuid;
-        $transaction->transaction_type = "دفع بشائر";
+        $transaction_type = TransactionType::where('name', "Bashair")->pluck('id')->first();
+        $transaction->transactionType()->associate($transaction_type);
+
         $transaction->status = "created";
         $transaction->save();
         //Check Ipin
