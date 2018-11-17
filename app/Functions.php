@@ -14,6 +14,7 @@ class Functions
     //
     public static function getBankAccountByUser($id){
         return BankAccount::where('id', $id)->first();
+
     }
     public static function getBankAccountById($PAN, $user){
         return BankAccount::where('PAN', $PAN)
