@@ -12,4 +12,4 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/bashair' , 'API\BashairApiController@bashair')->middleware('jwt.auth');
+Route::post('bashair' , 'API\BashairApiController@bashair')->middleware('jwt.auth');
