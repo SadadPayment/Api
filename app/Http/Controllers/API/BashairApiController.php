@@ -13,6 +13,7 @@ use App\Model\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Webpatser\Uuid\Uuid;
 
 class BashairApiController extends Controller
 {
