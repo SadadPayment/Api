@@ -9,6 +9,7 @@ use App\Model\PublicKey;
 use App\Model\Response\BashairResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class BashairApiController extends Controller
 {
