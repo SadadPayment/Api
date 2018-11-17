@@ -50,9 +50,7 @@ class Electricity extends Controller
             $bank = Functions::getBankAccountByUser($user);
             $account = array();
             if ($ipin !== $bank->IPIN){
-                $response = array();
-                $response = ["error" => true];
-                $response = ["message" => "Wrong IPIN Code"];
+                $response = ["error" => true, "message" => "Wrong IPIN Code"];
                 return response()->json($response,200);
             }
             $account += ["PAN" => $bank->PAN];
@@ -96,9 +94,7 @@ class Electricity extends Controller
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
             if ($publickKey == false){
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
+                $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res,200);
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
@@ -108,18 +104,14 @@ class Electricity extends Controller
 
             $response = ElectricityModel::sendRequest($transaction->id  , $ipin);
             if ($response == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);
             }
 
             if ($response->responseCode != 0){
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = array();
-                $res += ["error" => true];
-                $res += ["EBS" => $response];
+                $res = ["error" => true, "EBS" => $response];
 
                 return response()->json($res, '200');
             }
@@ -166,9 +158,6 @@ class Electricity extends Controller
         $electriciy_response->Electriciy()->associate($electricity);
         $bill_info = (array) $response->billInfo;
 
-//        dd($bill_info);
-
-        //$electriciy_response->
         $electriciy_response->fill($bill_info);
 //        $electriciy_response->meterFees = $bill_info->meterFees;
 //        $electriciy_response->netAmount = $bill_info->netAmount;

@@ -39,18 +39,12 @@ class BalanceInquiry extends Controller
             }
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($user);
-            $account = array();
+//            $account = array();
             if ($ipin !== $bank->IPIN){
-                $response = array();
-                $response = ["error" => true];
-                $response = ["message" => "Wrong IPIN Code"];
+                $response = ["error" => true, "message" => "Wrong IPIN Code"];
                 return response()->json($response,200);
             }
-            $account += ["PAN" => $bank->PAN];
-            $account += ["IPIN" => $bank->IPIN];
-            $account += ["expDate" => $bank->expDate];
-            $account += ["mbr" => $bank->mbr];
-
+            $account = ["PAN" => $bank->PAN, "IPIN" => $bank->IPIN, "expDate" => $bank->expDate, "mbr" => $bank->mbr];
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
@@ -62,7 +56,6 @@ class BalanceInquiry extends Controller
 
 
             $uuid = Uuid::generate()->string;
-            //$uuid=Uuid::randomBytes(16);
 
             $transaction->uuid = $uuid;
             $transaction->transDateTime = $convert;
@@ -78,41 +71,32 @@ class BalanceInquiry extends Controller
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
             if ($publickKey == false){
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
+                $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res,200);
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
 
             $response = BalanceInquiryModel::sendRequest($transaction->id , $ipin);
             if ($response == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);
             }
             //$basicResonse = Response::saveBasicResponse($transaction, $response);
             //$balance_inquiry_reponse = self::saveBalanceInquiryResonse($basicResonse,$balance_inquiry,$response);
 
             if ($response->responseCode != 0){
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);
             }
             else{
-                $res = array();
-                $res += ["error" => false];
-                $res += ["message" => "Done Successfully"];
-                $res += ["balance" => $response->balance];
+                $res = ["error" => false,
+                    "message" => "Done Successfully",
+                    "balance" => $response->balance];
                 return response()->json($res,200);
             }
         }
         else{
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Request Must Send In Json"];
+            $response = ["error" => true, "message" => "Request Must Send In Json"];
             return response()->json($response,200);
         }
     }

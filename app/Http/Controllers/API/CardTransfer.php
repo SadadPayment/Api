@@ -44,9 +44,7 @@ class CardTransfer extends Controller
             $bank = Functions::getBankAccountByUser($user);
             $account = array();
             if ($ipin !== $bank->IPIN){
-                $response = array();
-                $response = ["error" => true];
-                $response = ["message" => "Wrong IPIN Code", "error"=> true];
+                $response = ["error" => true, "message" => "Wrong IPIN Code", "error"=> true];
                 return response()->json($response,200);
             }
             $account += ["PAN" => $bank->PAN];
@@ -86,41 +84,31 @@ class CardTransfer extends Controller
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
             if ($publickKey == false){
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
+                $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res,200);
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
 
             $response = CardTransferModel::sendRequest($transaction->id,$ipin);
             if ($response == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);
             }
 
             if ($response->responseCode != 0){
-               /// dd($response);
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);
             }
             else{
-                $res = array();
-                $res += ["error" => false];
-                $res += ["message" => "Done Successfully"];
-                $res += ["balance" => $response->balance];
+                $res = ["error" => false,
+                    "message" => "Done Successfully",
+                    "balance" => $response->balance];
                 return response()->json($res,200);
             }
 
         }
         else{
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Request Must Send In Json"];
+            $response = ["error" => true, "message" => "Request Must Send In Json"];
             return response()->json(["data"=>$response],200);
         }
     }

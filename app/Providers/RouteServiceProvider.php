@@ -80,4 +80,11 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/usersApi.php'));
     }
+    protected function mapApiPaymentRoutes()
+    {
+        Route::prefix('api/payment')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/payment.php'));
+    }
 }

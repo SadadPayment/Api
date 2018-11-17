@@ -25,6 +25,7 @@ class E15 extends Controller
         if ($request->isJson()) {
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
+            $bank_id= $request->PAN;
 
             $validator = Validator::make($request->all(), [
                     'phone' => 'required|numeric',
@@ -53,7 +54,7 @@ class E15 extends Controller
             $ipin = $request->json()->get("IPIN");
             $invoice = $request->json()->get("invoiceNo");
 
-            $bank = Functions::getBankAccountByUser($user);
+            $bank = Functions::getBankAccountById($bank_id);
             if ($ipin !== $bank->IPIN) {
                 $response = ["message" => "Wrong IPIN Code", "error" => true];
                 return response()->json($response, 200);
@@ -142,9 +143,11 @@ class E15 extends Controller
                     $status = "PAID";
                 }
                 $json=["status" => $status, "expiry" => $invoice_expiry];
+                return response()->json($json, 200);
+
             }
 
-            $json = ["error" => false, "message" => "Done Successfully", "response" => $bill_info];
+            $json = ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
             return response()->json($json, 200);
 
         } else {
