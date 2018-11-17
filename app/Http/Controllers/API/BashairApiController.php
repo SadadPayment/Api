@@ -10,6 +10,7 @@ use App\Model\Response\BashairResponse;
 use App\Model\Response\PaymentResponse;
 use App\Model\Response\Response;
 use App\Model\Transaction;
+use App\Model\TransactionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Tymon\JWTAuth\Facades\JWTAuth;
