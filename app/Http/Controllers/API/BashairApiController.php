@@ -35,6 +35,7 @@ class BashairApiController extends Controller
             $response = ["message" => "Request Must Be Json", 'error' => true];
             return response()->json($response, 200);
         }
+        $bank_id = $request->id;
         $token = JWTAuth::parseToken();
         $user = $token->authenticate();
 
@@ -54,7 +55,7 @@ class BashairApiController extends Controller
         //Check Ipin
         $ipin = $request->json()->get("IPIN");
         $amount = $request->json()->get("amount");
-        $bank = Functions::getBankAccountByUser($user);
+        $bank = Functions::getBankAccountByUser($$bank_id);
         if ($ipin !== $bank->IPIN) {
             $response = ["message" => "Wrong IPIN Code", "error" => true];
             return response()->json($response, 200);

@@ -29,6 +29,7 @@ class TopUp extends Controller
     public function topUp(Request $request)
     {
         if ($request->isJson()) {
+            $bank_id = $request->id;
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $validator = Validator::make($request->all(),[
@@ -54,7 +55,7 @@ class TopUp extends Controller
             $amount = $request->json()->get("amount");
             $amount =number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($user);
+            $bank = Functions::getBankAccountByUser($bank_id);
 
             if ($ipin !== $bank->IPIN){
                 $response = array();

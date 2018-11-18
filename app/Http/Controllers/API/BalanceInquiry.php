@@ -24,6 +24,7 @@ class BalanceInquiry extends Controller
 
 
         if ($request->isJson()){
+            $bank_id = $request->id;
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $validator = Validator::make($request->all(),[
@@ -38,7 +39,7 @@ class BalanceInquiry extends Controller
                 ]);
             }
             $ipin = $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($user);
+            $bank = Functions::getBankAccountByUser($bank_id);
 //            $account = array();
             if ($ipin !== $bank->IPIN){
                 $response = ["error" => true, "message" => "Wrong IPIN Code"];

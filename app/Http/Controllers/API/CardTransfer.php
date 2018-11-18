@@ -23,6 +23,7 @@ class CardTransfer extends Controller
         if ($request->isJson()){
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
+            $bank_id = $request->id;
             $validator = Validator::make($request->all(),[
 
                 'to' => 'required|numeric|digits_between:16,19',
@@ -41,7 +42,7 @@ class CardTransfer extends Controller
             $amount = $request->json()->get("amount");
             $amount =number_format((float)$amount, 2, '.', '');
             $ipin =  $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($user);
+            $bank = Functions::getBankAccountByUser($bank_id);
             $account = array();
             if ($ipin !== $bank->IPIN){
                 $response = ["error" => true, "message" => "Wrong IPIN Code", "error"=> true];
