@@ -85,10 +85,7 @@ class TopUp extends Controller
 
             $transaction->status = "Create Account";
             $transaction->save();
-            //$response = $this->checkAccount("bank", $account);
-            //if ($response == null) {
-
-
+            
             $biller_id = self::getBillerId($biller);
 
             $topUp = new TopUpModel();
@@ -142,7 +139,7 @@ class TopUp extends Controller
                 $transaction->save();
                 $res = array();
                 $res += ["error" => false];
-                $res += ["message" => "Done Successfully"];
+                $res += ["message" => "تم الشحن"];
                 return response()->json($res, '200');
 
 
