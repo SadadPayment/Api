@@ -49,48 +49,68 @@ class AuthController extends Controller
 //
 //}
 
-    public function authenticate(Request $request)
+//    public function authenticate(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//                'phone' => 'required',
+//                'password' => 'required',
+//            ]
+//        );
+//        if ($validator->fails()) {
+//            return response()->json([
+//                'error' => true,
+//                'errors' => $validator->errors()->toArray()
+//            ]);
+//        }
+//
+//
+//        $phone = $request->json()->get("phone");
+//        $password = $request->json()->get("password");
+//        try {
+//            $user = User::where("phone", $phone)->first();
+//            if ($user == null) {
+//                $response = ["error" => true, "message" => "wrong phone number"];
+//                return response()->json($response, 200);
+//            }
+//                if ($user->status == "1") {
+//                    $credentials = $request->only('phone', 'password');
+////                    if (!$token = JWTAuth::fromUser($credentials)) {
+////                    return response()->json(['error' => 'invalid_credentials'], 401);
+////                }
+//                    $token = JWTAuth::fromUser($user);
+//                    $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
+//                    return response()->json($response, 200);
+//                } else {
+//                    $response = ["error" => true, "message" => "You Have To Activate Your Account First"];
+//                    return response()->json($response, 200);
+//                }
+////            }
+//        } catch (JWTException $ex) {
+//            $response = ["error" => true, "message" => "Something went wrong"];
+//            return response()->json($response, 200);
+//        }
+//    }
+
+
+    public function Login(Request $request)
     {
         $validator = Validator::make($request->all(), [
-                'phone' => 'required',
-                'password' => 'required',
-            ]
-        );
+            'phone' => 'required|string|max:10',
+            'password' => 'required'
+        ]);
         if ($validator->fails()) {
-            return response()->json([
-                'error' => true,
-                'errors' => $validator->errors()->toArray()
-            ]);
+            return response()->json($validator->errors());
         }
-
-
-        $phone = $request->json()->get("phone");
-        $password = $request->json()->get("password");
+        $credentials = $request->only('phone', 'password');
         try {
-            $user = User::where("phone", $phone)->first();
-            if ($user == null) {
-                $response = ["error" => true, "message" => "wrong phone number"];
-                return response()->json($response, 200);
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
             }
-                if ($user->status == "1") {
-                    $credentials = $request->only('phone', 'password');
-                    if (!$token = JWTAuth::fromUser($credentials)) {
-                    return response()->json(['error' => 'invalid_credentials'], 401);
-                }
-                    $token = JWTAuth::fromUser($user);
-                    $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
-                    return response()->json($response, 200);
-                } else {
-                    $response = ["error" => true, "message" => "You Have To Activate Your Account First"];
-                    return response()->json($response, 200);
-                }
-//            }
-        } catch (JWTException $ex) {
-            $response = ["error" => true, "message" => "Something went wrong"];
-            return response()->json($response, 200);
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
+        return $this->respondWithToken($token, $credentials);
     }
-
 
     public function registration(Request $request)
     {
@@ -175,7 +195,7 @@ class AuthController extends Controller
             $user->status = "1";
             $user->save();
             $token = JWTAuth::fromUser($user);
-            $response = ["error" => false,"message" => "Done", "token" => $token];
+            $response = ["error" => false, "message" => "Done", "token" => $token];
             return response()->json($response, 200);
         }
         $response = ["error" => true, "message" => "Error"];
