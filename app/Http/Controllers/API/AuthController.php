@@ -51,7 +51,6 @@ class AuthController extends Controller
 
     public function authenticate(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
                 'phone' => 'required',
                 'password' => 'required',
@@ -74,7 +73,9 @@ class AuthController extends Controller
                 return response()->json($response, 200);
             }
                 if ($user->status == "1") {
-                    $token = JWTAuth::fromUser($user);
+                    $credentials = $request->only('phone', 'password');
+
+                    $token = JWTAuth::fromUser($credentials);
                     $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
                     return response()->json($response, 200);
                 } else {
