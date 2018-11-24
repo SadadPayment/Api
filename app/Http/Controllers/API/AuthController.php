@@ -17,13 +17,33 @@ use App\Functions;
 class AuthController extends Controller
 {
 
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'phone' => 'required|string|max:10',
+            'password' => 'required|min:6'
+        ]);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+        $credentials = $request->only('phone', 'password');
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'invalid_credentials'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
+        }
+        return $this->respondWithToken($token, $credentials);
+
+}
 
     public function authenticate(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
                 'phone' => 'required',
-                'IPIN' => 'required',
+                'password' => 'required',
             ]
         );
         if ($validator->fails()) {
@@ -35,7 +55,7 @@ class AuthController extends Controller
 
 
         $phone = $request->json()->get("phone");
-        $ipin = $request->json()->get("IPIN");
+        $password = $request->json()->get("password");
 
 
         try {
@@ -46,7 +66,7 @@ class AuthController extends Controller
                 $response = ["error" => true, "message" => "wrong phone number"];
                 return response()->json($response, 200);
             }
-            $account = BankAccount::where("user_id", $user->id)->where("ipin", $ipin)->first();
+//            $account = BankAccount::where("user_id", $user->id)->where("ipin", $ipin)->first();
 
 
             if (!$account) {

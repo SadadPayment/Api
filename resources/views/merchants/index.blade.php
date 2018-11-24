@@ -1,8 +1,13 @@
-@extends('layouts.dashboard',["active"=> "merchant"])
+@extends('adminlte::page')
+
+@section('title', 'AdminLTE')
+
+@section('content_header')
+    <h2>Merchants</h2>
+@stop
 
 @section('content')
-    <h2>Merchants</h2>
-    <a href="{{url('/merchants/create')}}">
+    <a href="merchants/create">
         <button class="btn btn-success">
 
             Create New Merchants
@@ -52,4 +57,5 @@
         </tbody>
     </table>
 
-@endsection
+{{--@endsection--}}
+    @stop

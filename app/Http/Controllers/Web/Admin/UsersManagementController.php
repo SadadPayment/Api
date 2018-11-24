@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Model\Merchant\Merchant as Merchant;
-
-use App\Model\Merchant\MerchantType;
+use App\Model\User;
+use App\Model\UserGroup;
 use Illuminate\Http\Request;
-use App\Model\Merchant\MerchantType as type;
 
-class MerchantController extends Controller
+class UsersManagementController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +17,13 @@ class MerchantController extends Controller
      */
     public function index()
     {
-        //
-        $merchants = Merchant::with('types')->get();
-        return view('merchants.index', compact('merchants'));
+        $users = User::latest()
+            ->with(['transactions', 'userGroup', 'accounts'])
+            ->paginate(5);
+
+        return view('admin.Users.index', compact('users'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
+
     }
 
     /**
@@ -31,14 +34,14 @@ class MerchantController extends Controller
     public function create()
     {
         //
-        $type=type::all();
-        return view('merchants.create')->with('types',$type);
+        $type = type::all();
+        return view('merchants.create')->with('types', $type);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -58,42 +61,43 @@ class MerchantController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\Merchant\Merchant  $merchant
+     * @param  \App\Model\User
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
-        $gg= Merchant::findOrFail($id);
-        echo $gg;
-//        return
+        $user = User::with(['transactions.transactionType', 'accounts'])->find($id);
+        $group_type = UserGroup::all('id', 'type');
+
+        return view('admin.Users.show', compact(['user', 'group_type']));
+//        return response()->json([$user, $group_type]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\Merchant\Merchant  $merchant
+     * @param  \App\Model\User
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
-        $merchant= Merchant::findOrFail($id);
+        $merchant = Merchant::findOrFail($id);
         $types = type::all();
-        return View('merchants/edit',compact(['merchant','types']));
+        return View('merchants/edit', compact(['merchant', 'types']));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\Merchant\Merchant  $merchant
+     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Model\User
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
-        $merchant= Merchant::findOrFail($id);
+        $merchant = Merchant::findOrFail($id);
         //$merchant = new merchant();
         $input = $request->all();
         $merchant->fill($input)->save();
@@ -103,7 +107,7 @@ class MerchantController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\Merchant\Merchant  $merchant
+     * @param  \App\Model\User
      * @return \Illuminate\Http\Response
      */
 //    public function destroy($id)
@@ -118,19 +122,13 @@ class MerchantController extends Controller
 
     public function delete($id)
     {
-        //
-        $merchant= Merchant::findOrFail($id);
+        //Application
+        $merchant = User::findOrFail($id);
         $merchant->delete();
         return response()->json([
             'error' => 'false'
-        ],200);
+        ], 200);
     }
-	
-	
-	public function test(){
 
-		$items = Merchant::all();		
-        	return response()->json($items);
-		
-	}
+
 }

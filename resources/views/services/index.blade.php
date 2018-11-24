@@ -1,7 +1,13 @@
-@extends('layouts.dashboard',["active"=> "services"])
+@extends('adminlte::page')
+
+@section('title', 'SADAD Cp')
+
+@section('content_header')
+    <h2>Merchants</h2>
+@stop
 
 @section('content')
-    <h2>Merchants</h2>
+
     <a href="{{url('/services/create')}}">
         <button class="btn btn-success">
 
@@ -60,4 +66,5 @@
         </tbody>
     </table>
 
-@endsection
+{{--@endsection--}}
+@stop

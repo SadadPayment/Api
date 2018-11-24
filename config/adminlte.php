@@ -108,6 +108,41 @@ return [
     */
 
     'menu' => [
+        [
+            'text'    => 'Services',
+            'icon'    => 'share',
+            'submenu' => [
+                [
+                    'text' => 'show',
+                    'url'  => 'admin/services',
+                ],
+                [
+                    'text'    => 'add new',
+                    'url'     => 'admin/services/create',
+                ],
+            ],
+        ],
+
+        //Mersh/
+
+        [
+            'text'    => 'Merchant',
+            'icon'    => 'share',
+            'submenu' => [
+                [
+                    'text' => 'show',
+                    'url'  => 'admin/merchants',
+                ],
+                [
+                    'text'    => 'add new',
+                    'url'     => 'admin/merchants/create',
+                ],
+            ],
+        ],
+
+        //end Mirsh
+
+
         'MAIN NAVIGATION',
         [
             'text' => 'Blog',

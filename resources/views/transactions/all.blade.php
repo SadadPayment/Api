@@ -1,8 +1,13 @@
-@extends('layouts.dashboard',["active"=> "transaction"])
+@extends('adminlte::page')
+
+@section('title', 'AdminLTE')
+
+@section('content_header')
+    <h2>Transactions</h2>
+@stop
 
 @section('content')
-    <h2>Transactions</h2>
-    <table class="table table-hover" id="dataTable">
+<table class="table table-hover" id="dataTable">
         <thead class="success">
             <td>Transaction Type</td>
             <td>Time</td>
@@ -27,4 +32,5 @@
         </tbody>
     </table>
     {{--{{$transactions->links()}}--}}
-@endsection
+{{--@endsection--}}
+@stop

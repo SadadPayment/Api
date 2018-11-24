@@ -26,9 +26,15 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 
 Route::prefix('admin')->group(function () {
-    Route::resource('merchants', 'Web\MerchantController');
 
-    Route::get('/test', 'Web\MerchantController@test');
+
+    Route::resource('merchants', 'Web\Admin\MerchantController');
+    Route::resource('services', 'Web\Admin\ServicesController');
+    Route::resource('users_management', 'Web\Admin\UsersManagementController');
+    Route::resource('agent_management', 'Web\Admin\AgentsController');
+//    Route::resource('merchants', 'Web\MerchantController');
+//
+//    Route::get('/test', 'Web\MerchantController@test');
 });
 Auth::routes();
 

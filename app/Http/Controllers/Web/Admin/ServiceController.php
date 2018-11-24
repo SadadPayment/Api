@@ -11,20 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class ServiceController extends Controller{
-    public function Index(){
+    public function index(){
         $services =MerchantServices::with("merchant" , "type")->get();
         return view('services/index', compact('services'));
     }
 
-    public function Create(){
+    public function create(){
         $merchants = Merchant::all();
         $types = MerchantType::all();
         return view('services/create')->with('merchants',$merchants)->with('types' , $types);
     }
     public function store(Request $request)
     {
-        //
-
         $service = new MerchantServices();
         $service->name = Input::get('name');
         $service->type_id = Input::get('type');
