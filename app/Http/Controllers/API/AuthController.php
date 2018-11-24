@@ -9,9 +9,10 @@ use App\Model\UserValidation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Validator;
+//use Validator;
 use App\Functions;
 
 class AuthController extends Controller
