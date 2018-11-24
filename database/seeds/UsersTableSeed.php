@@ -16,7 +16,7 @@ class UsersTableSeed extends Seeder
         $user->fullName = 'elteyab hassan';
         $user->email = 'admin@gmail.com';
         $user->phone = '0917321783';
-        $user->password =Hash::make('admin');
+        $user->password =Hash::make('123456');
         $user->user_group='1';
         $user->status ='1';
         $user->save();
