@@ -16,38 +16,38 @@ use App\Functions;
 
 class AuthController extends Controller
 {
-
-    public function login(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'phone' => 'required|string|max:10',
-            'password' => 'required|min:6'
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors());
-        }
-        $user = User::where("phone", $request->phone)->first();
-        if ($user == null) {
-            $response = ["error" => true, "message" => "wrong phone number"];
-            return response()->json($response, 200);
-        }
-        if ($user) {
-            $credentials = $request->only('phone', 'password');
-            try {
-                if (!$token = JWTAuth::fromUser($credentials)) {
-                    return response()->json(['error' => 'invalid_credentials'], 401);
-                }
-
-            } catch (JWTException $e) {
-                return response()->json(['error' => 'could_not_create_token'], 500);
-            }
-//            return $this->respondWithToken($token, $credentials);
-            $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
-            return response()->json($response, 200);
-        }
-        return response()->json('error', 200);
-
-}
+//
+//    public function login(Request $request)
+//    {
+//        $validator = Validator::make($request->all(), [
+//            'phone' => 'required|string|max:10',
+//            'password' => 'required|min:6'
+//        ]);
+//        if ($validator->fails()) {
+//            return response()->json($validator->errors());
+//        }
+//        $user = User::where("phone", $request->phone)->first();
+//        if ($user == null) {
+//            $response = ["error" => true, "message" => "wrong phone number"];
+//            return response()->json($response, 200);
+//        }
+//        if ($user) {
+//            $credentials = $request->only('phone', 'password');
+//            try {
+//                if (!$token = JWTAuth::fromUser($credentials)) {
+//                    return response()->json(['error' => 'invalid_credentials'], 401);
+//                }
+//
+//            } catch (JWTException $e) {
+//                return response()->json(['error' => 'could_not_create_token'], 500);
+//            }
+////            return $this->respondWithToken($token, $credentials);
+//            $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
+//            return response()->json($response, 200);
+//        }
+//        return response()->json('error', 200);
+//
+//}
 
     public function authenticate(Request $request)
     {

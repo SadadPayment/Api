@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post("register", "API\AuthController@registration")->middleware('cors');
 Route::post("activate", "API\AuthController@activate");
 //Route::post("login", "API\AuthController@authenticate");
-Route::post("login", "API\AuthController@login");
+Route::post("login", "API\AuthController@authenticate");
 Route::post("requestreset", "API\AuthController@resetPassword");
 Route::post("resetpassword", "API\AuthController@resetPasswordWithCode");
 //Route::post('payment' , 'ApiController@payment')->middleware('jwt.auth');
