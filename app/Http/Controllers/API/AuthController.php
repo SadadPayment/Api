@@ -74,8 +74,10 @@ class AuthController extends Controller
             }
                 if ($user->status == "1") {
                     $credentials = $request->only('phone', 'password');
-
-                    $token = JWTAuth::fromUser($credentials);
+                    if (!$token = JWTAuth::fromUser($credentials)) {
+                    return response()->json(['error' => 'invalid_credentials'], 401);
+                }
+                    $token = JWTAuth::fromUser($user);
                     $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
                     return response()->json($response, 200);
                 } else {
