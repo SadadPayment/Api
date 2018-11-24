@@ -68,11 +68,11 @@ class AuthController extends Controller
             }
 //            $account = BankAccount::where("user_id", $user->id)->where("ipin", $ipin)->first();
 
-
-            if (!$account) {
-                $response = ["error" => true, "message" => "User Credential Invalid"];
-                return response()->json($response, 200);
-            } else {
+//
+//            if (!$account) {
+//                $response = ["error" => true, "message" => "User Credential Invalid"];
+//                return response()->json($response, 200);
+//            } else {
                 if ($user->status == "1") {
                     $token = JWTAuth::fromUser($user);
                     $response = ["error" => false, "token" => $token, 'userInfo' => $user, "message" => "OK"];
@@ -81,7 +81,7 @@ class AuthController extends Controller
                     $response = ["error" => true, "message" => "You Have To Activate Your Account First"];
                     return response()->json($response, 200);
                 }
-            }
+//            }
         } catch (JWTException $ex) {
             $response = ["error" => true, "message" => "Something went wrong"];
             return response()->json($response, 200);
