@@ -277,4 +277,14 @@ class AuthController extends Controller
         curl_close($curl);
     }
 
+    protected function respondWithToken($token, $credentials)
+    {
+        return response()->json([
+            'token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth('api')->factory()->getTTL() * 3000,
+            "user"=>$credentials,
+            'error'=> false
+        ]);
+    }
 }
