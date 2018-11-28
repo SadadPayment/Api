@@ -41,7 +41,7 @@ class BalanceInquiry extends Model
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
         $tranCurrency = "SDG";
-        $request = ["userName" => $userName,
+        $request += ["userName" => $userName,
             "userPassword" => $userPassword,
             "entityId" => $entityId,
             "entityType" => $entityType,
