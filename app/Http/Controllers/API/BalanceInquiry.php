@@ -29,7 +29,8 @@ class BalanceInquiry extends Controller
             $user = $token->authenticate();
             $validator = Validator::make($request->all(),[
 
-                'IPIN' => 'required|numeric|digits_between:4,4',
+//                'IPIN' => 'required|numeric|digits_between:4,4',
+                'IPIN' => 'required|numeric',
             ]);
 
             if ($validator->fails()){
@@ -76,7 +77,7 @@ class BalanceInquiry extends Controller
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
 
-            $response = BalanceInquiryModel::sendRequest($transaction->id , $ipin);
+            $response = BalanceInquiryModel::sendRequest($transaction->id , $ipin, $bank_id);
             dd($response);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
