@@ -56,6 +56,7 @@ class TopUp extends Controller
             $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
+            dd($bank);
 
             if ($ipin !== $bank->IPIN) {
                 $response = array();
