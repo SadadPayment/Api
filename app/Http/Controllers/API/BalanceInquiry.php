@@ -78,7 +78,7 @@ class BalanceInquiry extends Controller
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
 
             $response = BalanceInquiryModel::sendRequest($transaction->id , $ipin, $bank_id);
-            dd($response);
+//            dd($response);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);

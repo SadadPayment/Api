@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Functions;
 use App\Model\Account\BankAccount;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +13,7 @@ class CardTransfer extends Model
     public function transfer(){
         return $this->belongsTo('App\Model\Transfer');
     }
-    public static function requestBuild($transaction_id , $ipin){
+    public static function requestBuild($transaction_id , $ipin, $bank_id){
         $request = array();
         $transaction = Transaction::where("id", $transaction_id)->first();
         $user = User::where("id",$transaction->user_id)->first();
@@ -29,7 +30,7 @@ class CardTransfer extends Model
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-        $bank = BankAccount::getBankAccountByUser($user);
+        $bank = Functions::getAccountTypeId($bank_id);
         $PAN = $bank->PAN;
 
         $mbr = $bank->mbr;
@@ -56,8 +57,8 @@ class CardTransfer extends Model
         $request += ["authenticationType" => $authenticationType];
         return $request;
     }
-    public static function sendRequest($transaction_id, $ipin){
-        $request = self::requestBuild($transaction_id, $ipin);
+    public static function sendRequest($transaction_id, $ipin, $bank_id){
+        $request = self::requestBuild($transaction_id, $ipin, $bank_id);
 
         $response = SendRequest::sendRequest($request , self::CardTransfer);
         return $response;

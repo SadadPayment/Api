@@ -90,7 +90,7 @@ class CardTransfer extends Controller
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
 
-            $response = CardTransferModel::sendRequest($transaction->id,$ipin);
+            $response = CardTransferModel::sendRequest($transaction->id,$ipin, $bank_id);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);

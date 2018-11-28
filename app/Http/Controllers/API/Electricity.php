@@ -103,7 +103,7 @@ class Electricity extends Controller
 
 
 
-            $response = ElectricityModel::sendRequest($transaction->id  , $ipin);
+            $response = ElectricityModel::sendRequest($transaction->id  , $ipin, $bank_id);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res,200);

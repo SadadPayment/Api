@@ -2,7 +2,8 @@
 
 namespace App\Model\Payment;
 
-use App\Model\Account\BankAccount;
+use App\Functions;
+//use App\Model\Account\BankAccount;
 use App\Model\SendRequest;
 use App\Model\Transaction;
 use Illuminate\Database\Eloquent\Model;
@@ -21,7 +22,7 @@ class Electricity extends Model
         return $this->belongsTo('App\Model\Payment\Payment' , 'payment_id');
     }
 
-    public static function requestBuild($transaction_id , $ipin){
+    public static function requestBuild($transaction_id , $ipin, $bank_id){
         $transaction = Transaction::where("id", $transaction_id)->first();
         $user = User::where("id",$transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
@@ -49,7 +50,7 @@ class Electricity extends Model
         $mbr = "";
         $expDate = "";
         $authenticationType = "00";
-        $bank = BankAccount::getBankAccountByUser($user);
+        $bank = Functions::getBankAccountByUser($bank_id);
         $PAN = $bank->PAN;
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
@@ -73,8 +74,8 @@ class Electricity extends Model
         //dd($request);
         return $request;
     }
-    public static function sendRequest($transaction_id , $ipin){
-        $request = self::requestBuild($transaction_id , $ipin);
+    public static function sendRequest($transaction_id , $ipin, $bank_id){
+        $request = self::requestBuild($transaction_id , $ipin, $bank_id);
 
         $response = SendRequest::sendRequest($request , self::Payment);
         return $response;
