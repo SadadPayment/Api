@@ -2,6 +2,7 @@
 
 namespace App\Model\Payment;
 
+use App\Functions;
 use App\Model\Account\BankAccount;
 use App\Model\SendRequest;
 use App\Model\Transaction;
@@ -26,7 +27,7 @@ class E15 extends Model
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $ipin, $type)
+    public static function requestBuild($transaction_id, $ipin, $type, $bank_id)
     {
 //        dd(['trans'=> $transaction_id, 'ipin'=>$ipin, 'type'=>$type ]);
         $transaction = Transaction::find($transaction_id);
@@ -44,7 +45,7 @@ class E15 extends Model
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-        $bank = BankAccount::where("user_id", $user->id)->first();
+        $bank = Functions::getBankAccountByUser($bank_id);
         $PAN = $bank->PAN;
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
@@ -72,9 +73,9 @@ class E15 extends Model
         return $request;
     }
 
-    public static function sendRequest($transaction_id, $ipin, $type)
+    public static function sendRequest($transaction_id, $ipin, $type, $bank_id)
     {
-        $request = self::requestBuild($transaction_id, $ipin, $type);
+        $request = self::requestBuild($transaction_id, $ipin, $type, $bank_id);
         if($type== 6) {
             $response = SendRequest::sendRequest($request, self::Payment);
         }

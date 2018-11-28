@@ -113,7 +113,7 @@ class E15 extends Controller
             $ipin = Functions::encript($publickKey, $uuid, $ipin);
 
             //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
-            $response = E15Model::sendRequest($transaction->id, $ipin, $type);
+            $response = E15Model::sendRequest($transaction->id, $ipin, $type, $request->id);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
