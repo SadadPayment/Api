@@ -29,7 +29,8 @@ class E15 extends Controller
 
             $validator = Validator::make($request->all(), [
                     'phone' => 'required|numeric',
-                    'IPIN' => 'required|numeric|digits_between:4,4',
+//                    'IPIN' => 'required|numeric|digits_between:4,4',
+                    'IPIN' => 'required|numeric',
                     'amount' => 'required|numeric',
                     'invoiceNo' => 'required|numeric',
                 ]
