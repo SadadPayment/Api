@@ -32,7 +32,7 @@ class TopUp extends Controller
             $bank_id = $request->id;
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
 
                 'phone' => 'required|numeric',
                 'biller' => 'required|string',
@@ -40,7 +40,7 @@ class TopUp extends Controller
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
 
-            if ($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
                     'errors' => $validator->errors()->toArray()
@@ -53,15 +53,15 @@ class TopUp extends Controller
             $phone = $request->json()->get("phone");
             $biller = $request->json()->get("biller");
             $amount = $request->json()->get("amount");
-            $amount =number_format((float)$amount, 2, '.', '');
+            $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
 
-            if ($ipin !== $bank->IPIN){
+            if ($ipin !== $bank->IPIN) {
                 $response = array();
                 $response += ["error" => true];
                 $response += ["message" => "Wrong IPIN Code"];
-                return response()->json($response,200);
+                return response()->json($response, 200);
             }
             $account = array();
             $account += ["PAN" => $bank->PAN];
@@ -85,14 +85,14 @@ class TopUp extends Controller
 
             $transaction->status = "Create Account";
             $transaction->save();
-            
+
             $biller_id = self::getBillerId($biller);
 
             $topUp = new TopUpModel();
             $topUp->payment()->associate($payment);
             $topUp->biller()->associate($biller_id);
-            $topUp->phone=$phone;
-            $topUp->payee_id=self::getPayeeId($biller);
+            $topUp->phone = $phone;
+            $topUp->payee_id = self::getPayeeId($biller);
             $topUp->save();
 
 //            $type_id = self::getTopUpTypeId("TopUp");
@@ -106,52 +106,41 @@ class TopUp extends Controller
 
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
-            if ($publickKey == false){
+            if ($publickKey == false) {
                 $res = array();
                 $res += ["error" => true];
                 $res += ["message" => "Server Error"];
-                return response()->json($res,200);
+                return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey , $uuid , $ipin);
+            $ipin = Functions::encript($publickKey, $uuid, $ipin);
             //$ipin = mb_convert_encoding($ipin , 'UTF-8' , 'UTF-8' );
 
-            $response = TopUpModel::sendRequest($transaction->id , $ipin);
+            $response = TopUpModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Some Error Found"];
-                return response()->json($res,200);
+                $res = ["error" => true, "message" => "Some Error Found"];
+                return response()->json($res, 200);
             }
-            if ($response->responseCode != 0){
+            if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
-
+                $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res, '200');
-            }
-            else {
+            } else {
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
                 self::saveTopUp($paymentResponse, $topUp, $response);
                 $transaction->status = "done";
                 $transaction->save();
-                $res = array();
-                $res += ["error" => false];
-                $res += ["message" => "تم الشحن"];
-                return response()->json($res, '200');
+                $res = ["error" => false,"message" => "تم الشحن"];
+                return response()->json($res, 200);
 
 
             }
         } else {
-            $response = array();
-            $response += ["error" => true];
-            $response += ["message" => "Request Must Be Json"];
+            $response = ["error" => true, "message" => "Request Must Be Json"];
             return response()->json($response, 200);
         }
     }
-
 
 
     public static function getBillerId($biller)
@@ -168,12 +157,14 @@ class TopUp extends Controller
     {
         return TopUp::where('type_id', $type_id)->where('biller_id', $biller_id)->first();
     }
-    public static function getPayeeId($biller){
-        $payee = payee::where("name",$biller)->first();
+
+    public static function getPayeeId($biller)
+    {
+        $payee = payee::where("name", $biller)->first();
         return $payee->payee_id;
     }
 
-    public static function saveTopUp($paymentResponse, $topUp ,  $response)
+    public static function saveTopUp($paymentResponse, $topUp, $response)
     {
         $top_up_response = new TopUpResponse();
         $top_up_response->PaymentResponse()->associate($paymentResponse);

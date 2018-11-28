@@ -2,6 +2,7 @@
 
 namespace App\Model\Payment\TopUp;
 
+use App\Functions;
 use App\Model\Account\BankAccount;
 use App\Model\Payment\Payment;
 use App\Model\SendRequest;
@@ -26,7 +27,7 @@ class TopUp extends Model
     {
         return self::where('type_id', $type_id)->where('biller_id', $biller_id)->first();
     }
-    public static function requestBuild($transaction_id,$ipin)
+    public static function requestBuild($transaction_id,$ipin, $bank_id)
     {
         $transaction = Transaction::where("id", $transaction_id)->first();
         $user = User::where("id",$transaction->user_id)->first();
@@ -58,7 +59,7 @@ class TopUp extends Model
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-        $bank = BankAccount::getBankAccountByUser($user);
+        $bank = Functions::getBankAccountByUser($bank_id);
         $PAN = $bank->PAN;
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
@@ -85,8 +86,8 @@ class TopUp extends Model
         return $request;
         //$request->tranDateTime = $transaction->transDateTime;
     }
-    public static function sendRequest($transaction_id,$ipin){
-        $request = self::requestBuild($transaction_id ,$ipin);
+    public static function sendRequest($transaction_id,$ipin, $bank_id){
+        $request = self::requestBuild($transaction_id ,$ipin, $bank_id);
 
         $response = SendRequest::sendRequest($request , self::Payment);
         return $response;
