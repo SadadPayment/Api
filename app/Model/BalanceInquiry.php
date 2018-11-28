@@ -26,10 +26,9 @@ class BalanceInquiry extends Model
         $transaction = Transaction::where("id", $transaction_id)->first();
         $user = User::where("id", $transaction->user_id)->first();
         $balance_inquiry = BalanceInquiry::where("transaction_id", $transaction_id)->first();
-        $request += ["applicationId" => "Sadad"];
-        $request += ["tranDateTime" => $transaction->transDateTime];
         $uuid = $transaction->uuid;
-        $request += ["UUID" => $uuid];
+        $request += ["applicationId" => "Sadad"];
+        $request += ["tranDateTime" => $transaction->transDateTime, "UUID" => $uuid];
         $account_type = $balance_inquiry->account_type->name;
         $userName = "";
         $userPassword = "";
@@ -50,6 +49,7 @@ class BalanceInquiry extends Model
             "mbr" => $mbr,
             "expDate" => $expDate,
             "IPIN" => $ipin,
+            'accountType'=>$account_type,
             "authenticationType" => $authenticationType,
             "fromAccountType" => "00",
             "tranCurrency" => $tranCurrency];

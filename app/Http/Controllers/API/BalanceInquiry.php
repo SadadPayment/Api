@@ -70,7 +70,6 @@ class BalanceInquiry extends Controller
             $balance_inquiry->save();
 
             $publickKey = PublicKey::sendRequest();
-            //dd($ipin);
             if ($publickKey == false){
                 $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res,200);
