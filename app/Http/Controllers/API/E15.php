@@ -145,7 +145,7 @@ class E15 extends Controller
                     $status = "PAID";
                 }
                 $json=["status" => $status, "expiry" => $invoice_expiry];
-                return response()->json($json, 200);
+                return response()->json([$json, 'ebs'=>$response], 200);
 
             }
 
