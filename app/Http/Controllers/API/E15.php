@@ -149,7 +149,7 @@ class E15 extends Controller
 
             }
 
-            $json = ["error" => false, "message" => "تم بنجاح", "response" => $bill_info, 'ebs'=> $response];
+            $json = ["error" => false, "message" => "تم بنجاح",  "messageAr" => "تم بنجاح", "response" => $bill_info];
             return response()->json($json, 200);
 
         } else {

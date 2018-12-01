@@ -56,12 +56,9 @@ class TopUp extends Controller
             $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
-            dd($bank);
 
             if ($ipin !== $bank->IPIN) {
-                $response = array();
-                $response += ["error" => true];
-                $response += ["message" => "Wrong IPIN Code"];
+                $response = ["error" => true, "message" => "Wrong IPIN Code"];
                 return response()->json($response, 200);
             }
             $account = array();
@@ -96,17 +93,11 @@ class TopUp extends Controller
             $topUp->payee_id = self::getPayeeId($biller);
             $topUp->save();
 
-//            $type_id = self::getTopUpTypeId("TopUp");
-//            //return response()->json(["type"=>$type_id],200);
-//            $topUp = self::getTopUp($type_id, $biller_id);
-            //return response()->json(["type"=>$topUp],200);
-
             $transaction->status = "Save Top Up";
             $transaction->save();
 
 
             $publickKey = PublicKey::sendRequest();
-            //dd($ipin);
             if ($publickKey == false) {
                 $res = array();
                 $res += ["error" => true];
@@ -114,7 +105,6 @@ class TopUp extends Controller
                 return response()->json($res, 200);
             }
             $ipin = Functions::encript($publickKey, $uuid, $ipin);
-            //$ipin = mb_convert_encoding($ipin , 'UTF-8' , 'UTF-8' );
 
             $response = TopUpModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {
@@ -132,7 +122,7 @@ class TopUp extends Controller
                 self::saveTopUp($paymentResponse, $topUp, $response);
                 $transaction->status = "done";
                 $transaction->save();
-                $res = ["error" => false,"message" => "تم الشحن"];
+                $res = ["error" => false, "message" => "تم الشحن"];
                 return response()->json($res, 200);
 
 

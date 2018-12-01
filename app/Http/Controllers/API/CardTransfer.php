@@ -83,9 +83,8 @@ class CardTransfer extends Controller
             $card_transfer->save();
 
             $publickKey = PublicKey::sendRequest();
-            //dd($ipin);
             if ($publickKey == false){
-                $res = ["error" => true, "message" => "Server Error"];
+                $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
                 return response()->json($res,200);
             }
             $ipin = Functions::encript($publickKey , $uuid , $ipin);
@@ -103,6 +102,7 @@ class CardTransfer extends Controller
             else{
                 $res = ["error" => false,
                     "message" => "Done Successfully",
+                    "messageAr" => "تم بنجاح",
                     "balance" => $response->balance];
                 return response()->json($res,200);
             }

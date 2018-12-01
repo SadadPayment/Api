@@ -47,7 +47,7 @@ class BalanceInquiry extends Controller
                 $response = ["error" => true, "message" => "Wrong IPIN Code"];
                 return response()->json($response,200);
             }
-            $account = ["PAN" => $bank->PAN, "IPIN" => $bank->IPIN, "expDate" => $bank->expDate, "mbr" => $bank->mbr];
+//            $account = ["PAN" => $bank->PAN, "IPIN" => $bank->IPIN, "expDate" => $bank->expDate, "mbr" => $bank->mbr];
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
@@ -94,6 +94,7 @@ class BalanceInquiry extends Controller
             else{
                 $res = ["error" => false,
                     "message" => "Done Successfully",
+                    "messageAr" => "تم بنجاح",
                     "balance" => $response->balance];
                 return response()->json($res,200);
             }
