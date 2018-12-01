@@ -30,9 +30,8 @@ class CardTransfer extends Model
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-        $bank = Functions::getAccountTypeId($bank_id);
+        $bank = Functions::getBankAccountByUser($bank_id);
         $PAN = $bank->PAN;
-
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
         //}
