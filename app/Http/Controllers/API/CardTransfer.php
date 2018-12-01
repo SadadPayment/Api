@@ -26,7 +26,7 @@ class CardTransfer extends Controller
             $bank_id = $request->id;
             $validator = Validator::make($request->all(),[
 
-                'to' => 'required|numeric|digits_between:16,19',
+                'to' => 'required|numeric|digits_between:12,19',
                 'amount' => 'required|numeric',
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
@@ -43,17 +43,10 @@ class CardTransfer extends Controller
             $amount =number_format((float)$amount, 2, '.', '');
             $ipin =  $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
-            $account = array();
             if ($ipin !== $bank->IPIN){
                 $response = ["error" => true, "message" => "Wrong IPIN Code", "error"=> true];
                 return response()->json($response,200);
             }
-            $account += ["PAN" => $bank->PAN];
-            $account += ["IPIN" => $bank->IPIN];
-            $account += ["expDate" => $bank->expDate];
-            $account += ["mbr" => $bank->mbr];
-
-
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
