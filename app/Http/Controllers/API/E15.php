@@ -25,12 +25,11 @@ class E15 extends Controller
         if ($request->isJson()) {
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
-            $account_no= $request->id;
+            $account_no = $request->id;
 
             $validator = Validator::make($request->all(), [
                     'phone' => 'required|numeric',
-//                    'IPIN' => 'required|numeric|digits_between:4,4',
-                    'IPIN' => 'required|numeric',
+                    'IPIN' => 'required|numeric|digits_between:4,4',
                     'amount' => 'required|numeric',
                     'invoiceNo' => 'required|numeric',
                 ]
@@ -144,12 +143,12 @@ class E15 extends Controller
                 } else {
                     $status = "PAID";
                 }
-                $json=["status" => $status, "expiry" => $invoice_expiry];
-                return response()->json([$json, 'ebs'=>$response], 200);
+                $json = ["status" => $status, "expiry" => $invoice_expiry];
+                return response()->json($json, 200);
 
             }
 
-            $json = ["error" => false, "message" => "تم بنجاح",  "messageAr" => "تم بنجاح", "response" => $bill_info];
+            $json = ["error" => false, "message" => "تم بنجاح", "messageAr" => "تم بنجاح", "response" => $bill_info];
             return response()->json($json, 200);
 
         } else {
