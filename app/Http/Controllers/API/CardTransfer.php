@@ -84,12 +84,12 @@ class CardTransfer extends Controller
 
             $response = CardTransferModel::sendRequest($transaction->id,$ipin, $bank_id);
             if ($response == false) {
-                $res = ["error" => true, "message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found", 'messageAr'=>' لا يوجد رد', $response];
                 return response()->json($res,200);
             }
 
             if ($response->responseCode != 0){
-                $res = ["error" => true, "message" => "Some Error Found"];
+                $res = ["error" => true, "message" => "Some Error Found",  'messageAr'=>'خطا', 'errorCode'=>$response->responseCode];
                 return response()->json($res,200);
             }
             else{
