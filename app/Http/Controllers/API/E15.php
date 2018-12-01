@@ -143,12 +143,14 @@ class E15 extends Controller
                 } else {
                     $status = "PAID";
                 }
-                $json = ["status" => $status, "expiry" => $invoice_expiry];
+                $json = array();
+                $json +=["error" => false, "message" => "تم بنجاح", "messageAr" => "تم بنجاح", "response" => $bill_info]
+                $json += ["status" => $status, "expiry" => $invoice_expiry];
                 return response()->json($json, 200);
 
             }
 
-            $json = ["error" => false, "message" => "تم بنجاح", "messageAr" => "تم بنجاح", "response" => $bill_info];
+            // $json = ["error" => false, "message" => "تم بنجاح", "messageAr" => "تم بنجاح", "response" => $bill_info];
             return response()->json([$json, 'ebs'=> $response], 200);
 
         } else {
