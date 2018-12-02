@@ -7,9 +7,9 @@
  */
 
 
-Route::post("register", "API\AuthController@registration")->middleware('cors');
-Route::post("activate", "API\AuthController@activate");
+Route::post("register", "API\Users\AuthAgents@registration");
+Route::post("activate", "API\Users\AuthAgents@activate");
 //Route::post("login", "API\AuthController@authenticate");
-Route::post("login", "API\AuthController@Login");
-Route::post("requestreset", "API\AuthController@resetPassword");
-Route::post("resetpassword", "API\AuthController@resetPasswordWithCode");
+Route::post("login", "API\Users\AuthAgents@Login");
+Route::post("requestreset", "API\Users\AuthAgents@resetPassword");
+Route::post("resetpassword", "API\Users\AuthAgents@resetPasswordWithCode");
