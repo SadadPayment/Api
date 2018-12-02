@@ -79,11 +79,11 @@ class Electricity extends Controller
             $payment->amount = $amount;
             $payment->save();
 
-            $transaction->status = "Create Electricity";
+            $transaction->status = "انشاء";
             $transaction->save();
 
 
-            $transaction->status = "Save Buy Electricity";
+            $transaction->status = "حفظ الكهرباء";
             $transaction->save();
 
             $electricity = new ElectricityModel();
@@ -125,7 +125,7 @@ class Electricity extends Controller
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
 
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-                $electriciyResponse = self::saveElectriciyResponse($paymentResponse , $electricity , $response);
+                $electriciyResponse = self::saveElectriciyResponse($paymentResponse , $electricity , $response);//Tester Methods
                 $transaction->status = "done";
                 $transaction->save();
                 $res = array();
@@ -137,9 +137,10 @@ class Electricity extends Controller
                 $info += ["token" => $response->billInfo->token];
                 $info += ["customerName" => $response->billInfo->customerName];
                 $info += ["opertorMessage" => $response->billInfo->opertorMessage];
+                $info += ["electriciyResponse" => $electriciyResponse];
                 $res += ["error" => false];
-                $res += ["message" => "Done Successfully"];
-                $res += ["info" => $info, $response];
+                $res += ["message" => "تمت بنجاح"];
+                $res += ["info" => $info, 'full_response'=>$response];
 
                 return response()->json($res, '200');
             }
