@@ -6,6 +6,22 @@ use App\Functions;
 use App\Model\Account\BankAccount;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\CardTransfer
+ *
+ * @property int $id
+ * @property int $transfer_id
+ * @property string $toCard
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Model\Transfer $transfer
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereToCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereTransferId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class CardTransfer extends Model
 {
     //

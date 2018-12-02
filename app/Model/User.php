@@ -7,6 +7,39 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * App\Model\User
+ *
+ * @property int $id
+ * @property string $username
+ * @property string $fullName
+ * @property string|null $email
+ * @property string|null $phone
+ * @property string $password
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $user_group
+ * @property string $status
+ * @property int $is_verified
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Account\BankAccount[] $accounts
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Transaction[] $transactions
+ * @property-read \App\Model\UserGroup $userGroup
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereFullName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereIsVerified($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUserGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUsername($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use  Notifiable;

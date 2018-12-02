@@ -5,6 +5,27 @@ namespace App\Model;
 use App\Model\Account\BankAccount;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\TopUp
+ *
+ * @property int $id
+ * @property int $payment_id
+ * @property int $biller_id
+ * @property string $payee_id
+ * @property string $phone
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Model\Payment\TopUp\TopUpBiller $biller
+ * @property-read \App\Model\TopUpType $type
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp whereBillerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp wherePayeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\TopUp whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class TopUp extends Model
 {
     //
@@ -13,7 +34,7 @@ class TopUp extends Model
         return $this->belongsTo('App\Model\TopUpType' , 'type_id');
     }
     public function biller(){
-        return $this->belongsTo('App\Model\TopUpBiller' , 'biller_id');
+        return $this->belongsTo('App\Model\Payment\TopUp\TopUpBiller' , 'biller_id');
     }
     public static function getTopUp($type_id, $biller_id)
     {

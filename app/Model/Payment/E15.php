@@ -9,6 +9,24 @@ use App\Model\Transaction;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\Payment\E15
+ *
+ * @property int $id
+ * @property string $phone
+ * @property string $invoice_no
+ * @property int $payment_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Model\Payment\Payment $payment
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 whereInvoiceNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\E15 whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class E15 extends Model
 {
     protected $fillable =

@@ -10,6 +10,27 @@ use App\Model\Transaction;
 use App\Model\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\Payment\TopUp\TopUp
+ *
+ * @property int $id
+ * @property int $payment_id
+ * @property int $biller_id
+ * @property string $payee_id
+ * @property string $phone
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Model\Payment\TopUp\TopUpBiller $biller
+ * @property-read \App\Model\Payment\Payment $payment
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereBillerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePayeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class TopUp extends Model
 {
     //

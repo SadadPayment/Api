@@ -42,6 +42,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiUserRoutes();
         $this->mapApiPaymentRoutes();
         $this->mapAdminRoutes();
+        $this->mapAgentRoutes();
 
         //
     }
@@ -77,11 +78,12 @@ class RouteServiceProvider extends ServiceProvider
 
     protected function mapApiUserRoutes()
     {
-        Route::prefix('api/user')
+        Route::prefix('api/user/')
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/usersApi.php'));
     }
+
     protected function mapAdminRoutes()
     {
         Route::prefix('admin')
@@ -89,11 +91,20 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->group(base_path('routes/admin/admin.php'));
     }
+
     protected function mapApiPaymentRoutes()
     {
-        Route::prefix('api/payment')
+        Route::prefix('api/payment/')
             ->middleware('api')
             ->namespace($this->namespace)
             ->group(base_path('routes/payment.php'));
+    }
+
+    protected function mapAgentRoutes()
+    {
+        Route::prefix('api/agents/')
+            ->middleware('api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/agentsApi.php'));
     }
 }

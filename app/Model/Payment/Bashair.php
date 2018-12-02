@@ -5,6 +5,12 @@ namespace App\Model\Payment;
 use App\Model\SendRequest;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\Payment\Bashair
+ *
+ * @property-read \App\Model\Payment\Payment $payment
+ * @mixin \Eloquent
+ */
 class Bashair extends Model
 {
     protected $fillable=['ReferenceType', 'ReferenceValue'];

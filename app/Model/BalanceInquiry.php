@@ -6,6 +6,23 @@ use App\Functions;
 use App\Model\Account\BankAccount;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\BalanceInquiry
+ *
+ * @property int $id
+ * @property int $transaction_id
+ * @property int $account_type_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Model\Account\AccountType $account_type
+ * @property-read \App\Model\Transaction $transaction
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereAccountTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class BalanceInquiry extends Model
 {
     //

@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Web;
 
 
+use App\Http\Controllers\Controller;
 use App\Model\Merchant\Merchant;
 use App\Model\Merchant\MerchantServices;
 use App\Model\Merchant\MerchantType;

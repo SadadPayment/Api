@@ -9,6 +9,22 @@ use App\Model\Transaction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User;
 
+/**
+ * App\Model\Payment\Electricity
+ *
+ * @property int $id
+ * @property int|null $payment_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $meter
+ * @property-read \App\Model\Payment\Payment|null $payment
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\Electricity whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\Electricity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\Electricity whereMeter($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\Electricity wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\Electricity whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Electricity extends Model
 {
     //

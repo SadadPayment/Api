@@ -29,6 +29,9 @@ class CreateAgentsTable extends Migration
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
             $table->string('status')->nullable();
+            $table->integer('user_group')->unsigned()->default('2');;
+            $table->foreign('user_group')->references('id')->on('user_groups');
+            $table->rememberToken();
             $table->timestamps();
         });
     }

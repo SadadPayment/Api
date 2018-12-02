@@ -137,10 +137,9 @@ class Electricity extends Controller
                 $info += ["token" => $response->billInfo->token];
                 $info += ["customerName" => $response->billInfo->customerName];
                 $info += ["opertorMessage" => $response->billInfo->opertorMessage];
-
                 $res += ["error" => false];
                 $res += ["message" => "Done Successfully"];
-                $res += ["info" => $info];
+                $res += ["info" => $info, $response];
 
                 return response()->json($res, '200');
             }
