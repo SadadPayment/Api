@@ -19,19 +19,20 @@ class CardTransfer extends Controller
 {
     //
 
-    public function card_transfer(Request $request){
-        if ($request->isJson()){
+    public function card_transfer(Request $request)
+    {
+        if ($request->isJson()) {
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $bank_id = $request->id;
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
 
                 'to' => 'required|numeric|digits_between:12,19',
                 'amount' => 'required|numeric',
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
 
-            if ($validator->fails()){
+            if ($validator->fails()) {
 
                 return response()->json([
                     'error' => true,
@@ -40,12 +41,12 @@ class CardTransfer extends Controller
             }
             $to = $request->json()->get("to");
             $amount = $request->json()->get("amount");
-            $amount =number_format((float)$amount, 2, '.', '');
-            $ipin =  $request->json()->get("IPIN");
+            $amount = number_format((float)$amount, 2, '.', '');
+            $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
-            if ($ipin !== $bank->IPIN){
-                $response = ["error" => true, "message" => "Wrong IPIN Code", "error"=> true];
-                return response()->json($response,200);
+            if ($ipin !== $bank->IPIN) {
+                $response = ["error" => true, "message" => "Wrong IPIN Code", "error" => true];
+                return response()->json($response, 200);
             }
 
             //$user = JWTAuth::toUser($token);
@@ -67,7 +68,7 @@ class CardTransfer extends Controller
             $transfer = new Transfer();
             $transfer->transaction()->associate($transaction);
             $transfer->amount = $amount;
-            $transfer_type=TransferType::where("name","Card Transfer")->first();
+            $transfer_type = TransferType::where("name", "Card Transfer")->first();
             $transfer->type()->associate($transfer_type);
             $transfer->save();
             $card_transfer = new CardTransferModel();
@@ -76,34 +77,33 @@ class CardTransfer extends Controller
             $card_transfer->save();
 
             $publickKey = PublicKey::sendRequest();
-            if ($publickKey == false){
+            if ($publickKey == false) {
                 $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
-                return response()->json($res,200);
+                return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey , $uuid , $ipin);
+            $ipin = Functions::encript($publickKey, $uuid, $ipin);
 
-            $response = CardTransferModel::sendRequest($transaction->id,$ipin, $bank_id);
+            $response = CardTransferModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {
-                $res = ["error" => true, "message" => "Some Error Found", 'messageAr'=>' لا يوجد رد', $response];
-                return response()->json($res,200);
+                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => ' لا يوجد رد', $response];
+                return response()->json($res, 200);
             }
 
-            if ($response->responseCode != 0){
-                $res = ["error" => true, "message" => "Some Error Found",  'messageAr'=>'خطا', 'errorCode'=>$response->responseCode];
-                return response()->json($res,200);
-            }
-            else{
+            if ($response->responseCode != 0) {
+                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => 'خطا', 'errorCode' => $response->responseCode];
+                return response()->json($res, 200);
+            } else {
                 $res = ["error" => false,
                     "message" => "Done Successfully",
                     "messageAr" => "تم بنجاح",
+                    'full_response' => $response,
                     "balance" => $response->balance];
-                return response()->json($res,200);
+                return response()->json($res, 200);
             }
 
-        }
-        else{
+        } else {
             $response = ["error" => true, "message" => "Request Must Send In Json"];
-            return response()->json(["data"=>$response],200);
+            return response()->json(["data" => $response], 200);
         }
     }
 }

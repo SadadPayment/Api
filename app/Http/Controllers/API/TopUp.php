@@ -122,7 +122,7 @@ class TopUp extends Controller
                 self::saveTopUp($paymentResponse, $topUp, $response);
                 $transaction->status = "done";
                 $transaction->save();
-                $res = ["error" => false, "message" => "تم الشحن"];
+                $res = ["error" => false, "message" => "تم الشحن", 'full_response' => $response];
                 return response()->json($res, 200);
 
 
