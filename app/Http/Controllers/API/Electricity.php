@@ -138,7 +138,7 @@ class Electricity extends Controller
                 $info += ["customerName" => $response->billInfo->customerName];
                 $info += ["opertorMessage" => $response->billInfo->opertorMessage];
                 $info += ["electriciyResponse" => $electriciyResponse];
-                $res += ["error" => false];
+                $res += ["error" => false, 'public_Key'=>$publickKey];
                 $res += ["message" => "تمت بنجاح"];
                 $res += ["info" => $info, 'full_response'=>$response];
 
