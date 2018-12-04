@@ -37,7 +37,7 @@ class UsersTableSeed extends Seeder
     private function User()
     {
         $user = new App\User();
-        $user->username = 'ox';
+//        $user->username = 'ox';
         $user->fullName = 'elteyab hassan';
         $user->email = 'admin@gmail.com';
         $user->phone = '0917321783';

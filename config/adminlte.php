@@ -140,6 +140,22 @@ return [
             ],
         ],
 
+        //users
+        [
+            'text'    => 'Users',
+            'icon'    => 'share',
+            'submenu' => [
+                [
+                    'text' => 'show',
+                    'url'  => 'admin/users_management',
+                ],
+                [
+                    'text'    => 'add new',
+                    'url'     => 'admin/users_management/create',
+                ],
+            ],
+        ],
+
         //end Mirsh
 
 

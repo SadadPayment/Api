@@ -120,7 +120,6 @@ class AuthController extends Controller
             $validator = Validator::make($request->all(), [
                 'phone' => 'required|unique:users|numeric',
                 'fullName' => 'required|string',
-                'userName' => 'required|unique:users|string',
                 'password' => 'required|string',
                 'PAN' => 'required|numeric|digits_between:16,19|unique:bank_accounts',
                 'IPIN' => 'required|numeric|digits_between:4,4',
@@ -137,7 +136,6 @@ class AuthController extends Controller
 
             $user = $request->json();
             $fullName = $user->get("fullName");
-            $userName = $user->get("userName");
             $phone = $user->get("phone");
             $password = $user->get("password");
             $PAN = $user->get("PAN");
@@ -147,7 +145,6 @@ class AuthController extends Controller
 
 
             $user = new User();
-            $user->username = $userName;
             $user->password = Hash::make($password);
             $user->phone = $phone;
             $user->fullName = $fullName;
@@ -222,7 +219,7 @@ class AuthController extends Controller
         $validate->code = $code;
         $validate->save();
         self::sendSMS($phone, $code);
-        $response = ["error" => false, "message" => "Code Have Been Sended to Your Phone"];
+        $response = ["error" => false, "message" => "تم ارسال رمز التاكيد في رسالة"];
         return response()->json($response, 200);
     }
 

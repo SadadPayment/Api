@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth;
+//use Tymon\JWTAuth;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -26,18 +26,18 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Model\Transaction[] $transactions
  * @property-read \App\Model\UserGroup $userGroup
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereFullName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereIsVerified($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUserGroup($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\User whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereFullName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereIsVerified($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUserGroup($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements JWTSubject
@@ -47,14 +47,20 @@ class User extends Authenticatable implements JWTSubject
     /**
      * The attributes that are mass assignable.
      * @var array
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function transactions(){
+    public function transactions()
+    {
         return $this->hasMany('App\Model\Transaction');
     }
-    public function userGroup(){
+
+    public function userGroup()
+    {
         return $this->belongsTo('App\Model\UserGroup');
     }
-    public function accounts(){
+
+    public function accounts()
+    {
         return $this->hasMany(Account\BankAccount::class);
     }
 
@@ -62,6 +68,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
+
     /**
      * Return a key value array, containing any custom claims to be added to the JWT.
      *
@@ -73,7 +80,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     protected $fillable = [
-        'name', 'email', 'password','username','fullName'
+        'name', 'email', 'fullName', 'phone'
     ];
 
     /**

@@ -18,15 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $type_id
  * @property-read \App\Model\Merchant\Merchant $merchant
  * @property-read \App\Model\Merchant\MerchantType $type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereMerchantId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereSadadFess($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereStandardFess($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereTotalFees($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Merchant\MerchantServices whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereMerchantId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereSadadFess($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereStandardFess($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereTotalFees($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MerchantServices whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class MerchantServices extends Model
