@@ -105,10 +105,10 @@ class AuthController extends Controller
         $credentials = $request->only('phone', 'password');
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return response()->json(['error' => 'invalid_credentials'], 200);
             }
         } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return response()->json(['error' => 'could_not_create_token'], 200);
         }
         return $this->respondWithToken($token, $credentials);
     }
@@ -276,12 +276,25 @@ class AuthController extends Controller
 
     protected function respondWithToken($token, $credentials)
     {
+        try {
+           $phone= $credentials;
+           $user = User::where('phone', $phone->phone)->first();
+          
+            $account = BankAccount::where('user_id', $user->id)->get();
+        
         return response()->json([
             'token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 3000,
             "user"=>$credentials,
-            'error'=> false
+            'error'=> false,
+            "account"=> $account
         ]);
+            
+        }
+
+        catch (\Exception $exception){
+            return response()->json($exception);
+        }
     }
 }

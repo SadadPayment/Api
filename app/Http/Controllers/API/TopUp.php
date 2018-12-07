@@ -114,7 +114,7 @@ class TopUp extends Controller
             if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = ["error" => true, "message" => "Server Error"];
+                $res = ["error" => true, "message" => "خطا حاول لاحقا"];
                 return response()->json($res, '200');
             } else {
                 $basicResonse = Response::saveBasicResponse($transaction, $response);

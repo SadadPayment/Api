@@ -1,4 +1,4 @@
-<?php
+ذ<?php
 
 use App\Functions;
 use Illuminate\Http\Request;

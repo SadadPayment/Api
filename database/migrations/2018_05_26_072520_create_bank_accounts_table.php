@@ -19,7 +19,7 @@ class CreateBankAccountsTable extends Migration
             $table->string('IPIN');
             $table->string('expDate');
             $table->integer('mbr');
-            $table->string('name')->nullable();;
+            $table->string('name')->nullable()->default('الرئيسية');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

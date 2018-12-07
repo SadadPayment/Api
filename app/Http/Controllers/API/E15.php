@@ -106,7 +106,7 @@ class E15 extends Controller
             //Get PublicKey get Value Per Request
             $publickKey = PublicKey::sendRequest();
             if ($publickKey == false) {
-                $res = ["message" => "Server Error", 'error' => true];
+                $res = ["message" => "خطا - حاول لاحقا", 'error' => true];
                 return response()->json($res, 200);
             }
             $ipin = Functions::encript($publickKey, $uuid, $ipin);
@@ -122,7 +122,7 @@ class E15 extends Controller
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
                 //repons code in 29
-                $response_json = ["message" => "Server error", "ebs" => $response, 'error' => true];
+                $response_json = ["message" => "خطا- راجع البيانات المدخله", "ebs" => $response, 'error' => true];
                 return response()->json($response_json, 200);
             }
 
