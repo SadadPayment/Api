@@ -110,7 +110,7 @@ class AuthController extends Controller
         } catch (JWTException $e) {
             return response()->json(['error' => 'could_not_create_token'], 200);
         }
-        return $this->respondWithToken($token, $credentials);
+        return $this->respondWithToken($token, $credentials, $request->phone);
     }
 
     public function registration(Request $request)
@@ -274,11 +274,11 @@ class AuthController extends Controller
         curl_close($curl);
     }
 
-    protected function respondWithToken($token, $credentials)
+    protected function respondWithToken($token, $credentials, $phone)
     {
         
            $phone= $credentials;
-           $user = User::where('phone', $phone()->phone)->first();
+           $user = User::where('phone', $phone->phone)->first();
           
             $account = BankAccount::where('user_id', $user->id)->get();
         
