@@ -276,7 +276,7 @@ class AuthController extends Controller
 
     protected function respondWithToken($token, $credentials)
     {
-        try {
+        
            $phone= $credentials;
            $user = User::where('phone', $phone->phone)->first();
           
@@ -291,10 +291,6 @@ class AuthController extends Controller
             "account"=> $account
         ]);
             
-        }
-
-        catch (\Exception $exception){
-            return response()->json($exception);
-        }
+    
     }
 }
