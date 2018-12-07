@@ -278,7 +278,7 @@ class AuthController extends Controller
     {
         
            $phone= $credentials;
-           $user = User::where('phone', $phone()->phone->first();
+           $user = User::where('phone', $phone()->phone)->first();
           
             $account = BankAccount::where('user_id', $user->id)->get();
         
