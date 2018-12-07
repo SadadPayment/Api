@@ -277,8 +277,7 @@ class AuthController extends Controller
     protected function respondWithToken($token, $credentials, $phone)
     {
         
-           $phone= $credentials;
-           $user = User::where('phone', $phone->phone)->first();
+           $user = User::where('phone', $phone)->first();
           
             $account = BankAccount::where('user_id', $user->id)->get();
         
