@@ -2,14 +2,24 @@
 
 namespace App\Model\Agent;
 
+use App\Functions;
 use App\Model\Payment\Payment;
+use App\Model\SendRequest;
 use App\Model\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Model\Agent\Purchase
+ *
+ * @property-read \App\Model\Payment\Payment $payment
+ * @mixin \Eloquent
+ */
 class Purchase extends Model
 {
+    const purchase = 'purchase';
     protected $fillable =
-        ['clientId', 'terminalId', 'tranDateTime',
+        [
+            'clientId', 'terminalId', 'tranDateTime',
             'systemTraceAuditNumber', 'PAN', 'PIN', 'expDate',
             'tranCurrencyCode', 'tranAmount', 'otpId',
             'otp', 'additionalAmount', 'track2'];
@@ -19,56 +29,35 @@ class Purchase extends Model
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $ipin, $type, $bank_id)
+    public static function requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId)
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
-        $e15 = Purchase::where("payment_id", $payment->id)->first();
-//
 
-        $uuid = $transaction->uuid;
-        $userName = "";
-        $userPassword = "";
-        $entityId = "";
-        $entityType = "";
-        $authenticationType = "00";
-        $bank = Functions::getBankAccountByUser($bank_id);
-        $PAN = $bank->PAN;
-        $mbr = $bank->mbr;
-        $expDate = $bank->expDate;
-        $tranCurrency = "SDG";
-        $paymentInfo = "SERVICEID=" . $type . "/INVOICENUMBER=" . $e15->invoice_no . "/PHONENUMBER=" . $e15->phone;
         $request = [
             "applicationId" => "Sadad",
-            "tranDateTime" => $transaction->transDateTime,
-            "UUID" => $uuid,
-            "userName" => $userName,
+            'clientId' => $agentId,
+            'terminalId' => '12545454',
+            'tranDateTime' => $transaction->transDateTime,
+            'systemTraceAuditNumber' => $transaction->id,
             "PAN" => $PAN,
-            "mbr" => $mbr,
-            "entityType" => $entityType,
-            "expDate" => $expDate,
-            "entityId" => $entityId,
-            "userPassword" => $userPassword,
-            "tranCurrency" => $tranCurrency,
-            "tranAmount" => $payment->amount,
-            "fromAccountType" => "00",
-            "IPIN" => $ipin,
-            "authenticationType" => $authenticationType,
-            "payeeId" => "0010050001",
-            "paymentInfo" => $paymentInfo
+            'PIN' => $pin,
+            'expDate' => $expDate,
+            'tranCurrencyCode' => "SDG",
+            'tranAmount' => $payment->amount,
+            'otpId' => "",
+            'otp' => "",
+            'additionalAmount' => "",
+            'track2' => ""
         ];
         return $request;
     }
 
-    public static function sendRequest($transaction_id, $ipin, $type, $bank_id)
+    public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $agentId)
     {
-        $request = self::requestBuild($transaction_id, $ipin, $type, $bank_id);
-        if ($type == 6) {
-            $response = SendRequest::sendRequest($request, self::Payment);
-        } else {
-            $response = SendRequest::sendRequest($request, self::inquiry);
-        }
-        return $response;
-//        dd($response);
+        $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId);
+        $response = SendRequest::sendRequest($request, self::purchase);
+
+//        return $response;
     }
 }

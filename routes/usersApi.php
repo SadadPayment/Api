@@ -18,3 +18,4 @@ Route::post('bank_id', function (Request $request){
 return $bank;
 });
 //Route::post('/edit_account', 'API\Users\ProfileApiController@');
+URL::forceScheme('https');

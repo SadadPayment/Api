@@ -40,3 +40,4 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::post('bashairs', 'API\BashairApiController@bashair');
 
     });
+URL::forceScheme('https');

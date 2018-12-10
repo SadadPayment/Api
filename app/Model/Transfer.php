@@ -15,12 +15,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Transaction $transaction
  * @property-read \App\Model\TransferType $type
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Transfer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transfer whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class Transfer extends Model

@@ -22,28 +22,29 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tranFee
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereAmountDue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereAvailableBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereInvoiceExpiryDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereInvoiceStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereLegerBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse wherePaymentResponseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereReciptNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereServiceName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereTotalAmountInWord($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereTotalAmountInt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereTranFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereUnitName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\GovermentPaymentResponse whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereAmountDue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereAvailableBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereInvoiceExpiryDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereInvoiceStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereLegerBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse wherePaymentResponseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereReciptNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereServiceName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereTotalAmountInWord($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereTotalAmountInt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereTranFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereUnitName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|GovermentPaymentResponse whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \App\Model\Response\PaymentResponse $paymentResponse
  */
 class GovermentPaymentResponse extends Model
 {
     public function paymentResponse()
     {
-        return $this->belongsTo('App\Model\PaymentResponse', 'payment_response_id');
+        return $this->belongsTo('App\Model\Response\PaymentResponse', 'payment_response_id');
     }
 
     public static function saveGovermentResponse($paymentResponse, $response)

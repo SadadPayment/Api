@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Transfer $transfer
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereToCard($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereTransferId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\CardTransfer whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CardTransfer whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CardTransfer whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CardTransfer whereToCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CardTransfer whereTransferId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CardTransfer whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class CardTransfer extends Model

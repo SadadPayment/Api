@@ -28,7 +28,7 @@ class CreatePurchasesTable extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->increments('id');
-
+            $table->string('PAN');
             $table->integer('payment_id')->nullable()->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->timestamps();
