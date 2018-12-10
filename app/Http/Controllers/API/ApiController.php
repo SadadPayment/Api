@@ -530,25 +530,25 @@ class ApiController extends Controller
                 $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey, $uuid, '');
+//            $ipin = Functions::encript($publickKey, $uuid, '');
+//
+//            $response = CardTransfer::sendRequest($transaction->id, $ipin, '');
+//            if ($response == false) {
+//                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => ' لا يوجد رد', $response];
+//                return response()->json($res, 200);
+//            }
 
-            $response = CardTransfer::sendRequest($transaction->id, $ipin, '');
-            if ($response == false) {
-                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => ' لا يوجد رد', $response];
-                return response()->json($res, 200);
-            }
-
-            if ($response->responseCode != 0) {
-                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => 'خطا', 'errorCode' => $response->responseCode];
-                return response()->json($res, 200);
-            } else {
-                $res = ["error" => false,
-                    "message" => "Done Successfully",
-                    "messageAr" => "تم بنجاح",
-                    'full_response' => $response,
-                    "balance" => $response->balance];
-                return response()->json($res, 200);
-            }
+//            if ($response->responseCode != 0) {
+//                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => 'خطا', 'errorCode' => $response->responseCode];
+//                return response()->json($res, 200);
+//            } else {
+//                $res = ["error" => false,
+//                    "message" => "Done Successfully",
+//                    "messageAr" => "تم بنجاح",
+//                    'full_response' => $response,
+//                    "balance" => $response->balance];
+//                return response()->json($res, 200);
+//            }
 
         } else {
             $response = ["error" => true, "message" => "Request Must Send In Json"];
