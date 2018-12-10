@@ -9,8 +9,10 @@ use App\Model\Transaction;
 use App\Model\TransactionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
+//use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
+//use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PurchaseApiController extends Controller
 {
@@ -20,6 +22,7 @@ class PurchaseApiController extends Controller
      *
      * @param  \Illuminate\Http\Request $request
      * @return data
+     * @throws \Tymon\JWTAuth\Exceptions\JWTException
      */
     public function store(Request $request)
     {
