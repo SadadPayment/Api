@@ -462,4 +462,93 @@ class ApiController extends Controller
     }
 
 
+    public function purchaseSend(Request $request)
+    {
+        if ($request->isJson()) {
+            $token = JWTAuth::parseToken();
+            $user = $token->authenticate();
+            $validator = Validator::make($request->all(), [
+                'PAN' => 'required|numeric|digits_between:12,19',
+                'expDate' => 'required',
+                'tranAmount' => 'required|numeric',
+                'PIN' => 'required|numeric|digits_between:4,4',
+            ]);
+
+            if ($validator->fails()) {
+
+                return response()->json([
+                    'error' => true,
+                    'errors' => $validator->errors()->toArray()
+                ]);
+            }
+//
+
+            //$user = JWTAuth::toUser($token);
+            /******   Create Transaction Object  *********/
+            $transaction = new Transaction();
+            $transaction->user()->associate($user);
+            $transaction_type = TransactionType::where('name', "Card Transfer")->pluck('id')->first();
+            $transaction->transactionType()->associate($transaction_type);
+            $convert = Functions::getDateTime();
+
+
+            $uuid = Uuid::generate()->string;
+            $transaction->transDateTime = $convert;
+            $transaction->status = "created";
+            $transaction->save();
+            $transfer = new Transfer();
+            $transfer->transaction()->associate($transaction);
+            $transfer->amount = $request->tranAmount;
+            $transfer_type = TransferType::where("name", "Purchase Payment")->first();
+            $transfer->type()->associate($transfer_type);
+            $transfer->save();
+
+            /*
+             * Payment Table Save
+             * @parme amount
+             * tran
+             * */
+            $payment = new Payment();
+            $payment->transaction()->associate($transaction);
+            $payment->amount = $request->tranAmount;
+            $payment->save();
+
+            /*
+             * Save E15
+             * @parm phone
+             * @ invoiceNumber
+             * */
+
+            $publickKey = PublicKey::sendRequest();
+            if ($publickKey == false) {
+                $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
+                return response()->json($res, 200);
+            }
+            $ipin = Functions::encript($publickKey, $uuid, '');
+
+            $response = CardTransferModel::sendRequest($transaction->id, $ipin, '');
+            if ($response == false) {
+                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => ' لا يوجد رد', $response];
+                return response()->json($res, 200);
+            }
+
+            if ($response->responseCode != 0) {
+                $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => 'خطا', 'errorCode' => $response->responseCode];
+                return response()->json($res, 200);
+            } else {
+                $res = ["error" => false,
+                    "message" => "Done Successfully",
+                    "messageAr" => "تم بنجاح",
+                    'full_response' => $response,
+                    "balance" => $response->balance];
+                return response()->json($res, 200);
+            }
+
+        } else {
+            $response = ["error" => true, "message" => "Request Must Send In Json"];
+            return response()->json(["data" => $response], 200);
+        }
+    }
+
+
 }
