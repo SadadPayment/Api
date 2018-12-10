@@ -34,7 +34,7 @@ class Purchase extends Model
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $uuid = $transaction->uuid;
-        dd($transaction);
+//        dd($transaction);
         $request = [
             "applicationId" => "Sadad",
             "tranDateTime" => $transaction->transDateTime,
@@ -59,7 +59,7 @@ class Purchase extends Model
     {
         $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId);
         $response = SendRequest::sendRequest($request, self::purchase);
-//        dd($response);
+        dd([$request, $response]);
 //        return $response;
     }
 }
