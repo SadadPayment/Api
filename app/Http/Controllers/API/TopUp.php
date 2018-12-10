@@ -96,15 +96,20 @@ class TopUp extends Controller
             $transaction->status = "Save Top Up";
             $transaction->save();
 
-
-            $publickKey = PublicKey::sendRequest();
-            if ($publickKey == false) {
+            /*
+             * Generate Public key Request From Ebs serve
+             *
+             * if pass move to nest
+             * else Fill with server error Message
+             * */
+            $publicKey = PublicKey::sendRequest(); //
+            if ($publicKey == false) {
                 $res = array();
                 $res += ["error" => true];
                 $res += ["message" => "Server Error"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey, $uuid, $ipin);
+            $ipin = Functions::encript($publicKey, $uuid, $ipin);
 
             $response = TopUpModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {

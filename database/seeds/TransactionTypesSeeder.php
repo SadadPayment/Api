@@ -36,5 +36,9 @@ class TransactionTypesSeeder extends Seeder
         $balance_inquery->name = "Balance Inquiry";
         $balance_inquery->save(); //Balance Inquiry
 
+        $balance_inquery=new App\Model\TransactionType();
+        $balance_inquery->name = "Purchase";
+        $balance_inquery->save(); //Purchase
+
     }
 }
