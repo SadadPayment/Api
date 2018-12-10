@@ -497,6 +497,7 @@ class ApiController extends Controller
 
             $uuid = Uuid::generate()->string;
             $transaction->transDateTime = $convert;
+            $transaction->uuid = $uuid;
             $transaction->status = "created";
             $transaction->save();
             $transfer = new Transfer();
