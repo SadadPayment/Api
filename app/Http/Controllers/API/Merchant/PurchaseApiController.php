@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Merchant;
 
+//use App\Functions;
 use App\Model\Agent\Purchase as PurchaseModel;
 use App\Model\Payment\Payment as PaymentModel;
 use App\Model\PublicKey;
@@ -9,9 +10,8 @@ use App\Model\Transaction;
 use App\Model\TransactionType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-//use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
-//use Tymon\JWTAuth\Exceptions\JWTException;
+use Validator;
+use Webpatser\Uuid\Uuid;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class PurchaseApiController extends Controller
