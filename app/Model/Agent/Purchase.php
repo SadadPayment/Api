@@ -52,7 +52,8 @@ class Purchase extends Model
             'additionalAmount' => "",
             'track2' => ""
         ];
-        return $request;
+//        return $request;
+        dd($request);
     }
 
     public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $agentId)
