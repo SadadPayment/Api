@@ -9,6 +9,7 @@ use App\Model\Electricity;
 use App\Model\PublicKey;
 use App\Model\Transfer;
 use App\Model\TransferType;
+use Illuminate\Support\Facades\Validator;
 use phpseclib\Crypt\RSA;
 use Illuminate\Support\Facades\Auth;
 use App\Model\BalanceInquiry;
@@ -46,6 +47,8 @@ use PHPUnit\Util\Json;
 use Webpatser\Uuid\Uuid;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
+use App\Model\Agent\Purchase;
 
 class ApiController extends Controller
 {
