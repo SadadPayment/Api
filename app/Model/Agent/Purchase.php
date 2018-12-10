@@ -36,7 +36,7 @@ class Purchase extends Model
         $uuid = $transaction->uuid;
 //        dd($transaction);
         $request = [
-            "applicationId" => "Sadad",
+            "applicationId" => "SADAD",
             "tranDateTime" => $transaction->transDateTime,
             "UUID" => $uuid,
             'clientId' => $agentId,
@@ -52,8 +52,8 @@ class Purchase extends Model
             'additionalAmount' => "",
             'track2' => ""
         ];
-//        return $request;
-        dd($request);
+        return $request;
+//        dd($request);
     }
 
     public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $agentId)
