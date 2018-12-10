@@ -6,6 +6,7 @@ use App\Functions;
 use App\Http\Controllers\Controller;
 use App\Model\CardTransfer;
 use App\Model\Electricity;
+use App\Model\Payment\Payment;
 use App\Model\PublicKey;
 use App\Model\Transfer;
 use App\Model\TransferType;
@@ -29,7 +30,7 @@ use App\Model\Account\MobileAccount;
 use App\Model\Merchant\Merchant;
 use App\Model\Merchant\MerchantServices;
 use App\Model\OurE15;
-use App\Model\Payment;
+//use App\Model\Payment;
 use App\Model\PaymentResponse;
 use App\Model\ResetPassword;
 use App\Model\Response;
@@ -531,7 +532,7 @@ class ApiController extends Controller
             }
             $ipin = Functions::encript($publickKey, $uuid, '');
 
-            $response = CardTransferModel::sendRequest($transaction->id, $ipin, '');
+            $response = CardTransfer::sendRequest($transaction->id, $ipin, '');
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => ' لا يوجد رد', $response];
                 return response()->json($res, 200);
