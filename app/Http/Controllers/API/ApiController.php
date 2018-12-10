@@ -504,7 +504,7 @@ class ApiController extends Controller
             $transfer->transaction()->associate($transaction);
             $transfer->amount = $request->tranAmount;
             $transfer->type_id = 2;
-            $transfer_type = TransferType::where("name", "Purchase Payment")->first();
+            $transfer_type = TransferType::where("name", "Card Transfer")->first();
             $transfer->type()->associate($transfer_type);
             $transfer->save();
 
