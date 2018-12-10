@@ -57,7 +57,7 @@ class Purchase extends Model
     {
         $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId);
         $response = SendRequest::sendRequest($request, self::purchase);
-
+            dd($response);
 //        return $response;
     }
 }
