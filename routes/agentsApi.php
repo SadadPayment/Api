@@ -14,4 +14,4 @@ Route::post("login", "API\Users\AuthAgents@Login");
 Route::post("requestreset", "API\Users\AuthAgents@resetPassword");
 Route::post("resetpassword", "API\Users\AuthAgents@resetPasswordWithCode");
 
-Route::post('purchase', 'API\Merchant\PurchaseApi@purchaseSend');
+Route::post('purchase', 'API\Merchant\PurchaseApiController@store');
