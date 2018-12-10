@@ -16,10 +16,12 @@ class CreatePurchaseResponsesTable extends Migration
         Schema::create('purchase_responses', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('purchase_id')->nullable()->unsigned();
+            //
+            $table->integer('purchase_id')->unsigned();
             $table->foreign('purchase_id')->references('id')->on('purchase');
             $table->integer('payment_response_id')->unsigned();
-            $table->foreign('payment_response_id')->references('id')->on('payment_responses');
+            $table->foreign('payment_response_id')->references('id')->on('payments');
+            //
             $table->timestamps();
         });
     }
