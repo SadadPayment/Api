@@ -33,12 +33,14 @@ class Purchase extends Model
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
+        $uuid = $transaction->uuid;
 
         $request = [
             "applicationId" => "Sadad",
+            "tranDateTime" => $transaction->transDateTime,
+            "UUID" => $uuid,
             'clientId' => $agentId,
             'terminalId' => '12545454',
-            'tranDateTime' => $transaction->transDateTime,
             'systemTraceAuditNumber' => $transaction->id,
             "PAN" => $PAN,
             'PIN' => $pin,
@@ -57,7 +59,7 @@ class Purchase extends Model
     {
         $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId);
         $response = SendRequest::sendRequest($request, self::purchase);
-            dd($response);
+        dd($response);
 //        return $response;
     }
 }
