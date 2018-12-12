@@ -6,17 +6,16 @@ use App\Functions;
 use App\Http\Controllers\Controller;
 use App\Model\Payment\payee;
 use App\Model\Payment\Payment;
+use App\Model\Payment\TopUp\TopUp as TopUpModel;
 use App\Model\Payment\TopUp\TopUpBiller;
-use App\Model\Response\PaymentResponse;
 use App\Model\PublicKey;
+use App\Model\Response\PaymentResponse;
 use App\Model\Response\Response;
 use App\Model\Response\TopUpResponse;
 use App\Model\TopUpType;
 use App\Model\Transaction;
 use App\Model\TransactionType;
 use Illuminate\Http\Request;
-use App\Model\Payment\TopUp\TopUp as TopUpModel;
-use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
 use Webpatser\Uuid\Uuid;
@@ -122,10 +121,10 @@ class TopUp extends Controller
             } else {
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-                self::saveTopUp($paymentResponse, $topUp, $response);
+                $saveTopUp = self::saveTopUp($paymentResponse, $topUp, $response);
                 $transaction->status = "done";
                 $transaction->save();
-                $res = ["error" => false, "message" => "تم الشحن", 'full_response' => $response];
+                $res = ["error" => false, "message" => "تم الشحن", 'full_response' => $response, 'data' => $saveTopUp];
                 return response()->json($res, 200);
 
 
