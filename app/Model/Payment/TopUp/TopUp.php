@@ -22,24 +22,28 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Payment\TopUp\TopUpBiller $biller
  * @property-read \App\Model\Payment\Payment $payment
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereBillerId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePayeeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePaymentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Payment\TopUp\TopUp whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp whereBillerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp wherePayeeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUp whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class TopUp extends Model
 {
     //
-    protected $fillable=[ 'payment_id' , 'biller_id' , 'payee_id' , 'phone' , 'amount'];
-    public function payment(){
-        return $this->belongsTo('App\Model\Payment\Payment' , 'payment_id');
+    protected $fillable = ['payment_id', 'biller_id', 'payee_id', 'phone', 'amount'];
+
+    public function payment()
+    {
+        return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
-    public function biller(){
-        return $this->belongsTo('App\Model\Payment\TopUp\TopUpBiller' , 'biller_id');
+
+    public function biller()
+    {
+        return $this->belongsTo('App\Model\Payment\TopUp\TopUpBiller', 'biller_id');
     }
 
     const Payment = "payment";
@@ -48,12 +52,13 @@ class TopUp extends Model
     {
         return self::where('type_id', $type_id)->where('biller_id', $biller_id)->first();
     }
-    public static function requestBuild($transaction_id,$ipin, $bank_id)
+
+    public static function requestBuild($transaction_id, $ipin, $bank_id)
     {
         $transaction = Transaction::where("id", $transaction_id)->first();
-        $user = User::where("id",$transaction->user_id)->first();
+        $user = User::where("id", $transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
-        $topUp = TopUp::where("payment_id",$payment->id)->first();
+        $topUp = TopUp::where("payment_id", $payment->id)->first();
 
 
         //return ["id" => $payment->service];
@@ -74,17 +79,15 @@ class TopUp extends Model
         $uuid = $transaction->uuid;
         $request += ["UUID" => $uuid];
         $request += ["tranCurrency" => $tranCurrency];
-        $request += ["tranAmount" => 3];
         $userName = "";
         $userPassword = "";
-        $entityId = "";
+//        $entityId = "";
         $entityType = "";
         $authenticationType = "00";
         $bank = Functions::getBankAccountByUser($bank_id);
         $PAN = $bank->PAN;
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
-
 
 
         $request += ["userName" => $userName];
@@ -95,6 +98,8 @@ class TopUp extends Model
 
         $paymentInfo = "MPHONE =" . $topUp->phone;
         $request += ["paymentInfo" => $paymentInfo];
+        $request += ["tranAmount" => $amount];
+
 
         $request += ["payeeId" => $topUp->payee_id];
         $request += ["mbr" => $mbr];
@@ -107,14 +112,15 @@ class TopUp extends Model
         return $request;
         //$request->tranDateTime = $transaction->transDateTime;
     }
-    public static function sendRequest($transaction_id,$ipin, $bank_id){
-        $request = self::requestBuild($transaction_id ,$ipin, $bank_id);
 
-        $response = SendRequest::sendRequest($request , self::Payment);
+    public static function sendRequest($transaction_id, $ipin, $bank_id, $amount)
+    {
+        $request = self::requestBuild($transaction_id, $ipin, $bank_id, $amount);
+
+        $response = SendRequest::sendRequest($request, self::Payment);
         return $response;
 
     }
-
 
 
 }

@@ -109,7 +109,7 @@ class TopUp extends Controller
             }
             $ipin = Functions::encript($publicKey, $uuid, $ipin);
 
-            $response = TopUpModel::sendRequest($transaction->id, $ipin, $bank_id);
+            $response = TopUpModel::sendRequest($transaction->id, $ipin, $bank_id, $amount);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res, 200);
