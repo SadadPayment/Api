@@ -64,8 +64,12 @@ class ProfileApiController extends Controller
         try{
             $delet= BankAccount::destroy($id);
             if ($delet){
-                $data= BankAccount::all();
-                return response()->json($data);
+                    $token = JWTAuth::parseToken();
+                    $user = $token->authenticate();
+                    $account = BankAccount::where('user_id', $user->id)->get();
+                    if ($account){
+                        return response()->json($account);
+                    }
             }
             return response()->json('error');
 

@@ -16,11 +16,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Account\AccountType $account_type
  * @property-read \App\Model\Transaction $transaction
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereAccountTypeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BalanceInquiry whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BalanceInquiry whereAccountTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BalanceInquiry whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BalanceInquiry whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BalanceInquiry whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BalanceInquiry whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class BalanceInquiry extends Model
@@ -67,7 +67,7 @@ class BalanceInquiry extends Model
             "mbr" => $mbr,
             "expDate" => $expDate,
             "IPIN" => $ipin,
-            'accountType'=>$account_type,
+            'accountType' => $account_type,
             "authenticationType" => $authenticationType,
             "fromAccountType" => "00",
             "tranCurrency" => $tranCurrency];
