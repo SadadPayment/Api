@@ -56,23 +56,12 @@ class TopUp extends Model
     public static function requestBuild($transaction_id, $ipin, $bank_id, $amount)
     {
         $transaction = Transaction::where("id", $transaction_id)->first();
-        $user = User::where("id", $transaction->user_id)->first();
+//        $user = User::where("id", $transaction->user_id)->first();
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $topUp = TopUp::where("payment_id", $payment->id)->first();
-
-
-        //return ["id" => $payment->service];
         $tranCurrency = "SDG";
-        $tranAmount = "";
-
-
         $request = array();
         $request += ["applicationId" => "Sadad"];
-        //$tr = array();
-        //$tr += ["tranDateTime" => $transaction->transDateTime];
-
-        //return $tr;
-
         $transDateTime = $transaction->transDateTime;
 
         $request += ["tranDateTime" => $transDateTime];
@@ -81,7 +70,6 @@ class TopUp extends Model
         $request += ["tranCurrency" => $tranCurrency];
         $userName = "";
         $userPassword = "";
-//        $entityId = "";
         $entityType = "";
         $authenticationType = "00";
         $bank = Functions::getBankAccountByUser($bank_id);
@@ -89,10 +77,8 @@ class TopUp extends Model
         $mbr = $bank->mbr;
         $expDate = $bank->expDate;
 
-
         $request += ["userName" => $userName];
         $request += ["userPassword" => $userPassword];
-        //$request += ["entityId" => $entityId];
         $request += ["entityType" => $entityType];
         $request += ["PAN" => $PAN];
 
@@ -100,15 +86,12 @@ class TopUp extends Model
         $request += ["paymentInfo" => $paymentInfo];
         $request += ["tranAmount" => $amount];
 
-
         $request += ["payeeId" => $topUp->payee_id];
         $request += ["mbr" => $mbr];
         $request += ["expDate" => $expDate];
         $request += ["IPIN" => $ipin];
-        //echo $IPIN . "<br>";
         $request += ["authenticationType" => $authenticationType];
         $request += ["fromAccountType" => "00"];
-        //dd($request);
         return $request;
         //$request->tranDateTime = $transaction->transDateTime;
     }
