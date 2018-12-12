@@ -53,7 +53,7 @@ class TopUp extends Controller
             $phone = $request->json()->get("phone");
             $biller = $request->json()->get("biller");
             $amount = $request->json()->get("amount");
-            $amount = number_format((float)$amount, 2, '.', '');
+//            $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
 
@@ -61,11 +61,11 @@ class TopUp extends Controller
                 $response = ["error" => true, "message" => "Wrong IPIN Code"];
                 return response()->json($response, 200);
             }
-            $account = array();
-            $account += ["PAN" => $bank->PAN];
-            $account += ["IPIN" => $bank->IPIN];
-            $account += ["expDate" => $bank->expDate];
-            $account += ["mbr" => $bank->mbr];
+//            $account = array();
+//            $account += ["PAN" => $bank->PAN];
+//            $account += ["IPIN" => $bank->IPIN];
+//            $account += ["expDate" => $bank->expDate];
+//            $account += ["mbr" => $bank->mbr];
 
             $transction_type = TransactionType::where('name', "Top Up")->pluck('id')->first();
             $transaction->transactionType()->associate($transction_type);
@@ -104,9 +104,7 @@ class TopUp extends Controller
              * */
             $publicKey = PublicKey::sendRequest(); //
             if ($publicKey == false) {
-                $res = array();
-                $res += ["error" => true];
-                $res += ["message" => "Server Error"];
+                $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res, 200);
             }
             $ipin = Functions::encript($publicKey, $uuid, $ipin);
@@ -119,7 +117,7 @@ class TopUp extends Controller
             if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = ["error" => true, "message" => "خطا حاول لاحقا"];
+                $res = ["error" => true, "message" => "خطا حاول لاحقا", 'code' => $response->responseCode];
                 return response()->json($res, '200');
             } else {
                 $basicResonse = Response::saveBasicResponse($transaction, $response);

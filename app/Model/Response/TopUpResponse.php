@@ -15,12 +15,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Response\PaymentResponse $PaymentResponse
  * @property-read \App\Model\Payment\TopUp\TopUp $TopUp
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse wherePaymentResponseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse whereTopUpId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\TopUpResponse whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse wherePaymentResponseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse whereTopUpId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TopUpResponse whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class TopUpResponse extends Model

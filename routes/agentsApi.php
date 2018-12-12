@@ -15,3 +15,4 @@ Route::post("requestreset", "API\Users\AuthAgents@resetPassword");
 Route::post("resetpassword", "API\Users\AuthAgents@resetPasswordWithCode");
 
 Route::post('purchase', 'API\Merchant\PurchaseApiController@store');
+Route::post('purchase', 'API\Merchant\ReversalApiConroller@store');
