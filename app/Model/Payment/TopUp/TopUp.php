@@ -53,7 +53,7 @@ class TopUp extends Model
         return self::where('type_id', $type_id)->where('biller_id', $biller_id)->first();
     }
 
-    public static function requestBuild($transaction_id, $ipin, $bank_id)
+    public static function requestBuild($transaction_id, $ipin, $bank_id, $amount)
     {
         $transaction = Transaction::where("id", $transaction_id)->first();
         $user = User::where("id", $transaction->user_id)->first();
