@@ -133,7 +133,7 @@ class E15 extends Controller
             if ($type == 6) {
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
                 //We swnd Type to verfiy whetther we have i_status and i_expiery
-                 self::saveE15Response($paymentResponse, $e15, $response, $type);
+                self::saveE15Response($paymentResponse, $e15, $response, $type);
 
             }
             $bill_info = $response->billInfo;
@@ -152,7 +152,10 @@ class E15 extends Controller
                 $transaction->save();
                 $json = array();
                 $responseData = array();// get Time and id of Request
-                $responseData += [$transaction->created_at, $transaction->id];
+                $responseData += [
+                    'date' => $transaction->created_at,
+                    'id' => $transaction->id
+                ];
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
                 $json += ["status" => $status, "expiry" => $invoice_expiry];
                 $json += ["full_response" => $response, 'data' => $responseData];
@@ -163,7 +166,10 @@ class E15 extends Controller
             $transaction->save();
             $json = array();
             $responseData = array();// get Time and id of Request
-            $responseData += [$transaction->created_at, $transaction->id];
+            $responseData += [
+                'date' => $transaction->created_at,
+                'id' => $transaction->id
+            ];
             $json += ['ebs' => $response];
             $json += [
                 "error" => false,
