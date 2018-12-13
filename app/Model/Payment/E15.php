@@ -40,6 +40,10 @@ class E15 extends Model
     protected $table = "e15s";
 
     //
+    protected function getDateFormat()
+    {
+        return 'd.m.Y H:i:s';
+    }
     public function payment()
     {
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
