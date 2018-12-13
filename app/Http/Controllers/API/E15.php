@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use Carbon\Carbon;
-use DateTime;
+
 use App\Functions;
 use App\Http\Controllers\Controller;
 use App\Model\Payment\Payment;
@@ -31,7 +30,7 @@ class E15 extends Controller
             $validator = Validator::make($request->all(), [
                     'phone' => 'required|numeric',
                     'IPIN' => 'required|numeric|digits_between:4,4',
-//                    'amount' => 'required|numeric',
+                    'amount' => 'required|numeric',
                     'invoiceNo' => 'required|numeric',
                 ]
             );
@@ -148,15 +147,16 @@ class E15 extends Controller
                 } else {
                     $status = "PAID";
                 }
-                Carbon::setToStringFormat(DateTime::ISO8601);
-
                 //Tran status
                 $transaction->status = "Done";
                 $transaction->save();
                 $json = array();
+                $timestamp = $transaction->created_at;
+                $date = Carbon::createFromFormat('Y-m-d H:i', $timestamp, 'Europe/Stockholm');
+                $creat_at= $date->setTimezone('UTC');
                 $responseData = array();// get Time and id of Request
                 $responseData += [
-                    'date' => $transaction->created_at,
+                    'date' => $creat_at,
                     'id' => $transaction->id
                 ];
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
@@ -165,14 +165,15 @@ class E15 extends Controller
                 return response()->json($json, 200);
             }
             //Tran status
-            Carbon::setToStringFormat(DateTime::ISO8601);
-
             $transaction->status = "Done";
             $transaction->save();
             $json = array();
+            $timestamp = $transaction->created_at;
+            $date = Carbon::createFromFormat('Y-m-d H:i', $timestamp, 'Europe/Stockholm');
+            $creat_at= $date->setTimezone('UTC');
             $responseData = array();// get Time and id of Request
             $responseData += [
-                'date' => $transaction->created_at,
+                'date' => $creat_at,
                 'id' => $transaction->id
             ];
             $json += ['ebs' => $response];
