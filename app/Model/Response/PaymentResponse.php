@@ -18,15 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Payment\Payment $payment
  * @property-read \App\Model\Response\Response $response
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereAcqTranFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereBillInfo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereIssuerTranFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse wherePaymentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereResponseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Response\PaymentResponse whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereAcqTranFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereBalance($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereBillInfo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereIssuerTranFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse wherePaymentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereResponseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PaymentResponse whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class PaymentResponse extends Model

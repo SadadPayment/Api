@@ -130,7 +130,9 @@ class E15 extends Controller
             if ($type == 6) {
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
                 //We swnd Type to verfiy whetther we have i_status and i_expiery
-                self::saveE15Response($paymentResponse, $e15, $response, $type);
+                $saveE15 = self::saveE15Response($paymentResponse, $e15, $response, $type);
+                $responseData = array();// get Time and id of Request
+
             }
             $bill_info = $response->billInfo;
             if ($type == 2) {
@@ -144,14 +146,19 @@ class E15 extends Controller
                     $status = "PAID";
                 }
                 $json = array();
+                $responseData += [$saveE15->created_at, $saveE15->id];
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
                 $json += ["status" => $status, "expiry" => $invoice_expiry];
-                $json += ["full_response" => $response];
+                $json += ["full_response" => $response, 'data' => $responseData];
                 return response()->json($json, 200);
             }
             $json = array();
+            $responseData += [$saveE15->created_at, $saveE15->id];
             $json += ['ebs' => $response];
-            $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
+            $json += [
+                "error" => false,
+                "message" => "تم بنجاح",
+                "response" => $bill_info, 'data' => $responseData];
             return response()->json($json, 200);
         } else {
             $response = ["message" => "Request Must Be Json", 'error' => true];

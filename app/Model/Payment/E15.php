@@ -49,13 +49,9 @@ class E15 extends Model
     {
 //        dd(['trans'=> $transaction_id, 'ipin'=>$ipin, 'type'=>$type ]);
         $transaction = Transaction::find($transaction_id);
-        $user = User::find($transaction->user_id);
+//        $user = User::find($transaction->user_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
-//        $eror = ['tran' => $transaction->id,
-//            'pay' => $payment->id,
-//            'e15' => $e15];
-//        dd($eror);
 
         $uuid = $transaction->uuid;
         $userName = "";
