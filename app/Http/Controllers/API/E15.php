@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
-
+use Carbon\Carbon;
+use DateTime;
 use App\Functions;
 use App\Http\Controllers\Controller;
 use App\Model\Payment\Payment;
@@ -147,6 +148,8 @@ class E15 extends Controller
                 } else {
                     $status = "PAID";
                 }
+                Carbon::setToStringFormat(DateTime::ISO8601);
+
                 //Tran status
                 $transaction->status = "Done";
                 $transaction->save();
@@ -162,6 +165,8 @@ class E15 extends Controller
                 return response()->json($json, 200);
             }
             //Tran status
+            Carbon::setToStringFormat(DateTime::ISO8601);
+
             $transaction->status = "Done";
             $transaction->save();
             $json = array();
