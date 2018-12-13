@@ -122,6 +122,9 @@ class E15 extends Controller
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
                 //repons code in 29
+                //Tran status
+                $transaction->status = "Ebs Error";
+                $transaction->save();
                 $response_json = ["message" => "خطا- راجع البيانات المدخله", "ebs" => $response, 'error' => true];
                 return response()->json($response_json, 200);
             }
@@ -130,8 +133,7 @@ class E15 extends Controller
             if ($type == 6) {
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
                 //We swnd Type to verfiy whetther we have i_status and i_expiery
-                $saveE15 = self::saveE15Response($paymentResponse, $e15, $response, $type);
-                $responseData = array();// get Time and id of Request
+                 self::saveE15Response($paymentResponse, $e15, $response, $type);
 
             }
             $bill_info = $response->billInfo;
@@ -145,15 +147,23 @@ class E15 extends Controller
                 } else {
                     $status = "PAID";
                 }
+                //Tran status
+                $transaction->status = "Done";
+                $transaction->save();
                 $json = array();
-                $responseData += [$saveE15->created_at, $saveE15->id];
+                $responseData = array();// get Time and id of Request
+                $responseData += [$transaction->created_at, $transaction->id];
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
                 $json += ["status" => $status, "expiry" => $invoice_expiry];
                 $json += ["full_response" => $response, 'data' => $responseData];
                 return response()->json($json, 200);
             }
+            //Tran status
+            $transaction->status = "Done";
+            $transaction->save();
             $json = array();
-            $responseData += [$saveE15->created_at, $saveE15->id];
+            $responseData = array();// get Time and id of Request
+            $responseData += [$transaction->created_at, $transaction->id];
             $json += ['ebs' => $response];
             $json += [
                 "error" => false,
