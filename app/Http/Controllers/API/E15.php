@@ -152,12 +152,12 @@ class E15 extends Controller
                 $transaction->status = "Done";
                 $transaction->save();
                 $json = array();
-                $timestamp = $transaction->created_at;
-                $date = Carbon::createFromFormat('Y-m-d H:i', $timestamp, 'Europe/Stockholm');
-                $creat_at= $date->setTimezone('UTC');
+//                $timestamp = $transaction->created_at;
+//                $date = Carbon::createFromFormat('Y-m-d H:i', $timestamp, 'Europe/Stockholm');
+//                $creat_at= $date->setTimezone('UTC');
                 $responseData = array();// get Time and id of Request
                 $responseData += [
-                    'date' => $creat_at,
+                    'date' => $transaction->created_at->format('d.m.Y H:i'),
                     'id' => $transaction->id
                 ];
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
@@ -169,12 +169,10 @@ class E15 extends Controller
             $transaction->status = "Done";
             $transaction->save();
             $json = array();
-            $timestamp = $transaction->created_at;
-            $date = Carbon::createFromFormat('Y-m-d H:i', $timestamp, 'Europe/Stockholm');
-            $creat_at= $date->setTimezone('UTC');
+
             $responseData = array();// get Time and id of Request
             $responseData += [
-                'date' => $creat_at,
+                'date' => $transaction->created_at->format('d.m.Y H:i'),
                 'id' => $transaction->id
             ];
             $json += ['ebs' => $response];
