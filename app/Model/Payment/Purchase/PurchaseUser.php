@@ -2,6 +2,9 @@
 
 namespace App\Model\Payment\Purchase;
 
+use App\Model\Payment\Payment;
+use App\Model\SendRequest;
+use App\Model\Transaction;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseUser extends Model
@@ -43,9 +46,9 @@ class PurchaseUser extends Model
 //        dd($request);
     }
 
-    public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $agentId)
+    public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $userID)
     {
-        $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId);
+        $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $userID);
         $response = SendRequest::sendRequest($request, self::purchase);
         dd([$request, $response]);
 //        return $response;

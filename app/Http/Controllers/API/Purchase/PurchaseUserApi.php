@@ -54,7 +54,7 @@ class PurchaseUserApi extends Controller
 
             //value from Request;
             $PAN = $request->PAN;
-            $MerchantID = $user->id;
+            $userID = $user->id;
             $PIN = $request->PIN;
             $expDate = $request->expDate;
             /******   Create Transaction Object  *********/
@@ -99,7 +99,7 @@ class PurchaseUserApi extends Controller
             }
 
             //send Request to Model to resend to Ebs Server
-            $response = PurchaseModel::sendRequest($transaction->id, $PAN, $PIN, $expDate, $MerchantID);
+            $response = PurchaseModel::sendRequest($transaction->id, $PAN, $PIN, $expDate, $userID);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
