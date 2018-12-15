@@ -2,20 +2,14 @@
 
 namespace App\Model\Payment\Purchase;
 
-<<<<<<< HEAD
-=======
 use App\Model\Payment\Payment;
 use App\Model\SendRequest;
 use App\Model\Transaction;
->>>>>>> temporary
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseUser extends Model
 {
-<<<<<<< HEAD
-    //
-}
-=======
+
     const purchase = 'specialPayment';
 
     public function payment()
@@ -61,4 +55,3 @@ class PurchaseUser extends Model
 //        return $response;
     }
 }
->>>>>>> temporary
