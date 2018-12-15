@@ -2,7 +2,7 @@
 
 namespace App\Model\Agent;
 
-use App\Functions;
+//use App\Functions;
 use App\Model\Payment\Payment;
 use App\Model\SendRequest;
 use App\Model\Transaction;
@@ -17,12 +17,12 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     const purchase = 'purchase';
-    protected $fillable =
-        [
-            'clientId', 'terminalId', 'tranDateTime',
-            'systemTraceAuditNumber', 'PAN', 'PIN', 'expDate',
-            'tranCurrencyCode', 'tranAmount', 'otpId',
-            'otp', 'additionalAmount', 'track2'];
+//    protected $fillable =
+//        [
+//            'clientId', 'terminalId', 'tranDateTime',
+//            'systemTraceAuditNumber', 'PAN', 'PIN', 'expDate',
+//            'tranCurrencyCode', 'tranAmount', 'otpId',
+//            'otp', 'additionalAmount', 'track2'];
 
     public function payment()
     {
