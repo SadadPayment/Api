@@ -39,6 +39,7 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::get('wallet', 'API\Wallet@balance_inquiry');
     Route::post('bashairs', 'API\BashairApiController@bashair');
 
-    Route::post('purchase', 'API\ApiController@purchaseSend');
+//    Route::post('purchase', 'API\ApiController@purchaseSend');
+    Route::post('purchase', 'API\Purchase\PurchaseUserApi@store');
     });
 URL::forceScheme('https');
