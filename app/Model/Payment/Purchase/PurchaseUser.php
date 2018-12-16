@@ -17,7 +17,7 @@ class PurchaseUser extends Model
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $PAN, $pin, $expDate, $agentId)
+    public static function requestBuild($transaction_id, $PAN, $ipin, $expDate, $agentId)
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
@@ -38,7 +38,7 @@ class PurchaseUser extends Model
             "PAN" => $PAN,
             "mbr" => '0',
             'expDate' => $expDate,
-            'PIN' => $pin,
+            'IPIN' => $ipin,
             'fromAccountType' => '',
             'authenticationType' => ''
 
@@ -47,9 +47,9 @@ class PurchaseUser extends Model
 //        dd($request);
     }
 
-    public static function sendRequest($transaction_id, $PAN, $pin, $expDate, $userID)
+    public static function sendRequest($transaction_id, $PAN, $ipin, $expDate, $userID)
     {
-        $request = self::requestBuild($transaction_id, $PAN, $pin, $expDate, $userID);
+        $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $userID);
         $response = SendRequest::sendRequest($request, self::purchase);
         dd([$request, $response]);
 //        return $response;

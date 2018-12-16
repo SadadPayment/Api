@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API\Purchase;
 
+use App\Functions;
 use App\Model\PublicKey;
 use App\Model\Transaction;
 use App\Model\TransactionType;
@@ -43,7 +44,7 @@ class PurchaseUserApi extends Controller
                 'PAN' => 'required|numeric|digits_between:12,19',
                 'expDate' => 'required',
                 'tranAmount' => 'required|numeric',
-                'PIN' => 'required|numeric|digits_between:4,4',
+                'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
             if ($validator->fails()) {//Start of Validator Check if statement
                 return response()->json([
@@ -55,8 +56,9 @@ class PurchaseUserApi extends Controller
             //value from Request;
             $PAN = $request->PAN;
             $userID = $user->id;
-            $PIN = $request->PIN;
+            $IPIN = $request->IPIN;
             $expDate = $request->expDate;
+            $convert = Functions::getDateTime();
             /******   Create Transaction Object  *********/
             $transaction = new Transaction();
             $transaction->user()->associate($user);
@@ -65,7 +67,7 @@ class PurchaseUserApi extends Controller
             $transaction->transactionType()->associate($transction_type);
             $uuid = Uuid::generate()->string;
             $transaction->uuid = $uuid;
-            $transaction->transDateTime = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
+            $transaction->transDateTime = $convert;
             $transaction->status = "created";
             $transaction->user()->associate($user);
             $transaction->save();//end Create First Transaction Status
@@ -99,7 +101,7 @@ class PurchaseUserApi extends Controller
             }
 
             //send Request to Model to resend to Ebs Server
-            $response = PurchaseModel::sendRequest($transaction->id, $PAN, $PIN, $expDate, $userID);
+            $response = PurchaseModel::sendRequest($transaction->id, $PAN, $IPIN, $expDate, $userID);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
