@@ -93,9 +93,14 @@ class CardTransfer extends Controller
                 $res = ["error" => true, "message" => "Some Error Found", 'messageAr' => 'خطا', 'errorCode' => $response->responseCode];
                 return response()->json($res, 200);
             } else {
+                $responseData = [
+                    'date' => $transaction->created_at->format('d-m-Y H:i'),
+                    'id' => $transaction->id
+                ];// get Time and id of Request
                 $res = ["error" => false,
                     "message" => "Done Successfully",
                     "messageAr" => "تم بنجاح",
+                    'date' => $responseData,
                     'full_response' => $response,
                     "balance" => $response->balance];
                 return response()->json($res, 200);

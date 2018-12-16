@@ -125,12 +125,17 @@ class TopUp extends Controller
                 $transaction->status = "done";
                 $transaction->save();
                 $responseData = array();// get Time and id of Request
+                $data = [
+                    'date' => $transaction->created_at->format('d-m-Y H:i'),
+                    'id' => $transaction->id
+                ];// get Time and id of Request
                 $responseData += [$saveTopUp->created_at, $saveTopUp->id];
                 $res = [
                     "error" => false,
                     "message" => "تم الشحن",
                     'full_response' => $response,
-                    'data' => $responseData];
+                    'data' => $responseData,
+                    'date' => $data];
                 return response()->json($res, 200);
 
 

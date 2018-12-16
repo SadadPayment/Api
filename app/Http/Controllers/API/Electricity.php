@@ -27,14 +27,14 @@ class Electricity extends Controller
             $bank_id = $request->id;
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
-            $validator = Validator::make($request->all(),[
+            $validator = Validator::make($request->all(), [
 
                 'meter' => 'required|numeric|digits_between:10,12',
                 'amount' => 'required|numeric',
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
 
-            if ($validator->fails()){
+            if ($validator->fails()) {
                 return response()->json([
                     'error' => true,
                     'errors' => $validator->errors()->toArray()
@@ -46,18 +46,18 @@ class Electricity extends Controller
             $transaction->user()->associate($user);
             $meter = $request->json()->get("meter");
             $amount = $request->json()->get("amount");
-            $amount =number_format((float)$amount, 2, '.', '');
+            $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
             $bank = Functions::getBankAccountByUser($bank_id);
             $account = array();
-            if ($ipin !== $bank->IPIN){
+            if ($ipin !== $bank->IPIN) {
                 $response = ["error" => true, "message" => "Wrong IPIN Code"];
-                return response()->json($response,200);
+                return response()->json($response, 200);
             }
-            $account += ["PAN" => $bank->PAN];
-            $account += ["IPIN" => $bank->IPIN];
-            $account += ["expDate" => $bank->expDate];
-            $account += ["mbr" => $bank->mbr];
+//            $account += ["PAN" => $bank->PAN];
+//            $account += ["IPIN" => $bank->IPIN];
+//            $account += ["expDate" => $bank->expDate];
+//            $account += ["mbr" => $bank->mbr];
 
             $transction_type = TransactionType::where('name', "Electericity")->pluck('id')->first();
             $transaction->transactionType()->associate($transction_type);
@@ -94,40 +94,36 @@ class Electricity extends Controller
 
             $publickKey = PublicKey::sendRequest();
             //dd($ipin);
-            if ($publickKey == false){
+            if ($publickKey == false) {
                 $res = ["error" => true, "message" => "Server Error"];
-                return response()->json($res,200);
+                return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey , $uuid , $ipin);
+            $ipin = Functions::encript($publickKey, $uuid, $ipin);
 
 
-
-
-            $response = ElectricityModel::sendRequest($transaction->id  , $ipin, $bank_id);
+            $response = ElectricityModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {
                 $res = ["error" => true, "message" => "Some Error Found"];
-                return response()->json($res,200);
+                return response()->json($res, 200);
             }
 
-            if ($response->responseCode != 0){
+            if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
                 $res = ["error" => true, "EBS" => $response];
 
                 return response()->json($res, '200');
-            }
-
-
-
-
-
-            else{
+            } else {
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
 
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-                $electriciyResponse = self::saveElectriciyResponse($paymentResponse , $electricity , $response);//Tester Methods
+                $electriciyResponse = self::saveElectriciyResponse($paymentResponse, $electricity, $response);//Tester Methods
                 $transaction->status = "done";
                 $transaction->save();
+                $responseData = [
+                    'date' => $transaction->created_at->format('d-m-Y H:i'),
+                    'id' => $transaction->id
+                ];// get Time and id of Request
                 $res = array();
                 $info = array();
                 $info += ["meterFees" => $response->billInfo->meterFees];
@@ -138,9 +134,10 @@ class Electricity extends Controller
                 $info += ["customerName" => $response->billInfo->customerName];
                 $info += ["opertorMessage" => $response->billInfo->opertorMessage];
                 $info += ["electriciyResponse" => $electriciyResponse];
+                $res += ["date" => $responseData];
                 $res += ["error" => false];
                 $res += ["message" => "تمت بنجاح"];
-                $res += ["info" => $info, 'full_response'=>$response];
+                $res += ["info" => $info, 'full_response' => $response];
 
                 return response()->json($res, '200');
             }
@@ -153,11 +150,13 @@ class Electricity extends Controller
             return response()->json($response, 200);
         }
     }
-    public static function saveElectriciyResponse($paymentResponse , $electricity , $response){
+
+    public static function saveElectriciyResponse($paymentResponse, $electricity, $response)
+    {
         $electriciy_response = new ElectricityResponse();
         $electriciy_response->PaymentResponse()->associate($paymentResponse);
         $electriciy_response->Electriciy()->associate($electricity);
-        $bill_info = (array) $response->billInfo;
+        $bill_info = (array)$response->billInfo;
 
         $electriciy_response->fill($bill_info);
 //        $electriciy_response->meterFees = $bill_info->meterFees;

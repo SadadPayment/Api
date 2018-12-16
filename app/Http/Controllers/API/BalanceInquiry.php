@@ -91,9 +91,14 @@ class BalanceInquiry extends Controller
                 $res = ["error" => true, "message" => "Some Error Found"];
                 return response()->json($res, 200);
             } else {
+                $responseData= [
+                    'date' => $transaction->created_at->format('d.m.Y H:i'),
+                    'id' => $transaction->id
+                ];// get Time and id of Request
                 $res = ["error" => false,
                     "message" => "Done Successfully",
                     "messageAr" => "تم بنجاح",
+                    'date'=>$responseData,
                     "balance" => $response->balance,
                     "full_response" => $response];
                 return response()->json($res, 200);
