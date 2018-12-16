@@ -54,17 +54,12 @@ class TopUp extends Controller
             $amount = $request->json()->get("amount");
 //            $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($bank_id);
+//            $bank = Functions::getBankAccountByUser($bank_id);
 
-            if ($ipin !== $bank->IPIN) {
-                $response = ["error" => true, "message" => "Wrong IPIN Code"];
-                return response()->json($response, 200);
-            }
-//            $account = array();
-//            $account += ["PAN" => $bank->PAN];
-//            $account += ["IPIN" => $bank->IPIN];
-//            $account += ["expDate" => $bank->expDate];
-//            $account += ["mbr" => $bank->mbr];
+//            if ($ipin !== $bank->IPIN) {
+//                $response = ["error" => true, "message" => "Wrong IPIN Code"];
+//                return response()->json($response, 200);
+//            }
 
             $transction_type = TransactionType::where('name', "Top Up")->pluck('id')->first();
             $transaction->transactionType()->associate($transction_type);

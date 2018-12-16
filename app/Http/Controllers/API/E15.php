@@ -35,7 +35,6 @@ class E15 extends Controller
             $account_no = $request->id;
 
 
-
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
             $transaction = new Transaction();
@@ -49,18 +48,17 @@ class E15 extends Controller
             $ipin = $request->json()->get("IPIN");
             $invoice = $request->json()->get("invoiceNo");
 
-            $bank = Functions::getBankAccountByUser($account_no);
-//            dd($bank);
-            if ($ipin !== $bank->IPIN) {
-                $response = ["message" => "Wrong IPIN Code", "error" => true];
-                return response()->json($response, 200);
-            }
+//            $bank = Functions::getBankAccountByUser($account_no);
+//            if ($ipin !== $bank->IPIN) {
+//                $response = ["message" => "Wrong IPIN Code", "error" => true];
+//                return response()->json($response, 200);
+//            }
             //جدول حفظ البيانات المنقولة جواً
             /*
              * تخزين بينات العضو
              * نوع العملية مع التحقق من النوع
              * ربط بين جدوليا
-             * Creat Uuid and get cur dateTime
+             * Create Uuid and get cur dateTime
              * */
             $transaction = new Transaction();
             $transaction->user()->associate($user);
@@ -75,7 +73,7 @@ class E15 extends Controller
 
             /*
              * Payment Table Save
-             * @parme amount
+             * @Parameter amount
              * tran
              * */
             $payment = new Payment();
@@ -85,7 +83,7 @@ class E15 extends Controller
 
             /*
              * Save E15
-             * @parm phone
+             * @Parameter phone
              * @ invoiceNumber
              * */
             $e15 = new E15Model();
@@ -146,7 +144,7 @@ class E15 extends Controller
                 $transaction->status = "Done";
                 $transaction->save();
                 $json = array();
-                $responseData= [
+                $responseData = [
                     'date' => $transaction->created_at->format('d-m-Y H:i'),
                     'id' => $transaction->id
                 ];// get Time and id of Request

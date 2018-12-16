@@ -43,11 +43,11 @@ class CardTransfer extends Controller
             $amount = $request->json()->get("amount");
             $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($bank_id);
-            if ($ipin !== $bank->IPIN) {
-                $response = ["error" => true, "message" => "Wrong IPIN Code", "error" => true];
-                return response()->json($response, 200);
-            }
+//            $bank = Functions::getBankAccountByUser($bank_id);
+//            if ($ipin !== $bank->IPIN) {
+//                $response = ["error" => true, "message" => "Wrong IPIN Code", "error" => true];
+//                return response()->json($response, 200);
+//            }
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
@@ -76,12 +76,12 @@ class CardTransfer extends Controller
             $card_transfer->toCard = $to;
             $card_transfer->save();
 
-            $publickKey = PublicKey::sendRequest();
-            if ($publickKey == false) {
+            $publicKey = PublicKey::sendRequest();
+            if ($publicKey == false) {
                 $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey, $uuid, $ipin);
+            $ipin = Functions::encript($publickey, $uuid, $ipin);
 
             $response = CardTransferModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {

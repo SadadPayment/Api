@@ -20,6 +20,11 @@ use App\Model\Payment\Electricity as ElectricityModel;
 class Electricity extends Controller
 {
     //
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Tymon\JWTAuth\Exceptions\JWTException
+     */
     public function electricity(Request $request)
     {
 
@@ -48,12 +53,12 @@ class Electricity extends Controller
             $amount = $request->json()->get("amount");
             $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
-            $bank = Functions::getBankAccountByUser($bank_id);
-            $account = array();
-            if ($ipin !== $bank->IPIN) {
-                $response = ["error" => true, "message" => "Wrong IPIN Code"];
-                return response()->json($response, 200);
-            }
+//            $bank = Functions::getBankAccountByUser($bank_id);
+//            $account = array();
+//            if ($ipin !== $bank->IPIN) {
+//                $response = ["error" => true, "message" => "Wrong IPIN Code"];
+//                return response()->json($response, 200);
+//            }
 //            $account += ["PAN" => $bank->PAN];
 //            $account += ["IPIN" => $bank->IPIN];
 //            $account += ["expDate" => $bank->expDate];
@@ -83,22 +88,22 @@ class Electricity extends Controller
             $transaction->save();
 
 
-            $transaction->status = "حفظ الكهرباء";
-            $transaction->save();
-
             $electricity = new ElectricityModel();
             $electricity->payment()->associate($payment);
             $electricity->meter = $meter;
             $electricity->save();
 
+            $transaction->status = "حفظ الكهرباء";
+            $transaction->save();
 
-            $publickKey = PublicKey::sendRequest();
+
+            $publicKey = PublicKey::sendRequest();
             //dd($ipin);
-            if ($publickKey == false) {
+            if ($publicKey == false) {
                 $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey, $uuid, $ipin);
+            $ipin = Functions::encript($publickey, $uuid, $ipin);
 
 
             $response = ElectricityModel::sendRequest($transaction->id, $ipin, $bank_id);
