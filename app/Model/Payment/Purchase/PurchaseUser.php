@@ -11,6 +11,7 @@ class PurchaseUser extends Model
 {
 
     const purchase = 'specialPayment';
+    protected $table ='purchase_users';
 
     public function payment()
     {

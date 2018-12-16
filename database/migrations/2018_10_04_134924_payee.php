@@ -13,7 +13,6 @@ class Payee extends Migration
      */
     public function up()
     {
-        //
         Schema::create('payees', function (Blueprint $table) {
             $table->increments('id');
 
