@@ -33,7 +33,7 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::post('cardTransfer', 'API\CardTransfer@card_transfer');
     Route::post('electricity', 'API\Electricity@electricity');
     Route::post('e15_payment', 'API\E15@e15_payment');
-    Route::post('e15_inquery', 'API\E15@e15_inquery');
+    Route::post('e15_inquiry', 'API\E15@e15_inquiry');
     Route::get('getByUsers', 'API\ElectHistoryApiController@getByUsers');
     Route::get('getAllTransaction', 'API\HistoryApi@getAllTransactionsByUser');
     Route::get('wallet', 'API\Wallet@balance_inquiry');

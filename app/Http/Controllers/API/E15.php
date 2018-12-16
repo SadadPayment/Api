@@ -28,19 +28,7 @@ class E15 extends Controller
             $user = $token->authenticate();
             $account_no = $request->id;
 
-            $validator = Validator::make($request->all(), [
-                    'phone' => 'required|numeric',
-                    'IPIN' => 'required|numeric|digits_between:4,4',
-                    'amount' => 'required|numeric',
-                    'invoiceNo' => 'required|numeric',
-                ]
-            );
-            if ($validator->fails()) {
-                return response()->json([
-                    'error' => true,
-                    'errors' => $validator->errors()->toArray()
-                ]);
-            }
+
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
@@ -190,11 +178,39 @@ class E15 extends Controller
     //e15 payment
     public function e15_payment(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+                'phone' => 'required|numeric',
+                'IPIN' => 'required|numeric|digits_between:4,4',
+                'amount' => 'required|numeric',
+                'invoiceNo' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'errors' => $validator->errors()->toArray()
+            ]);
+        }
+
         return $this->e15($request, 6);
     }
 
-    public function e15_inquery(Request $request)
+    public function e15_inquiry(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+                'IPIN' => 'required|numeric|digits_between:4,4',
+                'invoiceNo' => 'required|numeric',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([
+                'error' => true,
+                'errors' => $validator->errors()->toArray()
+            ]);
+        }
+
         return $this->e15($request, 2);
     }
 
