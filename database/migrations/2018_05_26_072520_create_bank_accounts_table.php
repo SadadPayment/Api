@@ -16,7 +16,7 @@ class CreateBankAccountsTable extends Migration
         Schema::create('bank_accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->string('PAN');
-            $table->string('IPIN');
+//            $table->string('IPIN');
             $table->string('expDate');
             $table->integer('mbr');
             $table->string('name')->nullable()->default('الرئيسية');

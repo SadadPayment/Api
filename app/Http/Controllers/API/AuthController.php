@@ -121,9 +121,9 @@ class AuthController extends Controller
                 'phone' => 'required|unique:users|numeric',
                 'fullName' => 'required|string',
                 'password' => 'required|string',
-                'PAN' => 'required|numeric|digits_between:16,19|unique:bank_accounts',
-                'IPIN' => 'required|numeric|digits_between:4,4',
-                'expDate' => 'required|date',
+//                'PAN' => 'required|numeric|digits_between:16,19|unique:bank_accounts',
+//                'IPIN' => 'required|numeric|digits_between:4,4',
+//                'expDate' => 'required|date',
             ]);
 
             if ($validator->fails()) {
@@ -138,10 +138,10 @@ class AuthController extends Controller
             $fullName = $user->get("fullName");
             $phone = $user->get("phone");
             $password = $user->get("password");
-            $PAN = $user->get("PAN");
-            $IPIN = $user->get("IPIN");
-            $expDate = $user->get("expDate");
-            $mbr = "0";
+//            $PAN = $user->get("PAN");
+//            $IPIN = $user->get("IPIN");
+//            $expDate = $user->get("expDate");
+//            $mbr = "0";
 
 
             $user = new User();
@@ -154,8 +154,8 @@ class AuthController extends Controller
             $validate->phone = $phone;
             $validate->code = $code;
             $validate->save();
-            $expDate = Functions::convertExpDate($expDate);
-            BankAccount::saveBankAccountByUser($PAN, $IPIN, $expDate, $mbr, $user);
+//            $expDate = Functions::convertExpDate($expDate);
+//            BankAccount::saveBankAccountByUser($PAN, $IPIN, $expDate, $mbr, $user);
             self::sendSMS($phone, $code);
             $response = ["error" => false,
                 "message" => "activate Your Account With the code that send to You in SMS",

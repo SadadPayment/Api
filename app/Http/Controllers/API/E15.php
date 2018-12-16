@@ -11,7 +11,6 @@ use App\Model\Response\PaymentResponse;
 use App\Model\Response\Response;
 use App\Model\Transaction;
 use App\Model\TransactionType;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Validator;
@@ -21,6 +20,13 @@ use App\Model\Payment\E15 as E15Model;
 class E15 extends Controller
 {
     //public e15
+    /**
+     * @param Request $request
+     * @param $type
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Tymon\JWTAuth\Exceptions\JWTException
+     * @throws \Exception
+     */
     public function e15(Request $request, $type)
     {
         if ($request->isJson()) {
@@ -195,6 +201,7 @@ class E15 extends Controller
     {
         $validator = Validator::make($request->all(), [
                 'IPIN' => 'required|numeric|digits_between:4,4',
+                'phone' => 'required|numeric',
                 'invoiceNo' => 'required|numeric',
             ]
         );
