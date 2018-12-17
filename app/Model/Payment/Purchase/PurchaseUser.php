@@ -45,7 +45,7 @@ class PurchaseUser extends Model
             "entityType" => $entityType,
             "tranCurrency" => $tranCurrency,
             "tranAmount" => $payment->amount,
-            "serviceInfo" => '',
+            "serviceInfo" => "Description=xxxxx",
             "serviceProviderId" => '6600000000',
             "PAN" => $PAN,
             "mbr" => "0",
