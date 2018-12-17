@@ -48,7 +48,7 @@ class PurchaseUser extends Model
             "serviceInfo" => '',
             "serviceProviderId" => '6600000000',
             "PAN" => $PAN,
-            "mbr" => $mbr,
+            "mbr" => "0",
             "expDate" => $expDate,
             "IPIN" => $ipin,
             "userPassword" => $userPassword,
