@@ -81,7 +81,7 @@ class CardTransfer extends Controller
                 $res = ["error" => true, "message" => "Server Error", "messageAr" => "خطا حاول لاحقاَ"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickey, $uuid, $ipin);
+            $ipin = Functions::encript($publicKey, $uuid, $ipin);
 
             $response = CardTransferModel::sendRequest($transaction->id, $ipin, $bank_id);
             if ($response == false) {
