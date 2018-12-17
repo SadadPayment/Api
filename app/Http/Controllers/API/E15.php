@@ -32,7 +32,6 @@ class E15 extends Controller
         if ($request->isJson()) {
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
-            $account_no = $request->id;
 
 
             //$user = JWTAuth::toUser($token);

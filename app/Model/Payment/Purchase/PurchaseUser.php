@@ -23,7 +23,7 @@ class PurchaseUser extends Model
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
-        $e15 = E15::where("payment_id", $payment->id)->first();
+//        $e15 = PurchaseUser::where("payment_id", $payment->id)->first();
 
         $uuid = $transaction->uuid;
         $userName = "";
@@ -41,28 +41,38 @@ class PurchaseUser extends Model
             "tranDateTime" => $transaction->transDateTime,
             "UUID" => $uuid,
             "userName" => $userName,
-            "PAN" => $PAN,
-            "mbr" => $mbr,
-            "entityType" => $entityType,
-            "expDate" => $expDate,
             "entityId" => $entityId,
-            "userPassword" => $userPassword,
+            "entityType" => $entityType,
             "tranCurrency" => $tranCurrency,
             "tranAmount" => $payment->amount,
-            "fromAccountType" => "00",
+            "serviceInfo" => '',
+            "serviceProviderId" => '',
+            "PAN" => $PAN,
+            "mbr" => $mbr,
+            "expDate" => $expDate,
             "IPIN" => $ipin,
+            "userPassword" => $userPassword,
+            "fromAccountType" => "00",
             "authenticationType" => $authenticationType,
-            "payeeId" => "0010050001",
         ];
 
         return $request;
     }
 
+    /**
+     * @param $transaction_id
+     * @param $PAN
+     * @param $ipin
+     * @param $expDate
+     * @param $UserId
+     * @return bool|mixed
+     */
     public static function sendRequest($transaction_id, $PAN, $ipin, $expDate, $UserId)
     {
         $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId);
         $response = SendRequest::sendRequest($request, self::purchase);
         return $response;
+        /** @var TYPE_NAME $request */
         dd([$request, $response]);
     }
 }
