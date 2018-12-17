@@ -86,17 +86,21 @@ class BalanceInquiry extends Controller
             //$balance_inquiry_reponse = self::saveBalanceInquiryResonse($basicResonse,$balance_inquiry,$response);
 
             if ($response->responseCode != 0) {
-                $res = ["error" => true, "message" => "Some Error Found"];
+                $res = [
+                    "error" => true,
+                    "message" => "Some Error Found",
+                    "full_response" => $response
+                ];
                 return response()->json($res, 200);
             } else {
-                $responseData= [
+                $responseData = [
                     'date' => $transaction->created_at->format('d.m.Y H:i'),
                     'id' => $transaction->id
                 ];// get Time and id of Request
                 $res = ["error" => false,
                     "message" => "Done Successfully",
                     "messageAr" => "تم بنجاح",
-                    'date'=>$responseData,
+                    'date' => $responseData,
                     "balance" => $response->balance,
                     "full_response" => $response];
                 return response()->json($res, 200);
