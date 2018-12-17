@@ -13,10 +13,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\Merchant\Merchant $merchant
  * @property-read \App\Model\Transaction $transaction
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BillInquiry whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BillInquiry whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BillInquiry whereTransactionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\BillInquiry whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInquiry whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInquiry whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInquiry whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BillInquiry whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 class BillInquiry extends Model

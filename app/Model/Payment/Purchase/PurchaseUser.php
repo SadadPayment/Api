@@ -2,6 +2,7 @@
 
 namespace App\Model\Payment\Purchase;
 
+use App\Functions;
 use App\Model\Payment\Payment;
 use App\Model\SendRequest;
 use App\Model\Transaction;
@@ -11,48 +12,57 @@ class PurchaseUser extends Model
 {
 
     const purchase = 'specialPayment';
-    protected $table ='purchase_users';
+    protected $table = 'purchase_users';
 
     public function payment()
     {
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $PAN, $ipin, $expDate, $agentId)
+    public static function requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId)
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
+        $e15 = E15::where("payment_id", $payment->id)->first();
+
         $uuid = $transaction->uuid;
-//        dd($transaction);
+        $userName = "";
+        $userPassword = "";
+        $entityId = "";
+        $entityType = "";
+        $authenticationType = "00";
+        $bank = Functions::getBankAccountByUser($UserId);
+        $PAN = $bank->PAN;
+        $mbr = $bank->mbr;
+        $expDate = $bank->expDate;
+        $tranCurrency = "SDG";
         $request = [
-            "applicationId" => "SADAD",
+            "applicationId" => "Sadad",
             "tranDateTime" => $transaction->transDateTime,
             "UUID" => $uuid,
-            'userName' => '',
-            'userPassword' => '',
-            'entityId' => $agentId,
-            'entityType' => '',
-            'tranCurrency' => "SDG",
-            'tranAmount' => $payment->amount,
-            'serviceInfo' => "",
-            'serviceProviderId' => '6600000000',
+            "userName" => $userName,
             "PAN" => $PAN,
-            "mbr" => '0',
-            'expDate' => $expDate,
-            'IPIN' => $ipin,
-            'fromAccountType' => '',
-            'authenticationType' => ''
-
+            "mbr" => $mbr,
+            "entityType" => $entityType,
+            "expDate" => $expDate,
+            "entityId" => $entityId,
+            "userPassword" => $userPassword,
+            "tranCurrency" => $tranCurrency,
+            "tranAmount" => $payment->amount,
+            "fromAccountType" => "00",
+            "IPIN" => $ipin,
+            "authenticationType" => $authenticationType,
+            "payeeId" => "0010050001",
         ];
+
         return $request;
-//        dd($request);
     }
 
-    public static function sendRequest($transaction_id, $PAN, $ipin, $expDate, $userID)
+    public static function sendRequest($transaction_id, $PAN, $ipin, $expDate, $UserId)
     {
-        $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $userID);
+        $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId);
         $response = SendRequest::sendRequest($request, self::purchase);
+        return $response;
         dd([$request, $response]);
-//        return $response;
     }
 }

@@ -17,12 +17,6 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     const purchase = 'purchase';
-//    protected $fillable =
-//        [
-//            'clientId', 'terminalId', 'tranDateTime',
-//            'systemTraceAuditNumber', 'PAN', 'PIN', 'expDate',
-//            'tranCurrencyCode', 'tranAmount', 'otpId',
-//            'otp', 'additionalAmount', 'track2'];
 
     public function payment()
     {

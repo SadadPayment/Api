@@ -47,9 +47,7 @@ class E15 extends Model
 
     public static function requestBuild($transaction_id, $ipin, $type, $bank_id)
     {
-//        dd(['trans'=> $transaction_id, 'ipin'=>$ipin, 'type'=>$type ]);
         $transaction = Transaction::find($transaction_id);
-//        $user = User::find($transaction->user_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
         $e15 = E15::where("payment_id", $payment->id)->first();
 
@@ -97,7 +95,6 @@ class E15 extends Model
             $response = SendRequest::sendRequest($request, self::inquiry);
         }
         return $response;
-//        dd($response);
     }
 
 }

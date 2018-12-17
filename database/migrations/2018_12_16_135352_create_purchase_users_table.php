@@ -16,6 +16,7 @@ class CreatePurchaseUsersTable extends Migration
         Schema::create('purchase_users', function (Blueprint $table) {
             $table->increments('id');
             $table->string('PAN');
+            $table->string('tranAmount');
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payments');
             $table->timestamps();

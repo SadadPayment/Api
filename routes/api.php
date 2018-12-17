@@ -38,8 +38,6 @@ Route::group(['middleware' => ['api.auth']], function () {
     Route::get('getAllTransaction', 'API\HistoryApi@getAllTransactionsByUser');
     Route::get('wallet', 'API\Wallet@balance_inquiry');
     Route::post('bashairs', 'API\BashairApiController@bashair');
-
-//    Route::post('purchase', 'API\ApiController@purchaseSend');
-    Route::post('purchase', 'API\Purchase\PurchaseUserApi@store');
-    });
+    Route::post('purchase', 'API\Payment\PurchaseUserControllerApi@userPurchas');
+});
 URL::forceScheme('https');
