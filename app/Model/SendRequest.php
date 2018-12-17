@@ -29,7 +29,7 @@ class SendRequest
                 'headers' => [
                     'Content-Type' => 'application/json',
                 ],
-                'connect_timeout' => 0.14
+                'connect_timeout' => 20.00
             ]);
             $body = json_decode($response->getBody());
             return $body;
