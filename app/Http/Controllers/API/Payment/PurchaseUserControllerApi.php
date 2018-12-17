@@ -82,7 +82,7 @@ class PurchaseUserControllerApi extends Controller
             $ipin = Functions::encript($publicKey, $uuid, $request->IPIN);
 
             //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
-            $response = PurchaseUser::sendRequest($transaction->id, $request->PAN, $request->IPIN, $request->expDate, $user->id);
+            $response = PurchaseUser::sendRequest($transaction->id, $request->PAN, $ipin, $request->expDate, $user->id);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
