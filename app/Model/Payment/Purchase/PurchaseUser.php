@@ -71,7 +71,7 @@ class PurchaseUser extends Model
     {
         $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId);
         $response = SendRequest::sendRequest($request, self::purchase);
-        return $response;
+//        return $response;
         /** @var TYPE_NAME $request */
         dd([$request, $response]);
     }
