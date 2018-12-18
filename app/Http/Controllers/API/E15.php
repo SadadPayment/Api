@@ -96,12 +96,12 @@ class E15 extends Controller
             $transaction->save();
 
             //Get PublicKey get Value Per Request
-            $publickKey = PublicKey::sendRequest();
-            if ($publickKey == false) {
+            $publicKey = PublicKey::sendRequest();
+            if ($publicKey == false) {
                 $res = ["message" => "خطا - حاول لاحقا", 'error' => true];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickKey, $uuid, $ipin);
+            $ipin = Functions::encript($publicKey, $uuid, $ipin);
 
             //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
             $response = E15Model::sendRequest($transaction->id, $ipin, $type, $request->id);
