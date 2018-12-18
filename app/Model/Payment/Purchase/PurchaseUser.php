@@ -20,7 +20,7 @@ class PurchaseUser extends Model
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $ipin, $UserId)
+    public static function requestBuild($transaction_id, $ipin, $UserId, $serviceProviderId)
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
@@ -47,7 +47,7 @@ class PurchaseUser extends Model
             "tranCurrency" => $tranCurrency,
             "tranAmount" => $payment->amount,
             "serviceInfo" => "Description=xxxxx",
-            "serviceProviderId" => '6600000000',
+            "serviceProviderId" => $serviceProviderId,
             "PAN" => $PAN,
             "mbr" => $mbr,
             "expDate" => $expDate,
@@ -66,9 +66,9 @@ class PurchaseUser extends Model
      * @param $UserId
      * @return bool|mixed
      */
-    public static function sendRequest($transaction_id, $ipin, $UserId)
+    public static function sendRequest($transaction_id, $ipin, $UserId, $serviceProviderId)
     {
-        $request = self::requestBuild($transaction_id, $ipin, $UserId);
+        $request = self::requestBuild($transaction_id, $ipin, $UserId, $serviceProviderId);
         $response = SendRequest::sendRequest($request, self::purchase);
         return $response;
     }

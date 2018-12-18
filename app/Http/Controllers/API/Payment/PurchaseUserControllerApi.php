@@ -31,6 +31,7 @@ class PurchaseUserControllerApi extends Controller
             $token = JWTAuth::parseToken();
             $user = $token->authenticate();
             $userCart = Functions::getBankAccountByUser($request->id);
+            $serviceProviderId = $request->serviceProviderId;
 
             //$user = JWTAuth::toUser($token);
             /******   Create Transaction Object  *********/
@@ -87,7 +88,7 @@ class PurchaseUserControllerApi extends Controller
             $ipin = Functions::encript($publicKey, $uuid, $request->IPIN);
 
             //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
-            $response = PurchaseUser::sendRequest($transaction->id, $ipin, $request->id);
+            $response = PurchaseUser::sendRequest($transaction->id, $ipin, $request->id, $serviceProviderId);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
