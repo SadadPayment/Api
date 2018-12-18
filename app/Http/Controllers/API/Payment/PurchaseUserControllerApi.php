@@ -131,7 +131,7 @@ class PurchaseUserControllerApi extends Controller
         $purchase_response = new PurchaseResponse();
         $purchase_response->PaymentResponse()->associate($paymentResponse);
         $purchase_response->Purchase()->associate($purchase);
-        $purchase_response_save = (array)$response->ebs;
+        $purchase_response_save = (array)$response;
         $purchase_response->fill($purchase_response_save);
 //        $purchase_response->issuerTranFee = ;
 //        $purchase_response->fromAccount = ;
