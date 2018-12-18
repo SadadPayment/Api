@@ -171,7 +171,7 @@ class Electricity extends Controller
 //        $electricity_response->waterFees = $bill_info->waterFees;
 //        $electricity_response->token = $bill_info->token;
 //        $electricity_response->customerName = $bill_info->customerName;
-        $electricity_response->operatorMessage = $bill_info->operatorMessage;
+        $electricity_response->operatorMessage = $response->billInfo->opertorMessage;
         $electricity_response->save();
         return $electricity_response;
     }
