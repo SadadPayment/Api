@@ -13,13 +13,14 @@ class PurchaseUser extends Model
 
     const purchase = 'specialPayment';
     protected $table = 'purchase_users';
-protected $fillable =['PAN'];
+    protected $fillable = ['PAN'];
+
     public function payment()
     {
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
     }
 
-    public static function requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId)
+    public static function requestBuild($transaction_id, $ipin, $UserId)
     {
         $transaction = Transaction::find($transaction_id);
         $payment = Payment::where("transaction_id", $transaction_id)->first();
@@ -31,10 +32,10 @@ protected $fillable =['PAN'];
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-//        $bank = Functions::getBankAccountByUser($UserId);
-//        $PAN = $bank->PAN;
-//        $mbr = $bank->mbr;
-//        $expDate = $bank->expDate;
+        $bank = Functions::getBankAccountByUser($UserId);
+        $PAN = $bank->PAN;
+        $mbr = $bank->mbr;
+        $expDate = $bank->expDate;
         $tranCurrency = "SDG";
         $request = [
             "applicationId" => "Sadad",
@@ -48,7 +49,7 @@ protected $fillable =['PAN'];
             "serviceInfo" => "Description=xxxxx",
             "serviceProviderId" => '6600000000',
             "PAN" => $PAN,
-            "mbr" => "0",
+            "mbr" => $mbr,
             "expDate" => $expDate,
             "IPIN" => $ipin,
             "userPassword" => $userPassword,
@@ -61,15 +62,13 @@ protected $fillable =['PAN'];
 
     /**
      * @param $transaction_id
-     * @param $PAN
      * @param $ipin
-     * @param $expDate
      * @param $UserId
      * @return bool|mixed
      */
-    public static function sendRequest($transaction_id, $PAN, $ipin, $expDate, $UserId)
+    public static function sendRequest($transaction_id, $ipin, $UserId)
     {
-        $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId);
+        $request = self::requestBuild($transaction_id, $ipin, $UserId);
         $response = SendRequest::sendRequest($request, self::purchase);
         return $response;
     }
