@@ -122,7 +122,7 @@ class Electricity extends Controller
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
 
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-//                $electricityResponse = self::saveElectricityResponse($paymentResponse, $electricity, $response);//Tester Methods
+                $electricityResponse = self::saveElectricityResponse($paymentResponse, $electricity, $response);//Tester Methods
                 $transaction->status = "done";
                 $transaction->save();
                 $responseData = [
@@ -138,7 +138,7 @@ class Electricity extends Controller
                 $info += ["token" => $response->billInfo->token];
                 $info += ["customerName" => $response->billInfo->customerName];
                 $info += ["operatorMessage" => $response->billInfo->opertorMessage];
-//                $info += ["electricityResponse" => $electricityResponse];
+                $info += ["electricityResponse" => $electricityResponse];
                 $res += ["date" => $responseData];
                 $res += ["error" => false];
                 $res += ["message" => "تمت بنجاح"];
