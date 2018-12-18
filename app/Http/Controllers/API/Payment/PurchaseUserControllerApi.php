@@ -7,6 +7,7 @@ use App\Model\Payment\Payment;
 use App\Model\Payment\Purchase\PurchaseUser;
 use App\Model\Payment\Purchase\PurchaseUserResponse as PurchaseResponse;
 use App\Model\PublicKey;
+use App\Model\Response\PaymentResponse;
 use App\Model\Response\Response;
 use App\Model\Transaction;
 use App\Model\TransactionType;
