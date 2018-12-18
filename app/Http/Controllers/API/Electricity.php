@@ -103,7 +103,7 @@ class Electricity extends Controller
                 $res = ["error" => true, "message" => "Server Error"];
                 return response()->json($res, 200);
             }
-            $ipin = Functions::encript($publickey, $uuid, $ipin);
+            $ipin = Functions::encript($publicKey, $uuid, $ipin);
 
 
             $response = ElectricityModel::sendRequest($transaction->id, $ipin, $bank_id);
@@ -122,7 +122,7 @@ class Electricity extends Controller
                 $basicResonse = Response::saveBasicResponse($transaction, $response);
 
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
-                $electriciyResponse = self::saveElectriciyResponse($paymentResponse, $electricity, $response);//Tester Methods
+                $electricityResponse = self::saveElectricityResponse($paymentResponse, $electricity, $response);//Tester Methods
                 $transaction->status = "done";
                 $transaction->save();
                 $responseData = [
@@ -137,8 +137,8 @@ class Electricity extends Controller
                 $info += ["waterFees" => $response->billInfo->waterFees];
                 $info += ["token" => $response->billInfo->token];
                 $info += ["customerName" => $response->billInfo->customerName];
-                $info += ["opertorMessage" => $response->billInfo->opertorMessage];
-                $info += ["electriciyResponse" => $electriciyResponse];
+                $info += ["operatorMessage" => $response->billInfo->opertorMessage];
+                $info += ["electricityResponse" => $electricityResponse];
                 $res += ["date" => $responseData];
                 $res += ["error" => false];
                 $res += ["message" => "تمت بنجاح"];
@@ -156,23 +156,23 @@ class Electricity extends Controller
         }
     }
 
-    public static function saveElectriciyResponse($paymentResponse, $electricity, $response)
+    public static function saveElectricityResponse($paymentResponse, $electricity, $response)
     {
-        $electriciy_response = new ElectricityResponse();
-        $electriciy_response->PaymentResponse()->associate($paymentResponse);
-        $electriciy_response->Electriciy()->associate($electricity);
+        $electricity_response = new ElectricityResponse();
+        $electricity_response->PaymentResponse()->associate($paymentResponse);
+        $electricity_response->Electricity()->associate($electricity);
         $bill_info = (array)$response->billInfo;
 
-        $electriciy_response->fill($bill_info);
-//        $electriciy_response->meterFees = $bill_info->meterFees;
-//        $electriciy_response->netAmount = $bill_info->netAmount;
-//        $electriciy_response->uinitsInKWh = $bill_info->uinitsInKWh;
-//        $electriciy_response->uinitsInKWh = $bill_info->uinitsInKWh;
-//        $electriciy_response->waterFees = $bill_info->waterFees;
-//        $electriciy_response->token = $bill_info->token;
-//        $electriciy_response->customerName = $bill_info->customerName;
-//        $electriciy_response->operatorMessage = $bill_info->operatorMessage;
-        $electriciy_response->save();
-        return $electriciy_response;
+        $electricity_response->fill($bill_info);
+//        $electricity_response->meterFees = $bill_info->meterFees;
+//        $electricity_response->netAmount = $bill_info->netAmount;
+//        $electricity_response->uinitsInKWh = $bill_info->uinitsInKWh;
+//        $electricity_response->uinitsInKWh = $bill_info->uinitsInKWh;
+//        $electricity_response->waterFees = $bill_info->waterFees;
+//        $electricity_response->token = $bill_info->token;
+//        $electricity_response->customerName = $bill_info->customerName;
+//        $electricity_response->operatorMessage = $bill_info->operatorMessage;
+        $electricity_response->save();
+        return $electricity_response;
     }
 }

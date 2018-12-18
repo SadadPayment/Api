@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Payment;
 use App\Functions;
 use App\Model\Payment\Payment;
 use App\Model\Payment\Purchase\PurchaseUser;
+use App\Model\Payment\Purchase\PurchaseUserResponse as PurchaseResponse;
 use App\Model\PublicKey;
 use App\Model\Response\Response;
 use App\Model\Transaction;
@@ -23,7 +24,7 @@ class PurchaseUserControllerApi extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function userPurchas(Request $request)
+    public function userPurchase(Request $request)
     {
         if ($request->isJson()) {
             $token = JWTAuth::parseToken();
@@ -91,7 +92,7 @@ class PurchaseUserControllerApi extends Controller
             //اذا الرد = 0 معناه العملية تمت بنجاح
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
-                //repons code in 29
+                //response code in 29
                 //Tran status
                 $transaction->status = "Ebs Error";
                 $transaction->save();
@@ -100,6 +101,7 @@ class PurchaseUserControllerApi extends Controller
             }
 
             $basicResponse = Response::saveBasicResponse($transaction, $response);
+//            $purchase_response = self::save_purchase_response('', '', '');
 
             //Tran status
             $transaction->status = "Done";
@@ -122,5 +124,16 @@ class PurchaseUserControllerApi extends Controller
         }
     }
 
-
+//    public static function save_purchase_response($paymentResponse, $purchase, $response)
+//    {
+//        $purchase_response = new PurchaseResponse();
+//        $purchase_response->PaymentResponse()->associate($paymentResponse);
+//        $purchase_response->Purchase()->associate($purchase);
+//        $bill_info = (array)$response->billInfo;
+//        $purchase_response->issuerTranFee = ;
+//        $purchase_response->fromAccount = ;
+//        $purchase_response->payment_response_id = ;
+//        $purchase_response->purchase_user_id = ;
+//        return $purchase_response;
+//    }
 }

@@ -15,8 +15,12 @@ class CreatePurchaseUserResponsesTable extends Migration
     {
         Schema::create('purchase_user_responses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('payment_id')->unsigned();
-            $table->foreign('payment_id')->references('id')->on('payments');
+            $table->string('issuerTranFee');
+            $table->string('fromAccount');
+            $table->integer('payment_response_id')->unsigned();
+            $table->foreign('payment_response_id')->references('id')->on('payment_responses');
+            $table->integer('purchase_user_id')->unsigned();
+            $table->foreign('purchase_user_id')->references('id')->on('purchase_users');
             $table->timestamps();
         });
     }

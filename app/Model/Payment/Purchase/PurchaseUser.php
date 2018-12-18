@@ -71,8 +71,11 @@ class PurchaseUser extends Model
     {
         $request = self::requestBuild($transaction_id, $PAN, $ipin, $expDate, $UserId);
         $response = SendRequest::sendRequest($request, self::purchase);
-//        return $response;
-        /** @var TYPE_NAME $request */
-        dd([$request, $response]);
+        return $response;
+    }
+
+    public function PurchaseResponse()
+    {
+        $this->hasMany('App\Model\Payment\Purchase\PurchaseUserResponse');
     }
 }
