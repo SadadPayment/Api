@@ -36,8 +36,13 @@ class Payment extends Model
         return $this->hasMany('App\Model\Payment\E15');
     }
 
-    public function purchase()
+//    public function purchase()
+//    {
+//        return $this->hasMany('App\Model\Agent\Purchase');
+//    }
+
+    public function purchase_user()
     {
-        return $this->hasMany('App\Model\Agent\Purchase');
+        return $this->hasMany('App\Model\Payment\Purchase\PurchaseUser');
     }
 }
