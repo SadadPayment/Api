@@ -164,13 +164,6 @@ class Electricity extends Controller
         $bill_info = (array)$response->billInfo;
 
         $electricity_response->fill($bill_info);
-//        $electricity_response->meterFees = $bill_info->meterFees;
-//        $electricity_response->netAmount = $bill_info->netAmount;
-//        $electricity_response->uinitsInKWh = $bill_info->uinitsInKWh;
-//        $electricity_response->uinitsInKWh = $bill_info->uinitsInKWh;
-//        $electricity_response->waterFees = $bill_info->waterFees;
-//        $electricity_response->token = $bill_info->token;
-//        $electricity_response->customerName = $bill_info->customerName;
         $electricity_response->operatorMessage = $response->billInfo->opertorMessage;
         $electricity_response->save();
         return $electricity_response;

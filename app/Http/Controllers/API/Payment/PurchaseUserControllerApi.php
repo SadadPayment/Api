@@ -66,7 +66,6 @@ class PurchaseUserControllerApi extends Controller
              * */
             $Purchase = new PurchaseUser();
             $Purchase->payment()->associate($payment);
-//            $Purchase->tranAmount = $request->tranAmount;
             $Purchase->PAN = $request->PAN;
             $Purchase->save();
 
@@ -101,7 +100,9 @@ class PurchaseUserControllerApi extends Controller
             }
 
             $basicResponse = Response::saveBasicResponse($transaction, $response);
-//            $purchase_response = self::save_purchase_response('', '', '');
+            $paymentResponse = PaymentResponse::savePaymentResponse($basicResponse, $payment, $response);
+
+            $purchase_response = self::save_purchase_response($paymentResponse, $Purchase, $response);
 
             //Tran status
             $transaction->status = "Done";
@@ -124,16 +125,18 @@ class PurchaseUserControllerApi extends Controller
         }
     }
 
-//    public static function save_purchase_response($paymentResponse, $purchase, $response)
-//    {
-//        $purchase_response = new PurchaseResponse();
-//        $purchase_response->PaymentResponse()->associate($paymentResponse);
-//        $purchase_response->Purchase()->associate($purchase);
-//        $bill_info = (array)$response->billInfo;
+    public static function save_purchase_response($paymentResponse, $purchase, $response)
+    {
+        $purchase_response = new PurchaseResponse();
+        $purchase_response->PaymentResponse()->associate($paymentResponse);
+        $purchase_response->Purchase()->associate($purchase);
+        $purchase_response_save = (array)$response->ebs;
+        $purchase_response->fill($purchase_response_save);
 //        $purchase_response->issuerTranFee = ;
 //        $purchase_response->fromAccount = ;
 //        $purchase_response->payment_response_id = ;
 //        $purchase_response->purchase_user_id = ;
-//        return $purchase_response;
-//    }
+        $purchase_response->save();
+        return $purchase_response;
+    }
 }
