@@ -13,7 +13,7 @@ class PurchaseUser extends Model
 
     const purchase = 'specialPayment';
     protected $table = 'purchase_users';
-
+protected $fillable =['PAN'];
     public function payment()
     {
         return $this->belongsTo('App\Model\Payment\Payment', 'payment_id');
@@ -31,10 +31,10 @@ class PurchaseUser extends Model
         $entityId = "";
         $entityType = "";
         $authenticationType = "00";
-        $bank = Functions::getBankAccountByUser($UserId);
-        $PAN = $bank->PAN;
-        $mbr = $bank->mbr;
-        $expDate = $bank->expDate;
+//        $bank = Functions::getBankAccountByUser($UserId);
+//        $PAN = $bank->PAN;
+//        $mbr = $bank->mbr;
+//        $expDate = $bank->expDate;
         $tranCurrency = "SDG";
         $request = [
             "applicationId" => "Sadad",

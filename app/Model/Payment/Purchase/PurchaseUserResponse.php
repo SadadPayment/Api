@@ -10,7 +10,7 @@ class PurchaseUserResponse extends Model
 
     //
 
-//    protected $fillable = ['issuerTranFee', 'fromAccount', 'payment_response_id', 'purchase_user_id'];
+    protected $fillable = ['issuerTranFee', 'fromAccount', 'payment_response_id', 'purchase_user_id'];
 
     public function PaymentResponse()
     {
