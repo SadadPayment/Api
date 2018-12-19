@@ -97,13 +97,28 @@ class CardTransfer extends Controller
                     'date' => $transaction->created_at->format('d-m-Y H:i'),
                     'id' => $transaction->id
                 ];// get Time and id of Request
-                $res = ["error" => false,
-                    "message" => "Done Successfully",
-                    "messageAr" => "تم بنجاح",
-                    'date' => $responseData,
-                    'full_response' => $response,
-                    "balance" => $response->balance];
-                return response()->json($res, 200);
+
+                if ($response->balance != null) {
+
+
+                    $res = ["error" => false,
+                        "message" => "Done Successfully",
+                        "messageAr" => "تم بنجاح",
+                        'date' => $responseData,
+                        'full_response' => $response,
+                        "balance" => $response->balance];
+                    return response()->json($res, 200);
+                } else {
+                    $bla = ['available' => 0];
+                    $response += ['balance' => $bla];
+                    $res = ["error" => false,
+                        "message" => "Done Successfully",
+                        "messageAr" => "تم بنجاح",
+                        'date' => $responseData,
+                        'full_response' => $response,
+                        "balance" => 0];
+                    return response()->json($res, 200);
+                }
             }
 
         } else {
