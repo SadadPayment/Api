@@ -34,7 +34,7 @@ class Electricity extends Controller
             $user = $token->authenticate();
             $validator = Validator::make($request->all(), [
 
-                'meter' => 'required|numeric|digits_between:10,12',
+                'meter' => 'required|numeric',
                 'amount' => 'required|numeric',
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
@@ -105,7 +105,7 @@ class Electricity extends Controller
             if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = ["error" => true, "full_response" => $response];
+                $res = ["error" => true, "full_response " => $response];
 
                 return response()->json($res, '200');
             } else {
