@@ -109,7 +109,7 @@ class CardTransfer extends Controller
                         "balance" => $response->balance];
                     return response()->json($res, 200);
                 } else {
-                    $bla = ['available' => 0];
+                    $bla = ['available' => "0"];
                     $response += ['balance' => $bla];
                     $res = ["error" => false,
                         "message" => "Done Successfully",
