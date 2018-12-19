@@ -53,16 +53,6 @@ class Electricity extends Controller
             $amount = $request->json()->get("amount");
             $amount = number_format((float)$amount, 2, '.', '');
             $ipin = $request->json()->get("IPIN");
-//            $bank = Functions::getBankAccountByUser($bank_id);
-//            $account = array();
-//            if ($ipin !== $bank->IPIN) {
-//                $response = ["error" => true, "message" => "Wrong IPIN Code"];
-//                return response()->json($response, 200);
-//            }
-//            $account += ["PAN" => $bank->PAN];
-//            $account += ["IPIN" => $bank->IPIN];
-//            $account += ["expDate" => $bank->expDate];
-//            $account += ["mbr" => $bank->mbr];
 
             $transction_type = TransactionType::where('name', "Electericity")->pluck('id')->first();
             $transaction->transactionType()->associate($transction_type);
@@ -115,7 +105,7 @@ class Electricity extends Controller
             if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = ["error" => true, "EBS" => $response];
+                $res = ["error" => true, "full_response" => $response];
 
                 return response()->json($res, '200');
             } else {
