@@ -48,7 +48,11 @@ class PaymentResponse extends Model
         $paymentResponse->response()->associate($basicResonse);
         $paymentResponse->payment()->associate($payment);
         //dd($response);
-        $paymentResponse->balance = $response->balance->available;
+        if($response->balance->available) {
+            $paymentResponse->balance = $response->balance->available;
+        }
+        $paymentResponse->balance = 0;
+
         $paymentResponse->acqTranFee = $response->acqTranFee;
         $paymentResponse->issuerTranFee = $response->issuerTranFee;
         $paymentResponse->billInfo = ""; /* $response->billInfo != "" ? $response->billInfo :  */
