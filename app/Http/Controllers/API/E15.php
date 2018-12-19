@@ -149,7 +149,9 @@ class E15 extends Controller
                 ];// get Time and id of Request
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
                 $json += ["status" => $status, "expiry" => $invoice_expiry];
-                $json += ["full_response" => $response, 'data' => $responseData];
+                $json += ["full_response" => $response,
+                    'ebs'=>$response,
+                    'data' => $responseData];
                 return response()->json($json, 200);
             }
             //Tran status
