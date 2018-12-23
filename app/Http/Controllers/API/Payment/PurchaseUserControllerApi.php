@@ -67,7 +67,7 @@ class PurchaseUserControllerApi extends Controller
              * @ invoiceNumber
              * */
             if (!$userCart) {
-                $r = ["message" => "خطا - حاول لاحقا", 'error' => true];
+                $r = ["message" => "خطأ لم تقم باختيار اي بطاقة", 'error' => true];
                 return $r;
             }
             $Purchase = new PurchaseUser();
@@ -82,18 +82,16 @@ class PurchaseUserControllerApi extends Controller
             //Get PublicKey get Value Per Request
             $publicKey = PublicKey::sendRequest();
             if ($publicKey == false) {
-                $res = ["message" => "خطا - حاول لاحقا", 'error' => true];
+                $res = ["message" => "خطا - حاول لاحقا- 1", 'error' => true];
                 return response()->json($res, 200);
             }
             $ipin = Functions::encript($publicKey, $uuid, $request->IPIN);
 
-            //$req = E15Model::requestBuild($transaction->id,$ipin,$type);
             $response = PurchaseUser::sendRequest($transaction->id, $ipin, $request->id, $serviceProviderId);
             if ($response == false) {
                 $res = ["message" => "Some Error Found", 'error' => true];
                 return response()->json($res, 200);
             }
-//            dd($response);
             //اذا الرد = 0 معناه العملية تمت بنجاح
             // اكبر من 0 او غيره  خطأ من ebs
             if ($response->responseCode != 0) {
@@ -101,7 +99,7 @@ class PurchaseUserControllerApi extends Controller
                 //Tran status
                 $transaction->status = "Ebs Error";
                 $transaction->save();
-                $response_json = ["message" => "خطا- راجع البيانات المدخله", "ebs" => $response, 'error' => true];
+                $response_json = ["message" => "خطا- راجع البيانات المدخله -2", "ebs" => $response, 'error' => true];
                 return response()->json($response_json, 200);
             }
 

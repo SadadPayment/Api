@@ -105,7 +105,7 @@ class Electricity extends Controller
             if ($response->responseCode != 0) {
                 $transaction->status = "Server Error";
                 $transaction->save();
-                $res = ["error" => true, "full_response " => $response, 'errorCode'=> $response->responseCode];
+                $res = ["error" => true, 'full_response' => $response, 'errorCode'=> $response->responseCode];
 
                 return response()->json($res, '200');
             } else {
