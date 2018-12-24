@@ -27,7 +27,7 @@ class CardTransfer extends Controller
             $bank_id = $request->id;
             $validator = Validator::make($request->all(), [
 
-                'to' => 'required|numeric|digits_between:12,19',
+                'to' => 'required|numeric',
                 'amount' => 'required|numeric',
                 'IPIN' => 'required|numeric|digits_between:4,4',
             ]);
