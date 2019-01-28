@@ -42,7 +42,8 @@ class PurchaseUserControllerApi extends Controller
 
             $transaction = new Transaction();
             $transaction->user()->associate($user);
-            $transaction_type = TransactionType::where('name', "E15")->pluck('id')->first();
+            //مراجعة
+            $transaction_type = TransactionType::where('name', "Purchase")->pluck('id')->first();
             $transaction->transactionType()->associate($transaction_type);
             $convert = Functions::getDateTime();
             $uuid = Uuid::generate()->string;

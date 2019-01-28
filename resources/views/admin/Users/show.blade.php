@@ -52,7 +52,8 @@
                     <p>Mbr: {{$account->mbr}}</p>
                     <p>Account Created at: {{$account->created_at}}</p>
                     <p>Account Last Update at: {{$account->updated_at}}</p>
-                @endforeach            </div>
+                @endforeach
+            </div>
             <div id="menu1" class="tab-pane fade">
                 @foreach($user->transactions as $transaction)
                     <details>
