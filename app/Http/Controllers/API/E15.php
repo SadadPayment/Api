@@ -125,7 +125,7 @@ class E15 extends Controller
             if ($type == 6) {
                 $paymentResponse = PaymentResponse::savePaymentResponse($basicResonse, $payment, $response);
                 //We swnd Type to verfiy whetther we have i_status and i_expiery
-                self::saveE15Response($paymentResponse, $e15, $response, $type);
+                self::saveE15Response($paymentResponse, $e15, $response, $type, $request->invoiceNo);
 
             }
             $bill_info = $response->billInfo;
@@ -150,7 +150,7 @@ class E15 extends Controller
                 $json += ["error" => false, "message" => "تم بنجاح", "response" => $bill_info];
                 $json += ["status" => $status, "expiry" => $invoice_expiry];
                 $json += ["full_response" => $response,
-                    'ebs'=>$response,
+                    'ebs' => $response,
                     'data' => $responseData];
                 return response()->json($json, 200);
             }
@@ -215,7 +215,7 @@ class E15 extends Controller
         return $this->e15($request, 2);
     }
 
-    public static function saveE15Response($paymentResponse, $e15, $response, $type)
+    public static function saveE15Response($paymentResponse, $e15, $response, $type, $invoiceNo)
     {
         $e15_response = new E15Response();
         $e15_response->PaymentResponse()->associate($paymentResponse);
@@ -232,7 +232,7 @@ class E15 extends Controller
 //        $e15_response->status = $bill_info->invoiceStatus;
 
         //	UnitName	ServiceName	TotalAmount	ReferenceId	PayerName
-//        $e15_response->invoice_no = $bill_info->invoiceNo;
+        $e15_response->invoice_no = $invoiceNo;
         if ($type == 2) {
             $e15_response->expiry = $bill_info->InvoiceExpiry;
             $e15_response->status = $bill_info->InvoiceStatus;

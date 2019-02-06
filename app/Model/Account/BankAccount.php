@@ -17,15 +17,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Model\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereExpDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereIPIN($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereMbr($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount wherePAN($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Model\Account\BankAccount whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereExpDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereIPIN($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereMbr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount wherePAN($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BankAccount whereUserId($value)
  * @mixin \Eloquent
  */
 class BankAccount extends Model
